@@ -3,11 +3,12 @@
 #include "TMatrix.h"
 
 void TMatrix::zeros() {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			matrix[i][j] = 0.0;
 		}
 	}
+	matrix[3][3] = 1.0;
 }
 
 TMatrix::TMatrix() {
@@ -80,13 +81,12 @@ TMatrix TMatrix::operator*(const TMatrix & param)
 	TMatrix temp;
 	int row;
 	int col;
-	for (row = 0; row < 3; row++) {
+	for (row = 0; row < 4; row++) {
 		for (col = 0; col < 4; col++) {
-			for (int inner = 0; inner < 3; inner++) {
+			for (int inner = 0; inner < 4; inner++) {
 				temp.matrix[row][col] += matrix[row][inner] * param.matrix[inner][col];
 			}
 		}
-		temp.matrix[row][3] += matrix[row][3];
 	}
 
 	return temp;

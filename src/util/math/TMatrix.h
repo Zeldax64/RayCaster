@@ -23,7 +23,7 @@ class TMatrix
 	void zeros();
 
 public:
-	float matrix[3][4];
+	float matrix[4][4];
 
 	TMatrix();
 	~TMatrix();

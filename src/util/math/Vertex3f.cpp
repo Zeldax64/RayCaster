@@ -14,8 +14,12 @@ Vertex3f::Vertex3f(float new_x, float new_y, float new_z) {
 }
 
 
-Vertex3f::~Vertex3f()
-{
+Vertex3f::~Vertex3f() {}
+
+void Vertex3f::moveTo(float new_x, float new_y, float new_z) {
+	x = new_x;
+	y = new_y;
+	z = new_z;
 }
 
 Vertex3f Vertex3f::operator+(const Vertex3f & param) {
