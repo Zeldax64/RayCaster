@@ -8,7 +8,6 @@
 	- Implement Shear operation?
 	- Check whether a implementation using stack-like transformations as done in OpenGL is
 	better;
-	- Implement change of coordinate system;
 
 */
 
@@ -17,10 +16,11 @@
 #include <math.h>
 #include <iostream>
 
+
 class TMatrix
 {
 
-	void reset();
+	void identity();
 	float convertToRadians(float theta);
 public:
 	float matrix[4][4];
@@ -33,6 +33,7 @@ public:
 	void rotateX(float theta);
 	void rotateY(float theta);
 	void rotateZ(float theta);
+	//void coordTransform(const Vertex3f & x, const Vertex3f & y, const Vertex3f & z, const Vertex3f & e);
 	void print();
 
 	TMatrix operator * (const TMatrix & param);

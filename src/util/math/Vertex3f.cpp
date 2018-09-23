@@ -43,6 +43,14 @@ void Vertex3f::applyTransform(const TMatrix & param) {
 	moveTo(xtemp, ytemp, ztemp);
 }
 
+Vertex3f Vertex3f::operator - () const{
+	Vertex3f temp;
+	temp.x = -x;
+	temp.y = -y;
+	temp.z = -z;
+	return temp;
+}
+
 Vertex3f Vertex3f::operator+(const Vertex3f & param) {
 	Vertex3f temp;
 	temp.x = x + param.x;

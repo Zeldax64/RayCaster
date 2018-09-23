@@ -25,6 +25,7 @@ public:
 	~Vertex3f();
 	void moveTo(float new_x, float new_y, float new_z);
 	void applyTransform(const TMatrix & param);
+	Vertex3f operator - (void) const;
 	Vertex3f operator + (const Vertex3f & param);
 	Vertex3f operator - (const Vertex3f & param);
 	// Check whether a matrix multiplication is better than a element to element

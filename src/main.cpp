@@ -27,7 +27,7 @@ int main() {
 	Vertex3f v1(1, 0, 0);
 	std::cout << "Printing Vertex:\n";
 	v1.print();
-	v1.applyTransform(rotatey);
+	v1 = -v1;
 	std::cout << "Applying transformation:\n";
 	v1.print();
 
