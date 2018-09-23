@@ -45,3 +45,15 @@ TCube::TCube() {
 
 TCube::~TCube() {
 }
+
+void TCube::applyTransform(const TMatrix & param){
+	for(uint8_t i = 0; i < 8; i++){
+		vertices[i].applyTransform(param);
+	}
+}
+
+void TCube::print(){
+	for(uint8_t i = 0; i < 8; i++){
+		vertices[i].print();
+	}
+}

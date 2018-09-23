@@ -20,8 +20,8 @@
 class TMatrix
 {
 
-	void zeros();
-
+	void reset();
+	float convertToRadians(float theta);
 public:
 	float matrix[4][4];
 
@@ -37,4 +37,3 @@ public:
 
 	TMatrix operator * (const TMatrix & param);
 };
-

@@ -2,7 +2,7 @@
 
 #include "TMatrix.h"
 
-void TMatrix::zeros() {
+void TMatrix::reset() {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			matrix[i][j] = 0.0;
@@ -11,8 +11,13 @@ void TMatrix::zeros() {
 	matrix[3][3] = 1.0;
 }
 
+float TMatrix::convertToRadians(float theta) {
+	return theta * M_PI / 180.0;
+}
+
+
 TMatrix::TMatrix() {
-	zeros();
+	reset();
 }
 
 
@@ -20,24 +25,25 @@ TMatrix::~TMatrix() {
 }
 
 void TMatrix::scale(float x, float y, float z) {
-	zeros();
+	reset();
 	matrix[0][0] = x;
 	matrix[1][1] = y;
 	matrix[2][2] = z;
 }
 
 void TMatrix::translate(float x, float y, float z) {
-	zeros();
+	reset();
 	matrix[0][3] = x;
 	matrix[0][3] = y;
 	matrix[0][3] = z;
 }
 
 void TMatrix::rotateX(float theta) {
+	theta = convertToRadians(theta);
 	float cos_o = cos(theta);
 	float sin_o = sin(theta);
 
-	zeros();
+	reset();
 
 	matrix[0][0] = 1.0;
 	matrix[1][1] = cos_o; matrix[1][2] = -sin_o;
@@ -45,10 +51,11 @@ void TMatrix::rotateX(float theta) {
 }
 
 void TMatrix::rotateY(float theta) {
+	theta = convertToRadians(theta);
 	float cos_o = cos(theta);
 	float sin_o = sin(theta);
 
-	zeros();
+	reset();
 
 	matrix[1][1] = 1.0;
 	matrix[0][0] =  cos_o; matrix[0][2] = sin_o;
@@ -56,10 +63,11 @@ void TMatrix::rotateY(float theta) {
 }
 
 void TMatrix::rotateZ(float theta) {
+	theta = convertToRadians(theta);
 	float cos_o = cos(theta);
 	float sin_o = sin(theta);
 
-	zeros();
+	reset();
 
 	matrix[2][2] = 1.0;
 	matrix[0][0] = cos_o; matrix[0][1] = -sin_o;
@@ -67,7 +75,7 @@ void TMatrix::rotateZ(float theta) {
 }
 
 void TMatrix::print() {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			std::cout << "[" << matrix[i][j] << "] ";
 		}
