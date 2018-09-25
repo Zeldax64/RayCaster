@@ -21,7 +21,7 @@ rfind = $(wildcard $1$2) $(foreach d,$(call subdirs,$1),$(call rfind,$d,$2))
 SOURCES := $(call rfind,$(SRCDIR)/,*.cpp)
 # Create *.o list of files from SOURCES in subfolders
 OBJ := $(patsubst %.cpp, %.o, $(SOURCES))
-
+OBJS := $($SOURCES .c = .o)
 
 .PHONY: run
 run: all
@@ -32,21 +32,18 @@ run: all
 all: $(PROG)
 
 $(PROG): $(OBJ)
-	$(CC) -o $(PROG) *.o
+	$(CC) -o $(PROG) $(OBJ)
 
 # Compilation wildcard
 %.o: %.cpp
-	$(CC) $(CPPFLAGS) -c -g $<
+	$(CC) $(CPPFLAGS) -o $@ -c $<
 
 
 .PHONY: clean
 clean:
-	$(RM) $(PROG) *.o
+	$(RM) $(PROG) $(OBJ)
 
 help:
 #	@echo "src: $(SOURCE)"
-	@echo "sources: $(SOURCES))"
 	@echo "-------------------"
-	@echo "headers: $(HEADERS)"
-	@echo "-------------------"
-	@echo "objects: $(OBJ)"
+	@echo "objects: $(OBJS)"
