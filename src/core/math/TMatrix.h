@@ -33,6 +33,7 @@ public:
 	void rotateX(float theta);
 	void rotateY(float theta);
 	void rotateZ(float theta);
+	//TODO: Fix coordTransform. Thinking about creating two transformations W->L and L-W
 	//void coordTransform(const Vertex3f & x, const Vertex3f & y, const Vertex3f & z, const Vertex3f & e);
 	void print();
 

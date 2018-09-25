@@ -2,12 +2,12 @@
 
 #include <stdint.h>
 
-#include "util/objects/Object.h"
-#include "util/math/Vertex3f.h"
-#include "util/math/Edge3f.h"
-#include "util/math/Face3f.h"
+#include "core/objects/Object.h"
+#include "core/math/Vertex3f.h"
+#include "core/math/Edge3f.h"
+#include "core/math/Face3f.h"
 
-class TCube : Object
+class TCube : public Object
 {
 	Vertex3f vertices[8];
 	Edge3f edges[12];

@@ -1,5 +1,4 @@
-#include "util/math/Vertex3f.h"
-#include "TMatrix.h"
+#include "core/math/TMatrix.h"
 
 void TMatrix::identity() {
 	for (int i = 0; i < 4; i++) {

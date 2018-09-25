@@ -1,4 +1,4 @@
-#include "Vertex3f.h"
+#include "core/math/Vertex3f.h"
 
 
 Vertex3f::Vertex3f() {
@@ -90,8 +90,13 @@ Vertex3f Vertex3f::crossProduct(const Vertex3f &param) {
 	return temp;
 }
 
-float Vertex3f::norm() {
+float Vertex3f::length() {
 	return sqrt(x*x + y*y + z*z);
+}
+
+Vertex3f Vertex3f::unit(){
+	float length = this->length();
+	return Vertex3f(x/length, y/length, z/length);
 }
 
 void Vertex3f::print() {

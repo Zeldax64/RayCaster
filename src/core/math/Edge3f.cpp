@@ -1,4 +1,4 @@
-#include "Edge3f.h"
+#include "core/math/Edge3f.h"
 
 Edge3f::Edge3f() {
 }

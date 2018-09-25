@@ -6,7 +6,7 @@
 
 #include <stdint.h>
 
-#include "util/math/Vertex3f.h"
+#include "core/math/Vertex3f.h"
 
 class Face3f
 {

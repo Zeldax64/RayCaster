@@ -2,9 +2,9 @@
 
 #include <math.h>
 
-#include "util/math/Vertex3f.h"
-#include "util/math/TMatrix.h"
-#include "util/objects/meshes/TCube.h"
+#include "core/math/Vertex3f.h"
+#include "core/math/TMatrix.h"
+#include "core/objects/meshes/TCube.h"
 
 int main() {
 	// Testing transformations on TCube object

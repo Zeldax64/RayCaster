@@ -7,13 +7,14 @@
 		- Vertex scalar multiplication;
 		- Thinking about whether it's better to use an array[4]
 		  instead of variables x, y and z;
+		- Method to return normal of a Vector;
 */
 
 #pragma once
 #include <math.h>
 #include <iostream>
 
-#include "util/math/TMatrix.h"
+#include "core/math/TMatrix.h"
 
 class Vertex3f
 {
@@ -35,7 +36,8 @@ public:
 	// TODO: implement scalarProduct
 	float scalarProduct(const Vertex3f &param);
 	Vertex3f crossProduct(const Vertex3f &param);
-	float norm();
+	float length();
+	Vertex3f unit();
 
 	void print();
 };
