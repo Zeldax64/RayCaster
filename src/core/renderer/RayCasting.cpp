@@ -3,5 +3,5 @@
 RayCasting::RayCasting(){}
 
 RayCasting::~RayCasting(){
-  delete[] scn;
+  //delete[] scn;
 }

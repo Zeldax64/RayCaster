@@ -20,6 +20,52 @@ Object* Scenery::getObj(int i) {
   return *it;
 }
 
-void Scenery::applyTransform(Object* obj, const TMatrix & matrix) {
+// It looks unnecessary
+//void Scenery::applyTransform(Object* obj, const TMatrix & matrix) {}
 
+void Scenery::applyTransformAll(const TMatrix & matrix) {
+  std::list<Object*>::iterator it;
+  for(it = objs.begin(); it != objs.end(); ++it){
+    (*it)->applyTransform(matrix);
+  }
+}
+
+
+/*----- Camera Methods -----*/
+void Scenery::setCamPos(Vertex3f position) { cam.setPosition(position); }
+void Scenery::setCamLookAt(Vertex3f position) { cam.setLookAt(position); }
+void Scenery::setCamAViewUp(Vertex3f position) { cam.setAViewUp(position); }
+void Scenery::calcCamCoord() { cam.calcCoordSystemBasis(); }
+
+// TODO: finish this method
+void Scenery::worldToCamTransform() {
+  TMatrix transform = getWorldToCamTransform();
+
+}
+
+// TODO: finish this method
+void Scenery::camToWorldTransform() {
+  TMatrix transform = getCamToWorldTransform();
+}
+
+TMatrix Scenery::getWorldToCamTransform() {
+  TMatrix transform;
+  Vertex3f i = cam.getI();
+  Vertex3f j = cam.getJ();
+  Vertex3f k = cam.getK();
+  Vertex3f pos = cam.getPosition();
+  transform.worldBasisToCoord(i, j, k, pos);
+
+  return transform;
+}
+
+TMatrix Scenery::getCamToWorldTransform() {
+  TMatrix transform;
+  Vertex3f i = cam.getI();
+  Vertex3f j = cam.getJ();
+  Vertex3f k = cam.getK();
+  Vertex3f pos = cam.getPosition();
+  transform.coordBasisToWorld(i, j, k, pos);
+
+  return transform;
 }

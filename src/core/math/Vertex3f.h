@@ -14,6 +14,9 @@
 #include <math.h>
 #include <iostream>
 
+// Forward declaration of TMatrix
+class TMatrix;
+
 #include "core/math/TMatrix.h"
 
 class Vertex3f
@@ -32,12 +35,23 @@ public:
 	// Check whether a matrix multiplication is better than a element to element
 	// multiplication when using the "*" operator
 	Vertex3f operator * (const Vertex3f & param);
+	Vertex3f operator / (const float & param);
 
 	// TODO: implement scalarProduct
 	float scalarProduct(const Vertex3f &param);
 	Vertex3f crossProduct(const Vertex3f &param);
 	float length();
 	Vertex3f unit();
+
+	// Setters
+	void setX(float x);
+	void setY(float y);
+	void setZ(float z);
+
+	// Getters
+	float getX();
+	float getY();
+	float getZ();
 
 	void print();
 };

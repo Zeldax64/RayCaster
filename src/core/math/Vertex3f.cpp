@@ -17,9 +17,9 @@ Vertex3f::Vertex3f(float new_x, float new_y, float new_z) {
 Vertex3f::~Vertex3f() {}
 
 void Vertex3f::moveTo(float new_x, float new_y, float new_z) {
-	x = new_x;
-	y = new_y;
-	z = new_z;
+	setX(new_x);
+	setY(new_y);
+	setZ(new_z);
 }
 
 void Vertex3f::applyTransform(const TMatrix & param) {
@@ -75,6 +75,17 @@ Vertex3f Vertex3f::operator*(const Vertex3f & param) {
 	return temp;
 }
 
+Vertex3f Vertex3f::operator / (const float & param) {
+	Vertex3f temp(
+		this->getX() / param,
+		this->getY() / param,
+		this->getZ() / param
+	);
+
+	return temp;
+}
+
+
 // TODO: implement
 float Vertex3f::scalarProduct(const Vertex3f &param) {
 
@@ -98,6 +109,14 @@ Vertex3f Vertex3f::unit(){
 	float length = this->length();
 	return Vertex3f(x/length, y/length, z/length);
 }
+
+void Vertex3f::setX(float x) { this->x = x; }
+void Vertex3f::setY(float y) { this->y = y; }
+void Vertex3f::setZ(float z) { this->z = z; }
+
+float Vertex3f::getX() { return this->x; }
+float Vertex3f::getY() { return this->y; }
+float Vertex3f::getZ() { return this->z; }
 
 void Vertex3f::print() {
 	std::cout << "[" << x << "]";

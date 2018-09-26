@@ -2,7 +2,7 @@
 # TODO: Fix makefile compiling all files again when make all is executed
 
 # Compiler variable
-CC = g++
+CXX = g++
 # Read about -g flag in CFLAGS
 CFLAGS = -c -Wall -g
 CPPFLAGS = -I ./src
@@ -32,11 +32,11 @@ run: all
 all: $(PROG)
 
 $(PROG): $(OBJ)
-	$(CC) -o $(PROG) $(OBJ)
+	$(CXX) -o $(PROG) $(OBJ)
 
 # Compilation wildcard
-%.o: %.cpp
-	$(CC) $(CPPFLAGS) -o $@ -c $<
+%.o: %.cpp %.h
+	$(CXX) $(CPPFLAGS) -o $@ -c $<
 
 
 .PHONY: clean

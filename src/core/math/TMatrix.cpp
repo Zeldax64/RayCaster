@@ -72,38 +72,50 @@ void TMatrix::rotateZ(float theta) {
 	matrix[0][0] = cos_o; matrix[0][1] = -sin_o;
 	matrix[0][1] = sin_o; matrix[1][1] = cos_o;
 }
-/*
-void TMatrix::coordTransform(const Vertex3f & x, const Vertex3f & y, const Vertex3f & z, const Vertex3f & e) {
-	matrix[0][0] = x.x;
-	matrix[1][0] = x.y;
-	matrix[2][0] = x.z;
 
-	matrix[0][1] = y.x;
-	matrix[1][1] = y.y;
-	matrix[2][1] = y.z;
+// TODO: Incomplete! check matrix[3][x] assignments.
+void TMatrix::worldBasisToCoord(Vertex3f & coord_x, Vertex3f & coord_y, Vertex3f & coord_z, Vertex3f & coord_o) {
+	identity();
+	Vertex3f minus_coord_o = -coord_o;
+	matrix[0][0] = coord_x.getX();
+	matrix[0][1] = coord_x.getY();
+	matrix[0][2] = coord_x.getZ();
 
-	matrix[0][2] = z.x;
-	matrix[1][2] = z.y;
-	matrix[2][2] = z.z;
+	matrix[1][0] = coord_y.getX();
+	matrix[1][1] = coord_y.getY();
+	matrix[1][2] = coord_y.getZ();
 
-	matrix[0][3] = e.x;
-	matrix[1][3] = e.y;
-	matrix[2][3] = e.z;
-}
-*/
+	matrix[2][0] = coord_z.getX();
+	matrix[2][1] = coord_z.getY();
+	matrix[2][2] = coord_z.getZ();
 
-void TMatrix::print() {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			std::cout << "[" << matrix[i][j] << "] ";
-		}
-		std::cout << "\n";
-	}
-	std::cout << "\n";
+	matrix[3][0] = minus_coord_o.getX();
+	matrix[3][1] = minus_coord_o.getY();
+	matrix[3][2] = minus_coord_o.getZ();
+
 }
 
-TMatrix TMatrix::operator*(const TMatrix & param)
-{
+void TMatrix::coordBasisToWorld(Vertex3f & coord_x, Vertex3f & coord_y, Vertex3f & coord_z, Vertex3f & coord_o) {
+	identity();
+	matrix[0][0] = coord_x.getX();
+	matrix[1][0] = coord_x.getY();
+	matrix[2][0] = coord_x.getZ();
+
+	matrix[0][1] = coord_y.getX();
+	matrix[1][1] = coord_y.getY();
+	matrix[2][1] = coord_y.getZ();
+
+	matrix[0][2] = coord_z.getX();
+	matrix[1][2] = coord_z.getY();
+	matrix[2][2] = coord_z.getZ();
+
+	matrix[0][3] = coord_o.getX();
+	matrix[1][3] = coord_o.getY();
+	matrix[2][3] = coord_o.getZ();
+}
+
+
+TMatrix TMatrix::operator*(const TMatrix & param) {
 	TMatrix temp;
 	int row;
 	int col;
@@ -116,4 +128,14 @@ TMatrix TMatrix::operator*(const TMatrix & param)
 	}
 
 	return temp;
+}
+
+void TMatrix::print() {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			std::cout << "[" << matrix[i][j] << "] ";
+		}
+		std::cout << "\n";
+	}
+	std::cout << "\n";
 }

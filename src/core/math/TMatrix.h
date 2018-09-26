@@ -16,6 +16,8 @@
 #include <math.h>
 #include <iostream>
 
+class Vertex3f;
+#include "core/math/Vertex3f.h"
 
 class TMatrix
 {
@@ -33,9 +35,11 @@ public:
 	void rotateX(float theta);
 	void rotateY(float theta);
 	void rotateZ(float theta);
-	//TODO: Fix coordTransform. Thinking about creating two transformations W->L and L-W
-	//void coordTransform(const Vertex3f & x, const Vertex3f & y, const Vertex3f & z, const Vertex3f & e);
-	void print();
+	void worldBasisToCoord(Vertex3f & coord_x, Vertex3f & coord_y, Vertex3f & coord_z, Vertex3f & coord_o);
+	void coordBasisToWorld(Vertex3f & coord_x, Vertex3f & coord_y, Vertex3f & coord_z, Vertex3f & coord_o);
 
 	TMatrix operator * (const TMatrix & param);
+
+	void print();
+
 };
