@@ -87,8 +87,10 @@ Vertex3f Vertex3f::operator / (const float & param) {
 
 
 // TODO: implement
-float Vertex3f::scalarProduct(const Vertex3f &param) {
-
+float Vertex3f::dotProduct(const Vertex3f &param) {
+	return getX() * param.x +
+				 getY() * param.y +
+				 getZ() * param.z;
 }
 
 Vertex3f Vertex3f::crossProduct(const Vertex3f &param) {

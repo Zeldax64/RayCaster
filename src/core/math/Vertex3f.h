@@ -38,7 +38,7 @@ public:
 	Vertex3f operator / (const float & param);
 
 	// TODO: implement scalarProduct
-	float scalarProduct(const Vertex3f &param);
+	float dotProduct(const Vertex3f &param);
 	Vertex3f crossProduct(const Vertex3f &param);
 	float length();
 	Vertex3f unit();
