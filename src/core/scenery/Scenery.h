@@ -4,6 +4,7 @@
 #include "core/objects/Object.h"
 #include "core/math/TMatrix.h"
 #include "core/camera/Camera.h"
+#include "core/color/Color.h"
 
 class Scenery
 {
@@ -20,6 +21,10 @@ public:
                                                                                                                                                                                                                 Object* getObj(int i);
 //  void applyTransform(Object* obj, const TMatrix & matrix); // It looks unnecessary
   void applyTransformAll(const TMatrix & matrix);
+
+// Ray intersection verification
+  Color hitRay(Vertex3f ray);
+
 // Camera methods
   void setCamPos(Vertex3f position);
   void setCamLookAt(Vertex3f position);

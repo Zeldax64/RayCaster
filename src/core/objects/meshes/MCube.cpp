@@ -1,6 +1,6 @@
-#include "TCube.h"
+#include "MCube.h"
 
-TCube::TCube() {
+MCube::MCube() {
 	vertices[0].moveTo(0, 0, 0);
 	vertices[1].moveTo(0, 0, 1);
 	vertices[2].moveTo(1, 0, 1);
@@ -43,16 +43,16 @@ TCube::TCube() {
 	faces[11].setFace(0, 1, 5);
 }
 
-TCube::~TCube() {
+MCube::~MCube() {
 }
 
-void TCube::applyTransform(const TMatrix & param){
+void MCube::applyTransform(const TMatrix & param){
 	for(uint8_t i = 0; i < 8; i++){
 		vertices[i].applyTransform(param);
 	}
 }
 
-void TCube::print(){
+void MCube::print(){
 	for(uint8_t i = 0; i < 8; i++){
 		vertices[i].print();
 	}

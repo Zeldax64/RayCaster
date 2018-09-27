@@ -30,6 +30,10 @@ void Scenery::applyTransformAll(const TMatrix & matrix) {
   }
 }
 
+/*----- Ray Intersection -----*/
+Color Scenery::hitRay(Vertex3f ray) {
+
+}
 
 /*----- Camera Methods -----*/
 void Scenery::setCamPos(Vertex3f position) { cam.setPosition(position); }
