@@ -14,9 +14,7 @@
 
 class MCube : public Object
 {
-	Vertex3f vertices[8]
-
-	;
+	Vertex3f vertices[8];
 	Edge3f edges[12];
 	Face3f faces[12];
 public:
@@ -32,5 +30,7 @@ public:
 	hitted will be a better implementation then the caller method will handle
 	any illumination issue
 */
+	bool hitObject(Vertex3f & ray, Color & col);
+
 	void print();
 };

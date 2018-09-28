@@ -10,8 +10,9 @@
 
 class Face3f
 {
-	uint32_t vertices[3];
 public:
+	uint32_t vertices[3];
+	
 	Face3f();
 	Face3f(uint32_t v1, uint32_t v2, uint32_t v3);
 	~Face3f();

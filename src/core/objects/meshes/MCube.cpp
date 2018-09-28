@@ -46,13 +46,63 @@ MCube::MCube() {
 MCube::~MCube() {
 }
 
-void MCube::applyTransform(const TMatrix & param){
+void MCube::applyTransform(const TMatrix & param) {
 	for(uint8_t i = 0; i < 8; i++){
 		vertices[i].applyTransform(param);
 	}
 }
 
+// TODO: This method will produce a full red square
+bool MCube::hitObject(Vertex3f & ray, Color & col) {
+	bool found = false;
+
+	for(uint8_t i = 0; i < 12; i++) {
+
+
+		Face3f face = faces[i];
+		Vertex3f v0 = vertices[face.vertices[0]];
+		Vertex3f v1 = vertices[face.vertices[1]];
+		Vertex3f v2 = vertices[face.vertices[2]];
+
+		Vertex3f u = v1 - v0;
+		Vertex3f v = v2 - v0;
+
+		Vertex3f n = (v1.crossProduct(v2)).unit();
+
+		/* Calculate intersection point of ray and plane */
+		float tint = v0.dotProduct(n) / ray.dotProduct(n);
+		Vertex3f Pi = ray * tint;
+		// TODO: Possible improvement
+		// If ray * n -> 0, then Pi -> infinity. A check could be done here
+		// like ray . n == 0;
+
+		/* Calculate whether the point is in the triangle */
+		// Partial dot products
+		Vertex3f w = Pi - v0;
+
+		float a = u.dotProduct(v); // a = (u . v);
+		float b = w.dotProduct(v); // b = (w . v);
+		float c = v.dotProduct(v); // c = (v . v);
+		float d = w.dotProduct(u); // d = (w . u);
+		float e = u.dotProduct(u); // e = (u . u);
+		float den = a * a - e * c; // Denominator
+
+		float si = (a * b - c * d) / den;
+		float ti = (a * d - e * b) / den;
+
+		// TODO: improve hit checking to allow diferences between hidden faces
+		if (si >= 0 && ti >= 0 && si+ti <= 1) {
+			found = true;
+			col.setColor(1.0, 0.0, 0.0); // Setting red
+			return found;
+		}
+	}
+	return found;
+}
+
+
 void MCube::print(){
+	
 	for(uint8_t i = 0; i < 8; i++){
 		vertices[i].print();
 	}

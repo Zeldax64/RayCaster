@@ -24,9 +24,8 @@ void RayCasting::render() {
     for(uint32_t c = 0; c < x_width; c++) {
       float x = -(W/2) + dx/2 + c * dx;
       Vertex3f ray = Vertex3f(c, l, -d);
-      // send Ray *buff[l*x_width + c]= scn->hitRay(ray);
       // Check if this is correct or not
-      
+      buff[l*x_width + c] = scn->hitRay(ray);
     }
   }
 }
@@ -39,6 +38,13 @@ void RayCasting::setCamera(Camera * cam) {
   this->cam = cam;
 }
 
+Scenery* RayCasting::getScenery() {
+  return scn;
+}
+
+Camera* RayCasting::getCamera() {
+  return cam;
+}
 
 // TODO: Check whether this function is useless
 Vertex3f RayCasting::genRay(int pix_x, int pix_y) {

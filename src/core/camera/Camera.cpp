@@ -9,10 +9,9 @@ Camera::Camera(Vertex3f cam_position, Vertex3f look_at, Vertex3f a_view_up, Vert
 }
 Camera::~Camera() {}
 
-// TODO: create operator "=" to use with Vertex3f ??
-void Camera::setPosition(Vertex3f position) {}
-void Camera::setLookAt(Vertex3f position) {}
-void Camera::setAViewUp(Vertex3f position) {}
+void Camera::setPosition(Vertex3f position) { cam_pos = position; }
+void Camera::setLookAt(Vertex3f position) { look_at = position; }
+void Camera::setAViewUp(Vertex3f position) { avup = position; }
 
 Vertex3f Camera::getPosition() { return cam_pos; }
 Vertex3f Camera::getLookAt() { return look_at; }

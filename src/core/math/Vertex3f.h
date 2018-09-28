@@ -34,8 +34,10 @@ public:
 	Vertex3f operator - (const Vertex3f & param);
 	// Check whether a matrix multiplication is better than a element to element
 	// multiplication when using the "*" operator
+	Vertex3f operator * (const float & param);
 	Vertex3f operator * (const Vertex3f & param);
 	Vertex3f operator / (const float & param);
+	void operator = (const Vertex3f & param);
 
 	// TODO: implement scalarProduct
 	float dotProduct(const Vertex3f &param);

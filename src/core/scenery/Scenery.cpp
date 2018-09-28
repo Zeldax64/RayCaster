@@ -32,7 +32,18 @@ void Scenery::applyTransformAll(const TMatrix & matrix) {
 
 /*----- Ray Intersection -----*/
 Color Scenery::hitRay(Vertex3f ray) {
+  Color col(1.0, 1.0, 1.0);
 
+  std::list<Object*>::iterator it;
+  for(it = objs.begin(); it != objs.end(); ++it){
+    if((*it)->hitObject(ray, col)) {
+      std::cout << "Scenery.cpp -> Object hitted! ";
+      ray.print();
+      std::cout << "\n";
+      return col;
+    }
+  }
+  return col;
 }
 
 /*----- Camera Methods -----*/
@@ -45,11 +56,22 @@ void Scenery::calcCamCoord() { cam.calcCoordSystemBasis(); }
 void Scenery::worldToCamTransform() {
   TMatrix transform = getWorldToCamTransform();
 
+  std::list<Object*>::iterator it;
+  for(it = objs.begin(); it != objs.end(); ++it){
+    (*it)->applyTransform(transform);
+    //std::cout << "Printing object\n";
+    //(*it)->print();
+  }
 }
 
 // TODO: finish this method
 void Scenery::camToWorldTransform() {
   TMatrix transform = getCamToWorldTransform();
+
+  std::list<Object*>::iterator it;
+  for(it = objs.begin(); it != objs.end(); ++it){
+    (*it)->applyTransform(transform);
+  }
 }
 
 TMatrix Scenery::getWorldToCamTransform() {
@@ -58,6 +80,7 @@ TMatrix Scenery::getWorldToCamTransform() {
   Vertex3f j = cam.getJ();
   Vertex3f k = cam.getK();
   Vertex3f pos = cam.getPosition();
+
   transform.worldBasisToCoord(i, j, k, pos);
 
   return transform;
@@ -69,6 +92,7 @@ TMatrix Scenery::getCamToWorldTransform() {
   Vertex3f j = cam.getJ();
   Vertex3f k = cam.getK();
   Vertex3f pos = cam.getPosition();
+
   transform.coordBasisToWorld(i, j, k, pos);
 
   return transform;

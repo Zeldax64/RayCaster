@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <iostream>
 #include "core/objects/Object.h"
 #include "core/math/TMatrix.h"
 #include "core/camera/Camera.h"

@@ -33,8 +33,8 @@ void TMatrix::scale(float x, float y, float z) {
 void TMatrix::translate(float x, float y, float z) {
 	identity();
 	matrix[0][3] = x;
-	matrix[0][3] = y;
-	matrix[0][3] = z;
+	matrix[1][3] = y;
+	matrix[2][3] = z;
 }
 
 void TMatrix::rotateX(float theta) {
@@ -88,9 +88,9 @@ void TMatrix::worldBasisToCoord(Vertex3f & coord_x, Vertex3f & coord_y, Vertex3f
 	matrix[2][1] = coord_z.getY();
 	matrix[2][2] = coord_z.getZ();
 
-	matrix[3][0] = -coord_x.dotProduct(coord_o);
-	matrix[3][1] = -coord_o.dotProduct(coord_o);
-	matrix[3][2] = -coord_o.dotProduct(coord_o);
+	matrix[0][3] = -coord_x.dotProduct(coord_o);
+	matrix[1][3] = -coord_y.dotProduct(coord_o);
+	matrix[2][3] = -coord_z.dotProduct(coord_o);
 }
 
 void TMatrix::coordBasisToWorld(Vertex3f & coord_x, Vertex3f & coord_y, Vertex3f & coord_z, Vertex3f & coord_o) {

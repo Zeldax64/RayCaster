@@ -67,6 +67,14 @@ Vertex3f Vertex3f::operator-(const Vertex3f & param) {
 	return temp;
 }
 
+Vertex3f Vertex3f::operator * (const float & param) {
+	Vertex3f temp;
+	temp.x = x * param;
+	temp.y = y * param;
+	temp.z = z * param;
+	return temp;
+}
+
 Vertex3f Vertex3f::operator*(const Vertex3f & param) {
 	Vertex3f temp;
 	temp.x = x * param.x;
@@ -83,6 +91,12 @@ Vertex3f Vertex3f::operator / (const float & param) {
 	);
 
 	return temp;
+
+}
+void Vertex3f::operator = (const Vertex3f & param) {
+	this->x = param.x;
+	this->y = param.y;
+	this->z = param.z;
 }
 
 

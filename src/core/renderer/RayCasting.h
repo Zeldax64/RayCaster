@@ -31,6 +31,9 @@ public:
   void setScenery(Scenery * scn);
   void setCamera(Camera * cam);
 
+  Scenery* getScenery();
+  Camera* getCamera();
+
 private:
   Vertex3f genRay(int pix_x, int pix_y);
 };
