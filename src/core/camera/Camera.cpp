@@ -18,7 +18,7 @@ Vertex3f Camera::getLookAt() { return look_at; }
 Vertex3f Camera::getAViewUp() { return avup; }
 
 void Camera::calcCoordSystemBasis() {
-  Vertex3f look_at_p0 = look_at - cam_pos;
+  Vertex3f look_at_p0 = cam_pos - look_at;
   this->k = look_at_p0.unit();
 
   this->vup = avup - cam_pos;

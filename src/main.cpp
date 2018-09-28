@@ -20,13 +20,16 @@
 #include "core/scenery/Scenery.h"
 #include "core/renderer/RayCasting.h"
 
-#define X_WIDTH 400
-#define Y_WIDTH 400
+#define X_WIDTH 10
+#define Y_WIDTH 10
 
 using namespace std;
 
 void buildScenery(Scenery * scn) {
 	MCube* cube = new MCube();
+	TMatrix scale;
+	scale.scale(5.0, 5.0, 5.0);
+	cube->applyTransform(scale);
 	scn->addObj(cube);
 }
 
@@ -39,9 +42,12 @@ void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, Scenery * scn
 
 void renderScene(RayCasting & render) {
 	Scenery* scn = render.getScenery();
+	cout << "Object before transformation: \n";
+	//scn->getObj(0)->print();
 	scn->worldToCamTransform();
-//	scn->getObj(0)->print();
-//	render.render();
+	cout << "Object after transformation: \n";
+	scn->getObj(0)->print();
+	render.render();
 }
 
 int main() {
@@ -49,7 +55,7 @@ int main() {
 	Scenery scn;
 	buildScenery(&scn);
 	// Build camera
-	Vertex3f cam_pos(5.0, 5.0, 5.0);
+	Vertex3f cam_pos(5.0, 0.0, 0.0);
 	Vertex3f look_at(0.0, 0.0, 0.0);
 	Vertex3f avup(0.0, 0.0, 1.0);
 	buildCam(cam_pos, look_at, avup, &scn);

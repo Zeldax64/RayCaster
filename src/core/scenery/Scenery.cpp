@@ -39,7 +39,6 @@ Color Scenery::hitRay(Vertex3f ray) {
     if((*it)->hitObject(ray, col)) {
       std::cout << "Scenery.cpp -> Object hitted! ";
       ray.print();
-      std::cout << "\n";
       return col;
     }
   }
@@ -59,8 +58,6 @@ void Scenery::worldToCamTransform() {
   std::list<Object*>::iterator it;
   for(it = objs.begin(); it != objs.end(); ++it){
     (*it)->applyTransform(transform);
-    //std::cout << "Printing object\n";
-    //(*it)->print();
   }
 }
 
@@ -82,7 +79,7 @@ TMatrix Scenery::getWorldToCamTransform() {
   Vertex3f pos = cam.getPosition();
 
   transform.worldBasisToCoord(i, j, k, pos);
-
+  transform.print();
   return transform;
 }
 

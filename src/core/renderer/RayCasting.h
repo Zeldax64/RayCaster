@@ -1,9 +1,10 @@
 #pragma once
 
+#include <iostream>
+#include <stdint.h>
 #include "core/scenery/Scenery.h"
 #include "core/color/Color.h"
 #include "core/camera/Camera.h"
-#include <stdint.h>
 
 class RayCasting
 {

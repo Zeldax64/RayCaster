@@ -53,6 +53,7 @@ void MCube::applyTransform(const TMatrix & param) {
 }
 
 // TODO: This method will produce a full red square
+// TODO: There might be some bugs in this function. Gotta find them
 bool MCube::hitObject(Vertex3f & ray, Color & col) {
 	bool found = false;
 
@@ -102,7 +103,7 @@ bool MCube::hitObject(Vertex3f & ray, Color & col) {
 
 
 void MCube::print(){
-	
+
 	for(uint8_t i = 0; i < 8; i++){
 		vertices[i].print();
 	}
