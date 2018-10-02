@@ -24,11 +24,12 @@ void updateScreen(Color* buffer, uint32_t SCREEN_WIDTH, uint32_t SCREEN_HEIGHT) 
 	for(int y = 0; y < SCREEN_HEIGHT; ++y){
 		for(int x = 0; x < SCREEN_WIDTH; ++x){
         // Get color
-      float r = buffer[y * SCREEN_WIDTH + SCREEN_HEIGHT].getRed();
-      float g = buffer[y * SCREEN_WIDTH + SCREEN_HEIGHT].getGreen();
-      float b = buffer[y * SCREEN_WIDTH + SCREEN_HEIGHT].getBlue();
-      if(r == 1.0) {
-        std::cout << "\n" << x << " " << y << "\n";
+      float r = buffer[y * SCREEN_WIDTH + x].getRed();
+      float g = buffer[y * SCREEN_WIDTH + x].getGreen();
+      float b = buffer[y * SCREEN_WIDTH + x].getBlue();
+      // Debug if
+      if(r == 1.0 && g == 0.0) {
+        std::cout << "[" << x << ":" << y << "] = r" << r << "\n";
         glColor3f(r, g, b);
       }
       else{

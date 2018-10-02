@@ -29,7 +29,7 @@ using namespace std;
 void buildScenery(Scenery * scn) {
 	MCube* cube = new MCube();
 	TMatrix scale;
-	scale.scale(2.0, 2.0, 2.0);
+	scale.scale(3.0, 3.0, 3.0);
 	cube->applyTransform(scale);
 	scn->addObj(cube);
 }
@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
 	Scenery scn;
 	buildScenery(&scn);
 	// Build camera
-	Vertex3f cam_pos(10.0, 0.0, 0.0);
+	Vertex3f cam_pos(5.0, 0.0, 0.0);
 	Vertex3f look_at(0.0, 0.0, 0.0);
 	Vertex3f avup(0.0, 0.0, 1.0);
 	buildCam(cam_pos, look_at, avup, &scn);
