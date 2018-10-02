@@ -35,6 +35,8 @@ public:
   Scenery* getScenery();
   Camera* getCamera();
 
+  Color* getBuffer();
+
 private:
   Vertex3f genRay(int pix_x, int pix_y);
 };

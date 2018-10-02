@@ -37,7 +37,7 @@ Color Scenery::hitRay(Vertex3f ray) {
   std::list<Object*>::iterator it;
   for(it = objs.begin(); it != objs.end(); ++it){
     if((*it)->hitObject(ray, col)) {
-      std::cout << "Scenery.cpp -> Object hitted! ";
+      //std::cout << "Scenery.cpp -> Object hitted! ";
       ray.print();
       return col;
     }

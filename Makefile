@@ -6,6 +6,8 @@ CXX = g++
 # Read about -g flag in CFLAGS
 CFLAGS = -c -Wall -g
 CPPFLAGS = -I ./src
+GL = -lGL -lGLU -lglut
+LIBS = $(GL)
 RM = rm -f
 
 SRCDIR = src
@@ -32,7 +34,7 @@ run: all
 all: $(PROG)
 
 $(PROG): $(OBJ)
-	$(CXX) -o $(PROG) $(OBJ)
+	$(CXX) -o $(PROG) $(OBJ) $(LIBS)
 
 # Compilation wildcard
 %.o: %.cpp %.h
@@ -44,6 +46,6 @@ clean:
 	$(RM) $(PROG) $(OBJ)
 
 help:
-#	@echo "src: $(SOURCE)"
+	@echo "src: $(SOURCES)"
 	@echo "-------------------"
 	@echo "objects: $(OBJS)"

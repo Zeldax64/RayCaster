@@ -19,16 +19,17 @@
 #include "core/objects/meshes/MCube.h"
 #include "core/scenery/Scenery.h"
 #include "core/renderer/RayCasting.h"
+#include "util/util.h"
 
-#define X_WIDTH 10
-#define Y_WIDTH 10
+#define X_WIDTH 300
+#define Y_WIDTH 300
 
 using namespace std;
 
 void buildScenery(Scenery * scn) {
 	MCube* cube = new MCube();
 	TMatrix scale;
-	scale.scale(5.0, 5.0, 5.0);
+	scale.scale(2.0, 2.0, 2.0);
 	cube->applyTransform(scale);
 	scn->addObj(cube);
 }
@@ -48,14 +49,15 @@ void renderScene(RayCasting & render) {
 	cout << "Object after transformation: \n";
 	scn->getObj(0)->print();
 	render.render();
+
 }
 
-int main() {
+int main(int argc, char **argv) {
 	// Build scenery
 	Scenery scn;
 	buildScenery(&scn);
 	// Build camera
-	Vertex3f cam_pos(5.0, 0.0, 0.0);
+	Vertex3f cam_pos(10.0, 0.0, 0.0);
 	Vertex3f look_at(0.0, 0.0, 0.0);
 	Vertex3f avup(0.0, 0.0, 1.0);
 	buildCam(cam_pos, look_at, avup, &scn);
@@ -63,15 +65,9 @@ int main() {
 	// Render
 	RayCasting render(X_WIDTH, Y_WIDTH);
 	render.setScenery(&scn);
-	renderScene(render);
-	/*
-	MCube cube;
-	TMatrix translate;
-	translate.translate(10.0, 15.0, 20.0);
-	cube.print();
-	cube.applyTransform(translate);
-	std::cout << "Applying transformation:\n";
-	cube.print();
-	return 0;
-	*/
+	renderScene(render); // Render scene
+
+	Color* buff = render.getBuffer(); // Get buffer
+
+	mainGL(argc, argv, X_WIDTH, Y_WIDTH, buff);
 }

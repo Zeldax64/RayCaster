@@ -28,7 +28,7 @@ void RayCasting::render() {
       //std::cout << "Sending ray: ";
       //ray.print();
 
-      // Check if this is correct or not
+      // TODO:Check if this is correct or not
       buff[l*x_width + c] = scn->hitRay(ray);
     }
   }
@@ -49,6 +49,11 @@ Scenery* RayCasting::getScenery() {
 Camera* RayCasting::getCamera() {
   return cam;
 }
+
+Color* RayCasting::getBuffer() {
+  return buff;
+}
+
 
 // TODO: Check whether this function is useless
 Vertex3f RayCasting::genRay(int pix_x, int pix_y) {
