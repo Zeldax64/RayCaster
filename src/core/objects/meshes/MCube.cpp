@@ -1,4 +1,4 @@
-#include "MCube.h"
+#include "core/objects/meshes/MCube.h"
 
 MCube::MCube() {
 	vertices[0].moveTo(0, 0, 0);

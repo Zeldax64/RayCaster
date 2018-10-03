@@ -4,6 +4,31 @@ static Color* buffer;
 static uint32_t SCREEN_WIDTH;
 static uint32_t SCREEN_HEIGHT;
 
+/* Buffer Debug functions */
+void setPixel(uint32_t x, uint32_t y, float r, float g, float b) {
+  buffer[y * SCREEN_WIDTH + x].setColor(r, g, b);
+}
+
+void drawHLine(int x, int y, int l){
+
+  if ((x>=0) && (x<SCREEN_WIDTH) && (y>=0) && (y<SCREEN_HEIGHT)){
+    for (int cx=0; cx<l; cx++){
+      buffer[y * SCREEN_WIDTH + cx + x].setColor(1.0, 0, 0);
+    }
+  }
+}
+
+void drawVLine(int x, int y, int l){
+
+  if ((x>=0) && (x<SCREEN_WIDTH) && (y>=0) && (y<SCREEN_HEIGHT)){
+    for (int cy=0; cy<= l; cy++){
+      setPixel(x, y+cy, 1.0, 0.0, 0.0);
+    }
+  }
+}
+
+/*------------------------*/
+
 void display(void) {
   updateScreen(buffer, SCREEN_WIDTH, SCREEN_HEIGHT);
   glutSwapBuffers();
@@ -29,7 +54,7 @@ void updateScreen(Color* buffer, uint32_t SCREEN_WIDTH, uint32_t SCREEN_HEIGHT) 
       float b = buffer[y * SCREEN_WIDTH + x].getBlue();
       // Debug if
       if(r == 1.0 && g == 0.0) {
-        std::cout << "[" << x << ":" << y << "] = r" << r << "\n";
+        //std::cout << "[" << x << ":" << y << "] = r" << r << "\n";
         glColor3f(r, g, b);
       }
       else{

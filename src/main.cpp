@@ -17,6 +17,7 @@
 #include "core/math/Vertex3f.h"
 #include "core/math/TMatrix.h"
 #include "core/objects/meshes/MCube.h"
+#include "core/objects/geometric/GSphere.h"
 #include "core/scenery/Scenery.h"
 #include "core/renderer/RayCasting.h"
 #include "util/util.h"
@@ -27,11 +28,15 @@
 using namespace std;
 
 void buildScenery(Scenery * scn) {
+	/*
 	MCube* cube = new MCube();
 	TMatrix scale;
 	scale.scale(3.0, 3.0, 3.0);
 	cube->applyTransform(scale);
 	scn->addObj(cube);
+	*/
+	GSphere* sphere = new GSphere(Vertex3f(0.0, 0.0, 0.0), 5.0);
+	scn->addObj(sphere);
 }
 
 void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, Scenery * scn) {
@@ -43,10 +48,8 @@ void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, Scenery * scn
 
 void renderScene(RayCasting & render) {
 	Scenery* scn = render.getScenery();
-	cout << "Object before transformation: \n";
 	//scn->getObj(0)->print();
 	scn->worldToCamTransform();
-	cout << "Object after transformation: \n";
 	scn->getObj(0)->print();
 	render.render();
 

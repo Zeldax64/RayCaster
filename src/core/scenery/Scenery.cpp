@@ -79,7 +79,6 @@ TMatrix Scenery::getWorldToCamTransform() {
   Vertex3f pos = cam.getPosition();
 
   transform.worldBasisToCoord(i, j, k, pos);
-  transform.print();
   return transform;
 }
 
