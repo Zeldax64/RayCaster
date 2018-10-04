@@ -29,7 +29,21 @@ MCube::MCube() {
 	edges[16].setEdge(3, 4);
 	edges[17].setEdge(0, 5);
 
+	/*
 	faces[0].setFace(0, 1, 2);
+	faces[1].setFace(0, 3, 2);
+	faces[2].setFace(4, 5, 6);
+	faces[3].setFace(4, 6, 7);
+	faces[4].setFace(1, 6, 5);
+	faces[5].setFace(1, 2, 6);
+	faces[6].setFace(2, 7, 6);
+	faces[7].setFace(2, 3, 7);
+	faces[8].setFace(0, 4, 3);
+	faces[9].setFace(3, 4, 7);
+	faces[10].setFace(0, 5, 4);
+	faces[11].setFace(0, 1, 5);
+	*/
+	faces[0].setFace(0, 2, 1);
 	faces[1].setFace(0, 3, 2);
 	faces[2].setFace(4, 5, 6);
 	faces[3].setFace(4, 6, 7);
@@ -56,10 +70,9 @@ void MCube::applyTransform(const TMatrix & param) {
 // TODO: There might be some bugs in this function. Gotta find them
 bool MCube::hitObject(Vertex3f & ray, Color & col) {
 	bool found = false;
+	float best_tint = -1.0;
 
 	for(uint8_t i = 0; i < 12; i++) {
-
-
 		Face3f face = faces[i];
 		Vertex3f v0 = vertices[face.vertices[0]];
 		Vertex3f v1 = vertices[face.vertices[1]];
@@ -72,6 +85,21 @@ bool MCube::hitObject(Vertex3f & ray, Color & col) {
 
 		/* Calculate intersection point of ray and plane */
 		float tint = v0.dotProduct(n) / ray.dotProduct(n);
+		/*
+		std::cout << "V0 = " ; v0.print();
+		std::cout << "V1 = " ; v1.print();
+		std::cout << "V2 = " ; v2.print();
+
+
+		std::cout << "Tint = " << tint << "\n";
+		*/
+		//std::cin.get();
+		// TODO: Check if this if is correct or not
+		if (tint < 1.0) {
+			//std::cout << "Tint < 0 = " << tint << "\n";
+			continue;
+		}
+		//std::cout << "Tint = " << tint << "\n";
 		Vertex3f Pi = ray * tint;
 		// TODO: Possible improvement
 		// If ray * n -> 0, then Pi -> infinity. A check could be done here
@@ -92,7 +120,8 @@ bool MCube::hitObject(Vertex3f & ray, Color & col) {
 		float ti = (a * d - e * b) / den;
 
 		// TODO: improve hit checking to allow diferences between hidden faces
-		if (si >= 0 && ti >= 0 && si+ti <= 1) {
+		if (si >= 0.0 && ti >= 0.0 && si+ti <= 1.0) {
+			best_tint = tint;
 			found = true;
 			col.setColor(1.0, 0.0, 0.0); // Setting red
 			return found;

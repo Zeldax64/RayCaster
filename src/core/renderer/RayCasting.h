@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <stdint.h>
+#include <math.h>
 #include "core/scenery/Scenery.h"
 #include "core/color/Color.h"
 #include "core/camera/Camera.h"

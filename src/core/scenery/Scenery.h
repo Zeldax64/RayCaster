@@ -32,6 +32,8 @@ public:
   void setCamAViewUp(Vertex3f position);
   void calcCamCoord();
 
+  Camera* getCam();
+
   void worldToCamTransform();
   void camToWorldTransform();
 

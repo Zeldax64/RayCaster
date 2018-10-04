@@ -1,5 +1,5 @@
 /*
-	What next? List of TODO!
+	What next? List of TODOs!
 	1) Finish implementation of worldBasisToCoord TMatrix.cpp; OK
 	2) Create a Buffer/Color/Window class; Color Ok
 	3) Do render; - Under Debug
@@ -8,6 +8,7 @@
 			- Return a result (any color); Ok
 
 	4) Check results using an API to paint a screen;
+			- Implement FOV (Field of View);
 */
 
 #include <iostream>
@@ -17,32 +18,45 @@
 #include "core/math/Vertex3f.h"
 #include "core/math/TMatrix.h"
 #include "core/objects/meshes/MCube.h"
+#include "core/objects/meshes/MTriangle.h"
 #include "core/objects/geometric/GSphere.h"
 #include "core/scenery/Scenery.h"
 #include "core/renderer/RayCasting.h"
 #include "util/util.h"
 
-#define X_WIDTH 300
-#define Y_WIDTH 300
+#define X_WIDTH 500
+#define Y_WIDTH 500
 
 using namespace std;
 
 void buildScenery(Scenery * scn) {
+	TMatrix scale;
+	scale.scale(30.0, 30.0, 30.0);
+	TMatrix rotate;
+	rotate.rotateY(-5.0);
+	TMatrix translate;
+	translate.translate(0.0, 8.0, 8.0);
 	/*
 	MCube* cube = new MCube();
-	TMatrix scale;
-	scale.scale(3.0, 3.0, 3.0);
 	cube->applyTransform(scale);
 	scn->addObj(cube);
 	*/
-	GSphere* sphere = new GSphere(Vertex3f(0.0, 0.0, 0.0), 5.0);
+	MTriangle* triangle = new MTriangle();
+	triangle->applyTransform(translate*scale);
+	scn->addObj(triangle);
+	triangle->print();
+	/*
+	GSphere* sphere = new GSphere(Vertex3f(0.0, 0.0, 10.0), 3.0);
 	scn->addObj(sphere);
+	*/
 }
 
-void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, Scenery * scn) {
+void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, float fov, Scenery * scn) {
 	scn->setCamPos(pos);
 	scn->setCamLookAt(look_at);
 	scn->setCamAViewUp(avup);
+	Camera* cam = scn->getCam();
+	cam->setFOV(90.0);
 	scn->calcCamCoord();
 }
 
@@ -62,8 +76,9 @@ int main(int argc, char **argv) {
 	// Build camera
 	Vertex3f cam_pos(5.0, 0.0, 0.0);
 	Vertex3f look_at(0.0, 0.0, 0.0);
-	Vertex3f avup(0.0, 0.0, 1.0);
-	buildCam(cam_pos, look_at, avup, &scn);
+	Vertex3f avup(0.0, 1.0, 0.0);
+	float fov = 90.0;
+	buildCam(cam_pos, look_at, avup, fov, &scn);
 
 	// Render
 	RayCasting render(X_WIDTH, Y_WIDTH);

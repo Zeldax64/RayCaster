@@ -6,7 +6,7 @@ GSphere::~GSphere() { }
 
 void GSphere::applyTransform(const TMatrix & param) {
   center.applyTransform(param);
-  // TODO: apply transform to a point in on the sphere's shell also!
+  // TODO: apply transform to a point on the sphere's shell also!
   // By doing this it'll be possible to handle scale transformations
 }
 

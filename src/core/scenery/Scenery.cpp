@@ -51,6 +51,8 @@ void Scenery::setCamLookAt(Vertex3f position) { cam.setLookAt(position); }
 void Scenery::setCamAViewUp(Vertex3f position) { cam.setAViewUp(position); }
 void Scenery::calcCamCoord() { cam.calcCoordSystemBasis(); }
 
+Camera* Scenery::getCam() { return &cam; }
+
 // TODO: finish this method
 void Scenery::worldToCamTransform() {
   TMatrix transform = getWorldToCamTransform();
