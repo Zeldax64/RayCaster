@@ -1,4 +1,5 @@
 /*
+	Special TODO: fix triangle intersect from MCube and MTriangle
 	What next? List of TODOs!
 	1) Finish implementation of worldBasisToCoord TMatrix.cpp; OK
 	2) Create a Buffer/Color/Window class; Color Ok
@@ -6,11 +7,12 @@
 			- Ray generation; Ok
 			- Hit object system; Ok
 			- Return a result (any color); Ok
-
-	4) Implement materials
-			- Create a material class;
-			- Return it when objected hitted;
-	5) Implement light sources
+	4) Implement materials - Ok
+			- Create a material class; Ok
+			- Return it when objected hitted; Ok
+	5) Implement light sources - Ok
+	6) Handle multiple objects render - Ok
+	7) Handle ilumination render
 */
 
 #include <iostream>
@@ -51,10 +53,14 @@ void buildScenery(Scenery * scn) {
 	scn->addObj(triangle);
 	triangle->print();
 	*/
-	GSphere* sphere = new GSphere(Vertex3f(0.0, 2.0, 2.0),
-																1.0, 
+	GSphere* sphere1 = new GSphere(Vertex3f(0.0, 0.0, 0.0),
+																2.0,
 																0.7, 0.5, 0.0);
-	scn->addObj(sphere);
+	scn->addObj(sphere1);
+	GSphere* sphere2 = new GSphere(Vertex3f(0.0, 3.0, 0.0),
+																1.0,
+																0.0, 0.5, 0.7);
+	scn->addObj(sphere2);
 }
 
 void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, float fov, Scenery * scn) {

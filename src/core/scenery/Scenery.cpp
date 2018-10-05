@@ -29,18 +29,21 @@ void Scenery::applyTransformAll(const TMatrix & matrix) {
 
 /*----- Ray Intersection -----*/
 // TODO: Iterate through light sources case a light source is an object?
+// Returning color of the closest object or background
 Color Scenery::hitRay(Vertex3f ray) {
   Color col(0.0, 0.0, 0.0); // Background color
   Color* first_col;
   float best_t = FLT_MAX;
   std::list<Object*>::iterator it;
   for(it = objs.begin(); it != objs.end(); ++it){
-    if((*it)->hitObject(ray, col) <= best_t) {
+    float t = (*it)->hitObject(ray);
+    if(t <= best_t && t >= 1.0) {
+      best_t = t;
       Material* mat = (*it)->getMaterial();
       first_col = mat->getColor();
     }
   }
-  
+
   if(best_t < FLT_MAX) {
     col.setColor((*first_col).getRed(),
                  (*first_col).getGreen(),

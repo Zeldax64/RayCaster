@@ -31,7 +31,7 @@ public:
 	hitted will be a better implementation then the caller method will handle
 	any illumination issue
 */
-	bool hitObject(Vertex3f & ray, Color & col);
+	float hitObject(Vertex3f & ray);
 
   void setRadius(float r);
   void setCenter(Vertex3f c);
@@ -40,6 +40,6 @@ public:
   float getRadius();
   Vertex3f* getCenter();
   Material* getMaterial();
-  
+
 	void print();
 };

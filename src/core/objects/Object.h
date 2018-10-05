@@ -17,7 +17,7 @@ public:
 	~Object();
 
 	virtual void applyTransform(const TMatrix & param)=0;
-	virtual bool hitObject(Vertex3f & ray, Color & col)=0;
+	virtual float hitObject(Vertex3f & ray)=0;
 	virtual Material* getMaterial()=0;
 	virtual void print()=0;
 };

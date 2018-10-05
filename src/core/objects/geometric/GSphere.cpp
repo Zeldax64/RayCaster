@@ -15,18 +15,9 @@ void GSphere::applyTransform(const TMatrix & param) {
   // By doing this it'll be possible to handle scale transformations
 }
 
-bool GSphere::hitObject(Vertex3f & ray, Color & col) {
+float GSphere::hitObject(Vertex3f & ray) {
   float t = hitSphereRayLength(ray, this);
-  if (t >= 1.0) {
-    col.setColor(material.getRed(),
-                 material.getGreen(),
-                 material.getBlue());
-
-    return true;
-  }
-  else {
-    return false;
-  }
+  return t;
 }
 
 void GSphere::setRadius(float r) { radius = r; }
