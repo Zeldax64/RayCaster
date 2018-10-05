@@ -1,21 +1,21 @@
 #pragma once
 
 #include <iostream>
+#include "core/color/Color.h"
 
-class Color
+class Material
 {
-  float colors[3]; // R = color
-
+  Color col;
 public:
-  Color();
-  Color(float r, float g, float b);
-  ~Color();
+  Material();
+  ~Material();
 
   void setColor(float r, float g, float b);
   void setRed(float r);
   void setGreen(float g);
   void setBlue(float b);
 
+  Color* getColor();
   float getRed();
   float getGreen();
   float getBlue();

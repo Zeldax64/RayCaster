@@ -32,13 +32,11 @@ void Scenery::applyTransformAll(const TMatrix & matrix) {
 
 /*----- Ray Intersection -----*/
 Color Scenery::hitRay(Vertex3f ray) {
-  Color col(1.0, 1.0, 1.0);
+  Color col(0.0, 0.0, 0.0); // Background color
 
   std::list<Object*>::iterator it;
   for(it = objs.begin(); it != objs.end(); ++it){
     if((*it)->hitObject(ray, col)) {
-      //std::cout << "Scenery.cpp -> Object hitted! ";
-      //ray.print();
       return col;
     }
   }

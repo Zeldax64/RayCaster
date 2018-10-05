@@ -1,7 +1,11 @@
 #include "core/objects/geometric/GSphere.h"
 
 GSphere::GSphere() { center = Vertex3f(0.0, 0.0, 0.0); radius = 1.0; }
-GSphere::GSphere(Vertex3f c, float r) { center = c; radius = r; }
+GSphere::GSphere(Vertex3f c, float r, float red, float green, float blue) {
+  center = c;
+  radius = r;
+  material.setColor(red, green, blue);
+ }
 GSphere::~GSphere() { }
 
 void GSphere::applyTransform(const TMatrix & param) {
@@ -27,7 +31,10 @@ bool GSphere::hitObject(Vertex3f & ray, Color & col) {
   float t_int2 = (-beta - sqrt(delta))/(2 * alpha);
 
   if (t_int1 >= 1.0 || t_int2 >= 1.0) {
-    col.setColor(1.0, 0.0, 0.0);
+    col.setColor(material.getRed(),
+                 material.getGreen(),
+                 material.getBlue());
+
     return true;
   }
   else {
@@ -37,11 +44,15 @@ bool GSphere::hitObject(Vertex3f & ray, Color & col) {
 
 void GSphere::setRadius(float r) { radius = r; }
 void GSphere::setCenter(Vertex3f c) { center = c; }
+void GSphere::setMaterial(float r, float g, float b) { material.setColor(r, g, b); }
+
 float GSphere::getRadius() { return radius; }
-Vertex3f GSphere::getCenter() { return center; }
+Vertex3f* GSphere::getCenter() { return &center; }
+Material* GSphere::getMaterial() { return &material; }
 
 void GSphere::print() {
   std::cout << "Center: ";
   center.print();
   std::cout << "Radius: " << radius << "\n";
+  material.print();
 }

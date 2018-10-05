@@ -2,13 +2,15 @@
 	What next? List of TODOs!
 	1) Finish implementation of worldBasisToCoord TMatrix.cpp; OK
 	2) Create a Buffer/Color/Window class; Color Ok
-	3) Do render; - Under Debug
+	3) Do render; - Ok
 			- Ray generation; Ok
 			- Hit object system; Ok
 			- Return a result (any color); Ok
 
-	4) Check results using an API to paint a screen;
-			- Implement FOV (Field of View);
+	4) Implement materials
+			- Create a material class;
+			- Return it when objected hitted;
+	5) Implement light sources
 */
 
 #include <iostream>
@@ -30,25 +32,27 @@
 using namespace std;
 
 void buildScenery(Scenery * scn) {
+	/*
 	TMatrix scale;
-	scale.scale(30.0, 30.0, 30.0);
+	scale.scale(1.0, 1.0, 1.0);
 	TMatrix rotate;
 	rotate.rotateY(-5.0);
 	TMatrix translate;
-	translate.translate(0.0, 8.0, 8.0);
+	translate.translate(0.0, 0.0, 0.0);
+	*/
 	/*
 	MCube* cube = new MCube();
 	cube->applyTransform(scale);
 	scn->addObj(cube);
 	*/
+	/*
 	MTriangle* triangle = new MTriangle();
 	triangle->applyTransform(translate*scale);
 	scn->addObj(triangle);
 	triangle->print();
-	/*
-	GSphere* sphere = new GSphere(Vertex3f(0.0, 0.0, 10.0), 3.0);
-	scn->addObj(sphere);
 	*/
+	GSphere* sphere = new GSphere(Vertex3f(0.0, 2.0, 2.0), 1.0, 0.7, 0.5, 0.0);
+	scn->addObj(sphere);
 }
 
 void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, float fov, Scenery * scn) {
@@ -74,7 +78,7 @@ int main(int argc, char **argv) {
 	Scenery scn;
 	buildScenery(&scn);
 	// Build camera
-	Vertex3f cam_pos(5.0, 0.0, 0.0);
+	Vertex3f cam_pos(10.0, 0.0, 0.0);
 	Vertex3f look_at(0.0, 0.0, 0.0);
 	Vertex3f avup(0.0, 1.0, 0.0);
 	float fov = 90.0;

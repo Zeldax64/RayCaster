@@ -4,8 +4,8 @@ RayCasting::RayCasting(uint32_t x_width, uint32_t y_width) {
   buff = new Color[x_width * y_width];
   this->x_width = x_width;
   this->y_width = y_width;
-  this->H = 10.0;
-  this->W = 10.0;
+  this->H = 1.0;
+  this->W = 1.0;
   this->dx = this->W / this->x_width;
   this->dy = this->H / this->y_width;
   this->d = 1.0;

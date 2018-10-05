@@ -53,13 +53,7 @@ void updateScreen(Color* buffer, uint32_t SCREEN_WIDTH, uint32_t SCREEN_HEIGHT) 
       float g = buffer[y * SCREEN_WIDTH + x].getGreen();
       float b = buffer[y * SCREEN_WIDTH + x].getBlue();
       // Debug if
-      if(r == 1.0 && g == 0.0) {
-        //std::cout << "[" << x << ":" << y << "] = r" << r << "\n";
-        glColor3f(r, g, b);
-      }
-      else{
-        glColor3f(0.0, 0.0, 0.0);
-      }
+      glColor3f(r, g, b);
       drawPixel(x, y);
 		}
 	}

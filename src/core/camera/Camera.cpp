@@ -1,4 +1,5 @@
 #include "core/camera/Camera.h"
+// TODO: FOV not yet implented, thus it's useless by now
 
 Camera::Camera() { this->setFOV(90.0); }
 Camera::Camera(Vertex3f cam_position, Vertex3f look_at, Vertex3f a_view_up, Vertex3f view_up , float fov) {

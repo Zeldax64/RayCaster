@@ -7,15 +7,17 @@
 #include "core/math/Vertex3f.h"
 #include "core/math/TMatrix.h"
 #include "core/color/Color.h"
+#include "core/material/Material.h"
 
 class GSphere : public Object
 {
   float radius;
   Vertex3f center;
+  Material material;
 
 public:
 	GSphere();
-  GSphere(Vertex3f c, float r);
+  GSphere(Vertex3f c, float r, float red, float green, float blue);
 	~GSphere();
 
 	void applyTransform(const TMatrix & param);
@@ -32,8 +34,10 @@ public:
 
   void setRadius(float r);
   void setCenter(Vertex3f c);
-  float getRadius();
-  Vertex3f getCenter();
+  void setMaterial(float r, float g, float b);
 
+  float getRadius();
+  Vertex3f* getCenter();
+  Material* getMaterial();
 	void print();
 };
