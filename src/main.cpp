@@ -51,7 +51,9 @@ void buildScenery(Scenery * scn) {
 	scn->addObj(triangle);
 	triangle->print();
 	*/
-	GSphere* sphere = new GSphere(Vertex3f(0.0, 2.0, 2.0), 1.0, 0.7, 0.5, 0.0);
+	GSphere* sphere = new GSphere(Vertex3f(0.0, 2.0, 2.0),
+																1.0, 
+																0.7, 0.5, 0.0);
 	scn->addObj(sphere);
 }
 

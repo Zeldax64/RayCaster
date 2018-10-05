@@ -1,7 +1,8 @@
 #include "core/objects/geometric/GSphere.h"
+#include "core/intersect/intersect.h"
 
 GSphere::GSphere() { center = Vertex3f(0.0, 0.0, 0.0); radius = 1.0; }
-GSphere::GSphere(Vertex3f c, float r, float red, float green, float blue) {
+GSphere::GSphere(const Vertex3f & c, float r, float red, float green, float blue) {
   center = c;
   radius = r;
   material.setColor(red, green, blue);
@@ -15,22 +16,8 @@ void GSphere::applyTransform(const TMatrix & param) {
 }
 
 bool GSphere::hitObject(Vertex3f & ray, Color & col) {
-  // TODO: Finish hit object system
-  Vertex3f c = -center;
-  float alpha = ray.dotProduct(ray);
-  float beta = 2*c.dotProduct(ray);
-  float gama = center.dotProduct(center) - radius * radius;
-
-  float delta = beta * beta - 4 * alpha * gama;
-
-  if (delta < 0.0) {
-    return false;
-  }
-
-  float t_int1 = (-beta + sqrt(delta))/(2 * alpha);
-  float t_int2 = (-beta - sqrt(delta))/(2 * alpha);
-
-  if (t_int1 >= 1.0 || t_int2 >= 1.0) {
+  float t = hitSphereRayLength(ray, this);
+  if (t >= 1.0) {
     col.setColor(material.getRed(),
                  material.getGreen(),
                  material.getBlue());

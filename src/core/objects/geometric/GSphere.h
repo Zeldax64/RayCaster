@@ -9,6 +9,7 @@
 #include "core/color/Color.h"
 #include "core/material/Material.h"
 
+
 class GSphere : public Object
 {
   float radius;
@@ -17,7 +18,7 @@ class GSphere : public Object
 
 public:
 	GSphere();
-  GSphere(Vertex3f c, float r, float red, float green, float blue);
+  GSphere(const Vertex3f & c, float r, float red, float green, float blue);
 	~GSphere();
 
 	void applyTransform(const TMatrix & param);
@@ -39,5 +40,6 @@ public:
   float getRadius();
   Vertex3f* getCenter();
   Material* getMaterial();
+  
 	void print();
 };

@@ -25,10 +25,7 @@ void RayCasting::render() {
     for(uint32_t c = 0; c < x_width; c++) {
       float x = -(W/2) + dx/2 + c * dx;
       Vertex3f ray = Vertex3f(x, y, -d);
-      //std::cout << "Sending ray: ";
-      //ray.print();
 
-      // TODO:Check if this is correct or not
       buff[l*x_width + c] = scn->hitRay(ray);
     }
   }

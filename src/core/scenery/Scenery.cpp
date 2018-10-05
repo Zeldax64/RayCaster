@@ -3,7 +3,7 @@
 Scenery::Scenery() {}
 Scenery::~Scenery() {}
 
-// Object methods
+/*----- Object methods -----*/
 void Scenery::addObj(Object* obj) {
   objs.push_back(obj);
 }
@@ -20,9 +20,6 @@ Object* Scenery::getObj(int i) {
   return *it;
 }
 
-// It looks unnecessary
-//void Scenery::applyTransform(Object* obj, const TMatrix & matrix) {}
-
 void Scenery::applyTransformAll(const TMatrix & matrix) {
   std::list<Object*>::iterator it;
   for(it = objs.begin(); it != objs.end(); ++it){
@@ -31,16 +28,40 @@ void Scenery::applyTransformAll(const TMatrix & matrix) {
 }
 
 /*----- Ray Intersection -----*/
+// TODO: Iterate through light sources case a light source is an object?
 Color Scenery::hitRay(Vertex3f ray) {
   Color col(0.0, 0.0, 0.0); // Background color
-
+  Color* first_col;
+  float best_t = FLT_MAX;
   std::list<Object*>::iterator it;
   for(it = objs.begin(); it != objs.end(); ++it){
-    if((*it)->hitObject(ray, col)) {
-      return col;
+    if((*it)->hitObject(ray, col) <= best_t) {
+      Material* mat = (*it)->getMaterial();
+      first_col = mat->getColor();
     }
   }
+  
+  if(best_t < FLT_MAX) {
+    col.setColor((*first_col).getRed(),
+                 (*first_col).getGreen(),
+                 (*first_col).getBlue()
+    );
+  }
   return col;
+}
+
+/*----- Light sources methods -----*/
+void Scenery::addLight(Light* source) {
+  lights.push_back(source);
+}
+
+Light* Scenery::getLight(int i) {
+  if(i >= objs.size())
+    return NULL;
+
+  std::list<Light*>::iterator it = lights.begin();
+  std::advance(it, i);
+  return *it;
 }
 
 /*----- Camera Methods -----*/
@@ -51,7 +72,8 @@ void Scenery::calcCamCoord() { cam.calcCoordSystemBasis(); }
 
 Camera* Scenery::getCam() { return &cam; }
 
-// TODO: finish this method
+/*----- Coordinates transformations -----*/
+// TODO: finish this method -> Add transf. to light souces
 void Scenery::worldToCamTransform() {
   TMatrix transform = getWorldToCamTransform();
 
@@ -61,7 +83,7 @@ void Scenery::worldToCamTransform() {
   }
 }
 
-// TODO: finish this method
+// TODO: finish this method -> Add transf. to light souces
 void Scenery::camToWorldTransform() {
   TMatrix transform = getCamToWorldTransform();
 
