@@ -21,9 +21,14 @@ Object* Scenery::getObj(int i) {
 }
 
 void Scenery::applyTransformAll(const TMatrix & matrix) {
-  std::list<Object*>::iterator it;
-  for(it = objs.begin(); it != objs.end(); ++it){
-    (*it)->applyTransform(matrix);
+  std::list<Object*>::iterator it_objs;
+  for(it_objs = objs.begin(); it_objs != objs.end(); ++it_objs){
+    (*it_objs)->applyTransform(matrix);
+  }
+
+  std::list<Light*>::iterator it_lights;
+  for(it_lights = lights.begin(); it_lights != lights.end(); ++it_lights){
+    (*it_lights)->applyTransform(matrix);
   }
 }
 
@@ -32,24 +37,50 @@ void Scenery::applyTransformAll(const TMatrix & matrix) {
 // Returning color of the closest object or background
 Color Scenery::hitRay(Vertex3f ray) {
   Color col(0.0, 0.0, 0.0); // Background color
-  Color* first_col;
+  Vertex3f normal; // Normal of the hitted face
+  Vertex3f best_normal; // Normal of the hitted face
+  Material* first_mat;
   float best_t = FLT_MAX;
   std::list<Object*>::iterator it;
   for(it = objs.begin(); it != objs.end(); ++it){
-    float t = (*it)->hitObject(ray);
+    float t = (*it)->hitObject(ray, normal);
     if(t <= best_t && t >= 1.0) {
       best_t = t;
-      Material* mat = (*it)->getMaterial();
-      first_col = mat->getColor();
+      best_normal = normal;
+      first_mat = (*it)->getMaterial();
     }
   }
 
+// This code may be moved to RayCasting class
   if(best_t < FLT_MAX) {
-    col.setColor((*first_col).getRed(),
-                 (*first_col).getGreen(),
-                 (*first_col).getBlue()
-    );
+    normal = best_normal.unit();
+
+    Light* src = getLight(0);
+    Color* src_int = src->getSource();
+    Color* col_amb = src->getAmb();
+
+    Color* kamb = first_mat->getAmb();
+    Color IA = (*col_amb) * (*kamb);
+
+    Vertex3f hit_point = ray * best_t;
+    Vertex3f l = *(src->getPosition()) - hit_point;
+    l = l.unit();
+
+    float cos_theta = normal.dotProduct(l);
+    Color* kdif = first_mat->getDif();
+    Color IDIF =  (*src_int) * (*kdif) * cos_theta;
+
+    col = IA + IDIF;
+    /*
+    IDIF.print();
+    normal.print();
+    l.print();
+    std::cout << "Float " << (normal.dotProduct(l));
+    std::cin.get();
+    */
   }
+
+
   return col;
 }
 
@@ -80,10 +111,13 @@ Camera* Scenery::getCam() { return &cam; }
 void Scenery::worldToCamTransform() {
   TMatrix transform = getWorldToCamTransform();
 
+  /*
   std::list<Object*>::iterator it;
   for(it = objs.begin(); it != objs.end(); ++it){
     (*it)->applyTransform(transform);
   }
+  */
+  this->applyTransformAll(transform);
 }
 
 // TODO: finish this method -> Add transf. to light souces

@@ -4,9 +4,9 @@
 
 class Color
 {
-  float colors[3]; // R = color
-
 public:
+  float colors[3];
+
   Color();
   Color(float r, float g, float b);
   ~Color();
@@ -19,6 +19,10 @@ public:
   float getRed();
   float getGreen();
   float getBlue();
+
+  Color operator + (Color & param);
+  Color operator * (const Color & param);
+  Color operator * (const float val);
 
   void print();
 };

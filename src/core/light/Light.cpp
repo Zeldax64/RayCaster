@@ -1,35 +1,33 @@
 #include "core/light/Light.h"
 
 Light::Light() {
-    col.setColor(1.0, 1.0, 1.0);
+    this->setAmbIntensity(0.0, 0.0, 0.0);
+    this->setSourceIntensity(0.0, 0.0, 0.0);
 }
 
 Light::~Light() {}
 
 void Light::setPosition(const Vertex3f & param) { pos = param; }
+void Light::setPosition(float x, float y, float z) { pos.moveTo(x, y, z); }
 
-void Light::setColor(float r, float g, float b) {
-  col.setColor(r, g, b);
+
+void Light::setAmbIntensity(float r, float g, float b) {
+  i_amb.setColor(r, g, b);
 }
 
-void Light::setRed(float r) {
-  col.setRed(r);
+void Light::setSourceIntensity(float r, float g, float b) {
+  i_intensity.setColor(r, g, b);
 }
 
-void Light::setGreen(float g) {
-  col.setGreen(g);
-}
+Vertex3f* Light::getPosition() { return &pos; }
+Color* Light::getAmb() { return &i_amb; }
+Color* Light::getSource() { return &i_intensity; }
 
-void Light::setBlue(float b) {
-  col.setBlue(b);
+void Light::applyTransform(const TMatrix & transform) {
+  pos.applyTransform(transform);
 }
-
-Color* Light::getColor() { return &col; }
-float Light::getRed() { return col.getRed(); }
-float Light::getGreen() { return col.getGreen(); }
-float Light::getBlue() {return col.getBlue(); }
 
 void Light::print() {
   std::cout << "Position: "; pos.print();
-  col.print();
+  i_amb.print();
 }

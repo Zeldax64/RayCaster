@@ -32,6 +32,7 @@ public:
 	any illumination issue
 */
 	float hitObject(Vertex3f & ray);
+  float hitObject(Vertex3f & ray, Vertex3f & normal);
 
   void setRadius(float r);
   void setCenter(Vertex3f c);

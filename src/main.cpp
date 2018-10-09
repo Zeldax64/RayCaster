@@ -13,6 +13,12 @@
 	5) Implement light sources - Ok
 	6) Handle multiple objects render - Ok
 	7) Handle ilumination render
+			- Ambient Illumination - Ok
+			- Diffuse Illumination - Ok
+			- Specular Illumination - TODO
+
+	TODO: Bug discover when rendering one sphere inside another!
+	Try to use scn->hitRay(x_center, y_center) to debug!
 */
 
 #include <iostream>
@@ -26,6 +32,7 @@
 #include "core/objects/geometric/GSphere.h"
 #include "core/scenery/Scenery.h"
 #include "core/renderer/RayCasting.h"
+#include "core/light/Light.h"
 #include "util/util.h"
 
 #define X_WIDTH 500
@@ -54,13 +61,21 @@ void buildScenery(Scenery * scn) {
 	triangle->print();
 	*/
 	GSphere* sphere1 = new GSphere(Vertex3f(0.0, 0.0, 0.0),
-																2.0,
+																3.0,
 																0.7, 0.5, 0.0);
-	scn->addObj(sphere1);
-	GSphere* sphere2 = new GSphere(Vertex3f(0.0, 3.0, 0.0),
+	GSphere* sphere2 = new GSphere(Vertex3f(0.0, 0.0, 0.0),
 																1.0,
-																0.0, 0.5, 0.7);
+																1.0, 1.0, 1.0
+															);
+
+	scn->addObj(sphere1);
 	scn->addObj(sphere2);
+
+	Light* light_src = new Light();
+	light_src->setPosition(10.0, 10.0, 10.0);
+	light_src->setAmbIntensity(1.0, 1.0, 1.0);
+	light_src->setSourceIntensity(1.0, 1.0, 1.0);
+	scn->addLight(light_src);
 }
 
 void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, float fov, Scenery * scn) {
@@ -76,7 +91,6 @@ void renderScene(RayCasting & render) {
 	Scenery* scn = render.getScenery();
 	//scn->getObj(0)->print();
 	scn->worldToCamTransform();
-	scn->getObj(0)->print();
 	render.render();
 
 }

@@ -1,32 +1,29 @@
 #include "core/material/Material.h"
 
 Material::Material() {
-    col.setColor(1.0, 1.0, 1.0);
+  this->setAmb(1.0, 1.0, 1.0);
+  this->setDif(1.0, 1.0, 1.0);
+  this->setEsp(1.0, 1.0, 1.0);
 }
 
 Material::~Material() {}
 
-void Material::setColor(float r, float g, float b) {
-  col.setColor(r, g, b);
+void Material::setAmb(float r, float g, float b) {
+  k_amb.setColor(r, g, b);
 }
 
-void Material::setRed(float r) {
-  col.setRed(r);
+void Material::setDif(float r, float g, float b) {
+  k_dif.setColor(r, g, b);
 }
 
-void Material::setGreen(float g) {
-  col.setGreen(g);
+void Material::setEsp(float r, float g, float b) {
+  k_esp.setColor(r, g, b);
 }
 
-void Material::setBlue(float b) {
-  col.setBlue(b);
-}
-
-Color* Material::getColor() { return &col; }
-float Material::getRed() { return col.getRed(); }
-float Material::getGreen() { return col.getGreen(); }
-float Material::getBlue() {return col.getBlue(); }
+Color* Material::getAmb() { return &k_amb; }
+Color* Material::getDif() { return &k_dif; }
+Color* Material::getEsp() { return &k_esp; }
 
 void Material::print() {
-  col.print();
+  k_amb.print();
 }

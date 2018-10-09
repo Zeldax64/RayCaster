@@ -5,20 +5,21 @@
 
 class Material
 {
-  Color col;
+  Color k_amb; // Material ambient constant
+  Color k_dif; // Material diffusal constant
+  Color k_esp; // Material specular constant
+
 public:
   Material();
   ~Material();
 
-  void setColor(float r, float g, float b);
-  void setRed(float r);
-  void setGreen(float g);
-  void setBlue(float b);
+  void setAmb(float r, float g, float b);
+  void setDif(float r, float g, float b);
+  void setEsp(float r, float g, float b);
 
-  Color* getColor();
-  float getRed();
-  float getGreen();
-  float getBlue();
+  Color* getAmb();
+  Color* getDif();
+  Color* getEsp();
 
   void print();
 };
