@@ -29,8 +29,8 @@ float hitSphereRayLength(Vertex3f & ray, GSphere* sphere) {
 
   float delta = beta * beta - 4 * alpha * gama;
 
-  float t_int1 = (-beta + sqrt(delta))/(2 * alpha);
-  float t_int2 = (-beta - sqrt(delta))/(2 * alpha);
+  float t_int1 = (-beta - sqrt(delta))/(2 * alpha);
+  float t_int2 = (-beta + sqrt(delta))/(2 * alpha);
 
   if (t_int1 >= 1.0) {
     return t_int1;

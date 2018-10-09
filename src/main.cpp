@@ -63,7 +63,7 @@ void buildScenery(Scenery * scn) {
 	GSphere* sphere1 = new GSphere(Vertex3f(0.0, 0.0, 0.0),
 																3.0,
 																0.7, 0.5, 0.0);
-	GSphere* sphere2 = new GSphere(Vertex3f(0.0, 0.0, 0.0),
+	GSphere* sphere2 = new GSphere(Vertex3f(0.0, 4.0, 0.0),
 																1.0,
 																1.0, 1.0, 1.0
 															);
