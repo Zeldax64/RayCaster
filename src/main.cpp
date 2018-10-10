@@ -60,16 +60,48 @@ void buildScenery(Scenery * scn) {
 	scn->addObj(triangle);
 	triangle->print();
 	*/
-	GSphere* sphere1 = new GSphere(Vertex3f(0.0, 0.0, 0.0),
+
+	// Body
+	GSphere* body = new GSphere(Vertex3f(0.0, 0.0, 0.0),
 																3.0,
-																0.7, 0.5, 0.0);
-	GSphere* sphere2 = new GSphere(Vertex3f(0.0, 4.0, 0.0),
+																1.0, 1.0, 1.0);
+
+	// Head
+	GSphere* head = new GSphere(Vertex3f(0.0, 4.0, 0.0),
 																1.0,
 																1.0, 1.0, 1.0
-															);
+											);
 
-	scn->addObj(sphere1);
-	scn->addObj(sphere2);
+	// Left eye
+	GSphere* left_eye = new GSphere(Vertex3f(1.0, 4.25, 0.45),
+																	0.15,
+																	0.0, 0.0, 0.0
+																);
+
+	// Right eye
+	GSphere* right_eye = new GSphere(Vertex3f(1.0, 4.25, -0.45),
+																	0.15,
+																	0.0, 0.0, 0.0
+																	);
+	// Lower button
+	float theta_lower = 25.0 * M_PI / 180.0;
+	GSphere* lower_button = new GSphere(Vertex3f(3.0*cos(theta_lower), 3.0*sin(theta_lower), 0.0),
+																	0.3,
+																	0.0, 0.0, 0.0
+																	);
+
+	float theta_upper =  40.0 * M_PI / 180.0;
+	GSphere* upper_button = new GSphere(Vertex3f(3.0*cos(theta_upper), 3.0*sin(theta_upper), 0.0),
+																			0.3,
+																			0.0, 0.0, 0.0
+																			);
+
+	scn->addObj(body);
+	scn->addObj(head);
+	scn->addObj(left_eye);
+	scn->addObj(right_eye);
+	scn->addObj(lower_button);
+	scn->addObj(upper_button);
 
 	Light* light_src = new Light();
 	light_src->setPosition(10.0, 10.0, 10.0);
