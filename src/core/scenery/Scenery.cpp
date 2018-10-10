@@ -37,10 +37,11 @@ void Scenery::applyTransformAll(const TMatrix & matrix) {
 }
 
 /*----- Ray Intersection -----*/
-// TODO: Iterate through light sources case a light source is an object?
-// Returning color of the closest object or background
+// TODO: handle this code in a separete function. this will be useful
+// in models which cointain more than one object.
+// Object hitObject must also return a material or a reference to the
+// hitted object.
 float Scenery::hitRay(Vertex3f ray, Material & mat, Vertex3f & n) {
-  Color col(0.0, 0.0, 0.0); // Background color
   Vertex3f normal; // Normal of the hitted face
   Vertex3f best_normal; // Normal of the hitted face
   Material* first_mat;
@@ -56,7 +57,7 @@ float Scenery::hitRay(Vertex3f ray, Material & mat, Vertex3f & n) {
   }
 
 // TODO: Compare the result of this code with the current
-// method implemented in RayCasting.cpp 
+// method implemented in RayCasting.cpp
   if(best_t < FLT_MAX) {
     n = best_normal.unit();
     mat = *first_mat;

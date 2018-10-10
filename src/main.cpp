@@ -1,24 +1,10 @@
 /*
+	TODO: Check TODO in Scenery.cpp hitRay
+
 	Special TODO: fix triangle intersect from MCube and MTriangle
 	What next? List of TODOs!
-	1) Finish implementation of worldBasisToCoord TMatrix.cpp; OK
-	2) Create a Buffer/Color/Window class; Color Ok
-	3) Do render; - Ok
-			- Ray generation; Ok
-			- Hit object system; Ok
-			- Return a result (any color); Ok
-	4) Implement materials - Ok
-			- Create a material class; Ok
-			- Return it when objected hitted; Ok
-	5) Implement light sources - Ok
-	6) Handle multiple objects render - Ok
-	7) Handle ilumination render
-			- Ambient Illumination - Ok
-			- Diffuse Illumination - Ok
-			- Specular Illumination - TODO
 
-	TODO: Bug discover when rendering one sphere inside another!
-	Try to use scn->hitRay(x_center, y_center) to debug!
+
 */
 
 #include <iostream>
@@ -34,6 +20,8 @@
 #include "core/renderer/RayCasting.h"
 #include "core/light/Light.h"
 #include "util/util.h"
+
+#include "app/objects/SnowMan.h"
 
 #define X_WIDTH 500
 #define Y_WIDTH 500
@@ -95,14 +83,16 @@ void buildScenery(Scenery * scn) {
 																			0.3,
 																			0.0, 0.0, 0.0
 																			);
-
 	scn->addObj(body);
 	scn->addObj(head);
 	scn->addObj(left_eye);
 	scn->addObj(right_eye);
 	scn->addObj(lower_button);
 	scn->addObj(upper_button);
-
+/*
+	SnowMan* snowman = new SnowMan();
+	scn->addObj(snowman);
+*/
 	Light* light_src = new Light();
 	light_src->setPosition(10.0, 10.0, 10.0);
 	light_src->setAmbIntensity(1.0, 1.0, 1.0);
@@ -129,6 +119,7 @@ void renderScene(RayCasting & render) {
 
 int main(int argc, char **argv) {
 	// Build scenery
+
 	Scenery scn;
 	buildScenery(&scn);
 	// Build camera
@@ -136,6 +127,7 @@ int main(int argc, char **argv) {
 	Vertex3f look_at(0.0, 0.0, 0.0);
 	Vertex3f avup(0.0, 1.0, 0.0);
 	float fov = 90.0;
+
 	buildCam(cam_pos, look_at, avup, fov, &scn);
 
 	// Render

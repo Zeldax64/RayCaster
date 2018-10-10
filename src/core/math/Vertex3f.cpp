@@ -1,6 +1,6 @@
+
+
 #include "core/math/Vertex3f.h"
-
-
 Vertex3f::Vertex3f() {
 	x = 0.0;
 	y = 0.0;
