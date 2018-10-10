@@ -53,33 +53,35 @@ Color Scenery::hitRay(Vertex3f ray) {
 
 // This code may be moved to RayCasting class
   if(best_t < FLT_MAX) {
-    normal = best_normal.unit();
-
     Light* src = getLight(0);
     Color* src_int = src->getSource();
     Color* col_amb = src->getAmb();
 
-    Color* kamb = first_mat->getAmb();
-    Color IA = (*col_amb) * (*kamb);
-
+    // Handling vectors
+    normal = best_normal.unit();
     Vertex3f hit_point = ray * best_t;
     Vertex3f l = *(src->getPosition()) - hit_point;
     l = l.unit();
+    Vertex3f v = (-hit_point).unit();
 
+    // Ambient illumination
+    Color* kamb = first_mat->getAmb();
+    Color I_amb = (*col_amb) * (*kamb);
+
+    // Diffuse illumination
     float cos_theta = normal.dotProduct(l);
     Color* kdif = first_mat->getDif();
-    Color IDIF =  (*src_int) * (*kdif) * cos_theta;
+    Color I_dif =  (*src_int) * (*kdif) * cos_theta;
 
-    col = IA + IDIF;
-    /*
-    IDIF.print();
-    normal.print();
-    l.print();
-    std::cout << "Float " << (normal.dotProduct(l));
-    std::cin.get();
-    */
+    // Specular illumination
+    Color* k_esp = first_mat->getEsp();
+    Vertex3f r = normal*2*(l.dotProduct(normal))*normal-l;
+    cos_theta = r.dotProduct(v);
+    Color I_esp = (*src_int) * (*k_esp) * cos_theta;
+
+    // Result
+    col = I_amb + I_dif + I_esp;
   }
-
 
   return col;
 }
