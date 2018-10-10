@@ -24,6 +24,15 @@ Color* Material::getAmb() { return &k_amb; }
 Color* Material::getDif() { return &k_dif; }
 Color* Material::getEsp() { return &k_esp; }
 
+void Material::operator = (Material &param) {
+  Color* k = param.getAmb();
+  this->setAmb(k->getRed(), k->getGreen(), k->getBlue());
+  k = param.getDif();
+  this->setDif(k->getRed(), k->getGreen(), k->getBlue());
+  k = param.getEsp();
+  this->setDif(k->getRed(), k->getGreen(), k->getBlue());
+}
+
 void Material::print() {
   k_amb.print();
 }

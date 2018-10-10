@@ -19,14 +19,29 @@ RayCasting::~RayCasting() {
 
 void RayCasting::render() {
   float x_coord, y_coord;
+  scn->worldToCamTransform();
 
   for(uint32_t l = 0; l < y_width; l++) {
     float y = (H/2) - dy/2 - l * dy;
     for(uint32_t c = 0; c < x_width; c++) {
       float x = -(W/2) + dx/2 + c * dx;
       Vertex3f ray = Vertex3f(x, y, -d);
+      Vertex3f n;
+      Material mat;
+      float t;
+      t = scn->hitRay(ray, mat, n);
 
-      buff[l*x_width + c] = scn->hitRay(ray);
+      if(t >= 1.0 && t < FLT_MAX) {
+        calcIllumination(&buff[l*x_width+c],
+                         t,
+                         mat,
+                         ray,
+                         n
+                       );
+      }
+      else {
+        buff[l*x_width+c].setColor(0.0, 0.0, 0.0);
+      }
     }
   }
 }
@@ -52,6 +67,34 @@ Color* RayCasting::getBuffer() {
 }
 
 
-// TODO: Check whether this function is useless
-Vertex3f RayCasting::genRay(int pix_x, int pix_y) {
+// Private methods
+void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Vertex3f & ray, Vertex3f & n) {
+  // Copy from here on
+  Light* src = scn->getLight(0);
+  Color* src_int = src->getSource();
+  Color* col_amb = src->getAmb();
+
+  // Handling vectors
+  Vertex3f hit_point = ray * t;
+  Vertex3f l = *(src->getPosition()) - hit_point;
+  l = l.unit();
+  Vertex3f v = (-hit_point).unit();
+
+  // Ambient illumination
+  Color* kamb = mat.getAmb();
+  Color I_amb = (*col_amb) * (*kamb);
+
+  // Diffuse illumination
+  float cos_theta = n.dotProduct(l);
+  Color* kdif = mat.getDif();
+  Color I_dif =  (*src_int) * (*kdif) * cos_theta;
+
+  // Specular illumination
+  Color* k_esp = mat.getEsp();
+  Vertex3f r = n*2*(l.dotProduct(n))*n-l;
+  cos_theta = r.dotProduct(v);
+  Color I_esp = (*src_int) * (*k_esp) * cos_theta;
+
+  // Result
+  *buffer = I_amb + I_dif + I_esp;
 }

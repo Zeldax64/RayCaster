@@ -10,6 +10,7 @@
 #include "core/camera/Camera.h"
 #include "core/color/Color.h"
 #include "core/light/Light.h"
+#include "core/material/Material.h"
 
 class Scenery
 {
@@ -17,6 +18,8 @@ class Scenery
   std::list<Light*> lights;
 
   Camera cam;
+  bool is_coord_world;
+
 public:
   Scenery();
   ~Scenery();
@@ -29,7 +32,7 @@ public:
   void applyTransformAll(const TMatrix & matrix);
 
 /*----- Ray Intersection -----*/
-  Color hitRay(Vertex3f ray);
+  float hitRay(Vertex3f ray, Material & mat, Vertex3f & n);
 
 /*----- Light sources methods -----*/
   void addLight(Light* source);
@@ -44,6 +47,8 @@ public:
   Camera* getCam();
 
 /*----- Coordinates transformations -----*/
+  bool isCoordWorld();
+
   void worldToCamTransform();
   void camToWorldTransform();
 

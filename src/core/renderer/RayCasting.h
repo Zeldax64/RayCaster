@@ -6,6 +6,7 @@
 #include "core/scenery/Scenery.h"
 #include "core/color/Color.h"
 #include "core/camera/Camera.h"
+#include "core/material/Material.h"
 
 class RayCasting
 {
@@ -39,5 +40,5 @@ public:
   Color* getBuffer();
 
 private:
-  Vertex3f genRay(int pix_x, int pix_y);
+  void calcIllumination(Color * buffer, float t, Material & mat, Vertex3f & ray, Vertex3f & n);
 };

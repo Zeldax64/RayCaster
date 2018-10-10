@@ -21,5 +21,7 @@ public:
   Color* getDif();
   Color* getEsp();
 
+  void operator = (Material & param);
+
   void print();
 };

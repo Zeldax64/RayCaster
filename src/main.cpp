@@ -90,7 +90,7 @@ void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, float fov, Sc
 void renderScene(RayCasting & render) {
 	Scenery* scn = render.getScenery();
 	//scn->getObj(0)->print();
-	scn->worldToCamTransform();
+	std::cout << scn->isCoordWorld();
 	render.render();
 
 }

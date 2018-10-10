@@ -1,7 +1,11 @@
 #include "core/scenery/Scenery.h"
 
-Scenery::Scenery() {}
-Scenery::~Scenery() {}
+Scenery::Scenery() {
+  is_coord_world = true;
+}
+
+Scenery::~Scenery() {
+}
 
 /*----- Object methods -----*/
 void Scenery::addObj(Object* obj) {
@@ -35,7 +39,7 @@ void Scenery::applyTransformAll(const TMatrix & matrix) {
 /*----- Ray Intersection -----*/
 // TODO: Iterate through light sources case a light source is an object?
 // Returning color of the closest object or background
-Color Scenery::hitRay(Vertex3f ray) {
+float Scenery::hitRay(Vertex3f ray, Material & mat, Vertex3f & n) {
   Color col(0.0, 0.0, 0.0); // Background color
   Vertex3f normal; // Normal of the hitted face
   Vertex3f best_normal; // Normal of the hitted face
@@ -51,8 +55,13 @@ Color Scenery::hitRay(Vertex3f ray) {
     }
   }
 
-// This code may be moved to RayCasting class
+// TODO: Compare the result of this code with the current
+// method implemented in RayCasting.cpp 
   if(best_t < FLT_MAX) {
+    n = best_normal.unit();
+    mat = *first_mat;
+    /*
+    // Copy from here on
     Light* src = getLight(0);
     Color* src_int = src->getSource();
     Color* col_amb = src->getAmb();
@@ -81,9 +90,10 @@ Color Scenery::hitRay(Vertex3f ray) {
 
     // Result
     col = I_amb + I_dif + I_esp;
+    */
   }
 
-  return col;
+  return best_t;
 }
 
 /*----- Light sources methods -----*/
@@ -109,26 +119,23 @@ void Scenery::calcCamCoord() { cam.calcCoordSystemBasis(); }
 Camera* Scenery::getCam() { return &cam; }
 
 /*----- Coordinates transformations -----*/
-// TODO: finish this method -> Add transf. to light souces
-void Scenery::worldToCamTransform() {
-  TMatrix transform = getWorldToCamTransform();
-
-  /*
-  std::list<Object*>::iterator it;
-  for(it = objs.begin(); it != objs.end(); ++it){
-    (*it)->applyTransform(transform);
-  }
-  */
-  this->applyTransformAll(transform);
+bool Scenery::isCoordWorld() {
+  return is_coord_world;
 }
 
-// TODO: finish this method -> Add transf. to light souces
-void Scenery::camToWorldTransform() {
-  TMatrix transform = getCamToWorldTransform();
+void Scenery::worldToCamTransform() {
+  if(this->isCoordWorld()) {
+    TMatrix transform = getWorldToCamTransform();
+    this->applyTransformAll(transform);
+    is_coord_world = true;
+  }
+}
 
-  std::list<Object*>::iterator it;
-  for(it = objs.begin(); it != objs.end(); ++it){
-    (*it)->applyTransform(transform);
+void Scenery::camToWorldTransform() {
+  if(!this->isCoordWorld()) {
+    TMatrix transform = getCamToWorldTransform();
+    this->applyTransformAll(transform);
+    is_coord_world = false;
   }
 }
 
