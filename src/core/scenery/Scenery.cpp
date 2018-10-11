@@ -45,7 +45,10 @@ float Scenery::hitRay(Vertex3f ray, Material & mat, Vertex3f & n) {
   Vertex3f normal; // Normal of the hitted face
   Vertex3f best_normal; // Normal of the hitted face
   Material* first_mat;
-  float best_t = FLT_MAX;
+  float best_t = hitObjectList(objs, ray, first_mat, n);
+
+
+  /*
   std::list<Object*>::iterator it;
   for(it = objs.begin(); it != objs.end(); ++it){
     float t = (*it)->hitObject(ray, normal);
@@ -55,43 +58,15 @@ float Scenery::hitRay(Vertex3f ray, Material & mat, Vertex3f & n) {
       first_mat = (*it)->getMaterial();
     }
   }
-
 // TODO: Compare the result of this code with the current
 // method implemented in RayCasting.cpp
   if(best_t < FLT_MAX) {
     n = best_normal.unit();
     mat = *first_mat;
-    /*
-    // Copy from here on
-    Light* src = getLight(0);
-    Color* src_int = src->getSource();
-    Color* col_amb = src->getAmb();
-
-    // Handling vectors
-    normal = best_normal.unit();
-    Vertex3f hit_point = ray * best_t;
-    Vertex3f l = *(src->getPosition()) - hit_point;
-    l = l.unit();
-    Vertex3f v = (-hit_point).unit();
-
-    // Ambient illumination
-    Color* kamb = first_mat->getAmb();
-    Color I_amb = (*col_amb) * (*kamb);
-
-    // Diffuse illumination
-    float cos_theta = normal.dotProduct(l);
-    Color* kdif = first_mat->getDif();
-    Color I_dif =  (*src_int) * (*kdif) * cos_theta;
-
-    // Specular illumination
-    Color* k_esp = first_mat->getEsp();
-    Vertex3f r = normal*2*(l.dotProduct(normal))*normal-l;
-    cos_theta = r.dotProduct(v);
-    Color I_esp = (*src_int) * (*k_esp) * cos_theta;
-
-    // Result
-    col = I_amb + I_dif + I_esp;
-    */
+  }
+  */
+  if(best_t < FLT_MAX) {
+    mat = *first_mat;
   }
 
   return best_t;

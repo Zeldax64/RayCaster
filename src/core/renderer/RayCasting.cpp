@@ -86,9 +86,14 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Verte
 
   // Diffuse illumination
   float cos_theta = n.dotProduct(l);
-  Color* kdif = mat.getDif();
-  Color I_dif =  (*src_int) * (*kdif) * cos_theta;
-
+  Color I_dif;
+  if(cos_theta >= 0.0) {
+    Color* kdif = mat.getDif();
+    I_dif =  (*src_int) * (*kdif) * cos_theta;
+  }
+  else {
+    I_dif = (*src_int) * 0.0;
+  }
   // Specular illumination
   Color* k_esp = mat.getEsp();
   Vertex3f r = n*2*(l.dotProduct(n))*n-l;

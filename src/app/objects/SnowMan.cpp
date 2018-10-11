@@ -74,6 +74,10 @@ float SnowMan::hitObject(Vertex3f & ray, Vertex3f & normal) {
   }
 }
 
+float SnowMan::hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat) {
+
+}
+
 Material* SnowMan::getMaterial() {
   return NULL;
 }

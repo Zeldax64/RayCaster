@@ -33,6 +33,7 @@ public:
 */
 	float hitObject(Vertex3f & ray);
   float hitObject(Vertex3f & ray, Vertex3f & normal);
+  float hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat);
 
   void setRadius(float r);
   void setCenter(Vertex3f c);

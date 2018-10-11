@@ -12,15 +12,18 @@
 #include "core/light/Light.h"
 #include "core/material/Material.h"
 
+#include "core/intersect/intersect.h"
+
 class Scenery
 {
-  std::list<Object*> objs;
   std::list<Light*> lights;
 
   Camera cam;
   bool is_coord_world;
 
 public:
+  std::list<Object*> objs;
+  
   Scenery();
   ~Scenery();
 

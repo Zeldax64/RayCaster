@@ -35,4 +35,6 @@ void Material::operator = (Material &param) {
 
 void Material::print() {
   k_amb.print();
+  k_dif.print();
+  k_esp.print();
 }

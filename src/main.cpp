@@ -1,6 +1,6 @@
 /*
 	TODO: Check TODO in Scenery.cpp hitRay
-
+	TODO: Implement hit object to model SnowMan
 	Special TODO: fix triangle intersect from MCube and MTriangle
 	What next? List of TODOs!
 
@@ -23,8 +23,8 @@
 
 #include "app/objects/SnowMan.h"
 
-#define X_WIDTH 500
-#define Y_WIDTH 500
+#define X_WIDTH 250
+#define Y_WIDTH 250
 
 using namespace std;
 
@@ -48,7 +48,6 @@ void buildScenery(Scenery * scn) {
 	scn->addObj(triangle);
 	triangle->print();
 	*/
-
 	// Body
 	GSphere* body = new GSphere(Vertex3f(0.0, 0.0, 0.0),
 																3.0,
@@ -77,18 +76,17 @@ void buildScenery(Scenery * scn) {
 																	0.3,
 																	0.0, 0.0, 0.0
 																	);
-
 	float theta_upper =  40.0 * M_PI / 180.0;
 	GSphere* upper_button = new GSphere(Vertex3f(3.0*cos(theta_upper), 3.0*sin(theta_upper), 0.0),
 																			0.3,
 																			0.0, 0.0, 0.0
-																			);
+																		  );
 	scn->addObj(body);
 	scn->addObj(head);
 	scn->addObj(left_eye);
 	scn->addObj(right_eye);
-	scn->addObj(lower_button);
 	scn->addObj(upper_button);
+	scn->addObj(lower_button);
 /*
 	SnowMan* snowman = new SnowMan();
 	scn->addObj(snowman);
@@ -131,6 +129,17 @@ int main(int argc, char **argv) {
 	buildCam(cam_pos, look_at, avup, fov, &scn);
 
 	// Render
+/*
+	scn.worldToCamTransform();
+	Vertex3f ray = Vertex3f(0.0,0.2, -1.0);
+	Material* mat;
+	Vertex3f n;
+	hitObjectList(scn.objs, ray, mat, n);
+	std::cout << "&mat = " << mat << "\n";
+	mat->print();
+	n.print();
+	*/
+
 	RayCasting render(X_WIDTH, Y_WIDTH);
 	render.setScenery(&scn);
 	renderScene(render); // Render scene
