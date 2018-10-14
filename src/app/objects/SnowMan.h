@@ -13,7 +13,7 @@ class SnowMan : public Object
   std::list<Object*> objs;
 
 public:
-  SnowMan();
+  SnowMan(float x, float y, float z);
   ~SnowMan();
 
   void applyTransform(const TMatrix & param);

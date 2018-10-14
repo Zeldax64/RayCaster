@@ -6,8 +6,11 @@ CXX = g++
 # Read about -g flag in CFLAGS
 CFLAGS = -c -Wall -g
 CPPFLAGS = -I ./src
+
+# Linked libraries
 GL = -lGL -lGLU -lglut
-LIBS = $(GL)
+DEVIL = -lIL
+LIBS = $(GL) $(DEVIL)
 RM = rm -f
 
 SRCDIR = src

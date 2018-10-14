@@ -17,8 +17,6 @@ float hitObjectList(std::list<Object*> & objs, Vertex3f ray, Material * & mat, V
     float t = (*it)->hitObject(ray, normal, new_mat);
 
     if(t <= best_t && t >= 1.0) {
-
-      //(*it)->print();
       best_t = t;
       best_normal = normal;
       best_mat = new_mat;

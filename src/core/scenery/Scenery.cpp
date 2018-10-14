@@ -42,29 +42,9 @@ void Scenery::applyTransformAll(const TMatrix & matrix) {
 // Object hitObject must also return a material or a reference to the
 // hitted object.
 float Scenery::hitRay(Vertex3f ray, Material & mat, Vertex3f & n) {
-  Vertex3f normal; // Normal of the hitted face
-  Vertex3f best_normal; // Normal of the hitted face
   Material* first_mat;
   float best_t = hitObjectList(objs, ray, first_mat, n);
 
-
-  /*
-  std::list<Object*>::iterator it;
-  for(it = objs.begin(); it != objs.end(); ++it){
-    float t = (*it)->hitObject(ray, normal);
-    if(t <= best_t && t >= 1.0) {
-      best_t = t;
-      best_normal = normal;
-      first_mat = (*it)->getMaterial();
-    }
-  }
-// TODO: Compare the result of this code with the current
-// method implemented in RayCasting.cpp
-  if(best_t < FLT_MAX) {
-    n = best_normal.unit();
-    mat = *first_mat;
-  }
-  */
   if(best_t < FLT_MAX) {
     mat = *first_mat;
   }

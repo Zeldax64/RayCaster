@@ -1,29 +1,30 @@
 #include "core/renderer/RayCasting.h"
 
-RayCasting::RayCasting(uint32_t x_width, uint32_t y_width) {
-  buff = new Color[x_width * y_width];
-  this->x_width = x_width;
-  this->y_width = y_width;
+RayCasting::RayCasting(uint32_t width, uint32_t height) {
+  buff = new Color[width * height];
+  this->width = width;
+  this->height = height;
   this->H = 1.0;
   this->W = 1.0;
-  this->dx = this->W / this->x_width;
-  this->dy = this->H / this->y_width;
+  this->dx = this->W / this->width;
+  this->dy = this->H / this->height;
   this->d = 1.0;
+  this->bg = false; // No background
 }
 
 
 RayCasting::~RayCasting() {
-  //delete[] scn;
   delete[] buff;
+  delete[] bg_buff;
 }
 
 void RayCasting::render() {
   float x_coord, y_coord;
   scn->worldToCamTransform();
 
-  for(uint32_t l = 0; l < y_width; l++) {
+  for(uint32_t l = 0; l < height; l++) {
     float y = (H/2) - dy/2 - l * dy;
-    for(uint32_t c = 0; c < x_width; c++) {
+    for(uint32_t c = 0; c < width; c++) {
       float x = -(W/2) + dx/2 + c * dx;
       Vertex3f ray = Vertex3f(x, y, -d);
       Vertex3f n;
@@ -32,7 +33,7 @@ void RayCasting::render() {
       t = scn->hitRay(ray, mat, n);
 
       if(t >= 1.0 && t < FLT_MAX) {
-        calcIllumination(&buff[l*x_width+c],
+        calcIllumination(&buff[l*width+c],
                          t,
                          mat,
                          ray,
@@ -40,7 +41,11 @@ void RayCasting::render() {
                        );
       }
       else {
-        buff[l*x_width+c].setColor(0.0, 0.0, 0.0);
+        if(this->bg == true) {
+          buff[l*width+c].setColor(bg_buff[l*width+c].getRed(),
+                                   bg_buff[l*width+c].getGreen(),
+                                   bg_buff[l*width+c].getBlue());
+        }
       }
     }
   }
@@ -58,13 +63,35 @@ Scenery* RayCasting::getScenery() {
   return scn;
 }
 
-Camera* RayCasting::getCamera() {
-  return cam;
+bool RayCasting::loadBG(const char* filename) {
+  Color* temp_buff;
+  if(loadImage(filename, temp_buff)) {
+    this->bg = true;
+
+    if(bg_buff == NULL) {
+      delete[] bg_buff;
+    }
+    this->bg_buff = temp_buff;
+
+    // resizing buffer
+    this->width = getImageWidth();
+    this->height = getImageHeight();
+    delete [] this->buff;
+    this->buff = new Color[width * height];
+    this->dx = this->W / this->width;
+    this->dy = this->H / this->height;
+    return true;
+  }
+  else {
+    return false;
+  }
+
 }
 
-Color* RayCasting::getBuffer() {
-  return buff;
-}
+uint32_t RayCasting::getWidth() { return this->width; }
+uint32_t RayCasting::getHeight() { return this->height; }
+Camera* RayCasting::getCamera() { return cam; }
+Color* RayCasting::getBuffer() { return buff; }
 
 
 // Private methods
