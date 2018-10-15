@@ -18,7 +18,7 @@ class GSphere : public Object
 
 public:
 	GSphere();
-  GSphere(const Vertex3f & c, float r, float red, float green, float blue);
+  GSphere(const Vertex3f & c, float r, Material & mat);
 	~GSphere();
 
 	void applyTransform(const TMatrix & param);
@@ -37,7 +37,7 @@ public:
 
   void setRadius(float r);
   void setCenter(Vertex3f c);
-  void setMaterial(float r, float g, float b);
+  void setMaterial(Material & new_mat);
 
   float getRadius();
   Vertex3f* getCenter();

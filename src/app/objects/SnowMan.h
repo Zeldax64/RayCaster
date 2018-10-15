@@ -11,7 +11,8 @@
 class SnowMan : public Object
 {
   std::list<Object*> objs;
-
+  Material* snow;
+  Material* rock;
 public:
   SnowMan(float x, float y, float z);
   ~SnowMan();

@@ -122,7 +122,7 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Verte
     I_dif = (*src_int) * 0.0;
   }
   // Specular illumination
-  Color* k_esp = mat.getEsp();
+  Color* k_esp = mat.getSpe();
   Vertex3f r = n*2*(l.dotProduct(n))*n-l;
   cos_theta = r.dotProduct(v);
   Color I_esp = (*src_int) * (*k_esp) * cos_theta;

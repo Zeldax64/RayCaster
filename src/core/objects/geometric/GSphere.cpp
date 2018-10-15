@@ -2,10 +2,11 @@
 #include "core/intersect/intersect.h"
 
 GSphere::GSphere() { center = Vertex3f(0.0, 0.0, 0.0); radius = 1.0; }
-GSphere::GSphere(const Vertex3f & c, float r, float red, float green, float blue) {
+
+GSphere::GSphere(const Vertex3f & c, float r, Material & mat) {
   center = c;
   radius = r;
-  material.setAmb(red, green, blue);
+  material = mat;
  }
 GSphere::~GSphere() { }
 
@@ -39,7 +40,7 @@ float GSphere::hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat)
 
 void GSphere::setRadius(float r) { radius = r; }
 void GSphere::setCenter(Vertex3f c) { center = c; }
-void GSphere::setMaterial(float r, float g, float b) { material.setAmb(r, g, b); }
+void GSphere::setMaterial(Material & new_mat) { this->material = new_mat; }
 
 float GSphere::getRadius() { return radius; }
 Vertex3f* GSphere::getCenter() { return &center; }
@@ -49,5 +50,6 @@ void GSphere::print() {
   std::cout << "Center: ";
   center.print();
   std::cout << "Radius: " << radius << "\n";
+  std::cout << "Material:\n";
   material.print();
 }
