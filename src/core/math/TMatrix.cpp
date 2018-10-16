@@ -10,6 +10,14 @@ void TMatrix::identity() {
 	matrix[3][3] = 1.0;
 }
 
+void TMatrix::zeros() {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			matrix[i][j] = 0.0;
+		}
+	}
+}
+
 float TMatrix::convertToRadians(float theta) {
 	return theta * M_PI / 180.0;
 }
@@ -70,7 +78,7 @@ void TMatrix::rotateZ(float theta) {
 
 	matrix[2][2] = 1.0;
 	matrix[0][0] = cos_o; matrix[0][1] = -sin_o;
-	matrix[0][1] = sin_o; matrix[1][1] = cos_o;
+	matrix[1][0] = sin_o; matrix[1][1] = cos_o;
 }
 
 // TODO: Incomplete! check matrix[3][x] assignments.
@@ -115,6 +123,8 @@ void TMatrix::coordBasisToWorld(Vertex3f & coord_x, Vertex3f & coord_y, Vertex3f
 
 TMatrix TMatrix::operator*(const TMatrix & param) {
 	TMatrix temp;
+	temp.zeros();
+
 	int row;
 	int col;
 	for (row = 0; row < 4; row++) {

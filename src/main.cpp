@@ -1,7 +1,6 @@
 /*
-	What next? List of TODOs!
-	TODO: Fix MCube rendering. Not rendering top and bottom!
-	TODO: Find bug in multiplication of transfomation matrices
+	What next? List of TODOs
+	TODO: Implement shadows!
 */
 
 #include <iostream>
@@ -28,16 +27,18 @@ using namespace std;
 void buildScenery(Scenery * scn) {
 	// Snowman Debug
 	TMatrix scale;
-	scale.scale(1.0, 1.0, 1.0);
-	TMatrix rotate;
-	rotate.rotateZ(00.0);
+	scale.scale(2.0, 2.0, 2.0);
+	TMatrix rotatey, rotatez;
+	rotatez.rotateZ(-45.0);
+	rotatey.rotateY(45.0);
 	TMatrix translate;
-	translate.translate(0.0, 0.0, 0.0);
+	translate.translate(-0.5, -0.5, -0.5);
+	TMatrix transf = rotatez*rotatey*scale*translate;
 
 	MCube* cube = new MCube();
-	cube->applyTransform(rotate);
-	scn->addObj(cube);
+	cube->applyTransform(transf);
 	cube->print();
+	scn->addObj(cube);
 	/*
 	MTriangle* triangle = new MTriangle();
 	triangle->print();

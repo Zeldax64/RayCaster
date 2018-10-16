@@ -23,6 +23,7 @@ class TMatrix
 {
 
 	void identity();
+	void zeros();
 	float convertToRadians(float theta);
 public:
 	float matrix[4][4];

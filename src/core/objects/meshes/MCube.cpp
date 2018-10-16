@@ -29,20 +29,6 @@ MCube::MCube() {
 	edges[16].setEdge(3, 4);
 	edges[17].setEdge(0, 5);
 
-	/*
-	faces[0].setFace(0, 1, 2);
-	faces[1].setFace(0, 3, 2);
-	faces[2].setFace(4, 5, 6);
-	faces[3].setFace(4, 6, 7);
-	faces[4].setFace(1, 6, 5);
-	faces[5].setFace(1, 2, 6);
-	faces[6].setFace(2, 7, 6);
-	faces[7].setFace(2, 3, 7);
-	faces[8].setFace(0, 4, 3);
-	faces[9].setFace(3, 4, 7);
-	faces[10].setFace(0, 5, 4);
-	faces[11].setFace(0, 1, 5);
-	*/
 	faces[0].setFace(0, 2, 1);
 	faces[1].setFace(0, 3, 2);
 	faces[2].setFace(4, 5, 6);
@@ -100,4 +86,30 @@ void MCube::print(){
 	for(uint8_t i = 0; i < 8; i++){
 		vertices[i].print();
 	}
+
+	/*
+	std::cout << "Normals:\n";
+
+	for(int i = 0; i < 12; i++){
+		std::cout << "--- Face " << i <<" ---\n";
+		Face3f face = faces[i];
+
+		Vertex3f v0 = vertices[face.vertices[0]];
+		Vertex3f v1 = vertices[face.vertices[1]];
+		Vertex3f v2 = vertices[face.vertices[2]];
+		std::cout << "v0: ";
+		v0.print();
+		std::cout << "v1: ";v1.print();
+		std::cout << "v2: ";v2.print();
+
+		Vertex3f u = v1 - v0;
+		Vertex3f v = v2 - v0;
+
+		std::cout << "u: ";u.print();
+		std::cout << "v: ";v.print();
+		Vertex3f n = (u.crossProduct(v)).unit();
+		std::cout << "n: ";n.print();
+		std::cout << "\n ";
+	}
+	*/
 }
