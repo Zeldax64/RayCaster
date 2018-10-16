@@ -68,7 +68,7 @@ float hitSphereRayLength(Vertex3f & ray, GSphere* sphere) {
   }
 }
 
-// Triangle
+// Trianglez
 float hitTriangle(Vertex3f ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex3f & ret_n) {
   Vertex3f u = v1 - v0;
 	Vertex3f v = v2 - v0;

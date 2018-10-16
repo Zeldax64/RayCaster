@@ -11,6 +11,7 @@
 #include "core/math/Edge3f.h"
 #include "core/math/Face3f.h"
 #include "core/color/Color.h"
+#include "core/intersect/intersect.h"
 
 class MTriangle : public Object
 {
