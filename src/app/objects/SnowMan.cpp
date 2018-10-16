@@ -54,7 +54,10 @@ SnowMan::SnowMan(float x, float y, float z) {
   objs.push_back(upper_button);
 }
 
-SnowMan::~SnowMan() { }
+SnowMan::~SnowMan() {
+  delete snow;
+  delete rock;
+}
 
 void SnowMan::applyTransform(const TMatrix & param) {
   std::list<Object*>::iterator it;

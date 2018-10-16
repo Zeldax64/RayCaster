@@ -17,12 +17,21 @@ class MTriangle : public Object
   Vertex3f vertices[3];
   Edge3f edges[3];
   Face3f faces[1];
+
+  Material material;
+
 public:
   MTriangle();
+  MTriangle(Material & mat);
   ~MTriangle();
   void applyTransform(const TMatrix & param);
 
-  bool hitObject(Vertex3f & ray, Color & col);
+  float hitObject(Vertex3f & ray);
+  float hitObject(Vertex3f & ray, Vertex3f & normal);
+  float hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat);
+
+  Material* getMaterial();
+  void setMaterial(Material & new_mat);
   void print();
 
 };

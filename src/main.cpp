@@ -11,7 +11,7 @@
 
 #include "core/math/Vertex3f.h"
 #include "core/math/TMatrix.h"
-#include "core/objects/meshes/MCube.h"
+//#include "core/objects/meshes/MCube.h"
 #include "core/objects/meshes/MTriangle.h"
 #include "core/objects/geometric/GSphere.h"
 #include "core/scenery/Scenery.h"
@@ -28,32 +28,30 @@ using namespace std;
 
 void buildScenery(Scenery * scn) {
 	// Snowman Debug
-	/*
 	TMatrix scale;
 	scale.scale(1.0, 1.0, 1.0);
 	TMatrix rotate;
-	rotate.rotateY(-5.0);
+	rotate.rotateZ(00.0);
 	TMatrix translate;
 	translate.translate(0.0, 0.0, 0.0);
-	*/
 	/*
 	MCube* cube = new MCube();
 	cube->applyTransform(scale);
 	scn->addObj(cube);
 	*/
-	/*
 	MTriangle* triangle = new MTriangle();
-	triangle->applyTransform(translate*scale);
+	triangle->applyTransform(rotate*translate*scale);
 	scn->addObj(triangle);
 	triangle->print();
-	*/
+
 	// Adding Snowmen
+	/*
 	SnowMan* snowman1 = new SnowMan(-6.0, -6.0, 3.0);
 	SnowMan* snowman2 = new SnowMan(-24.0, -6.0, -3.0);
 
 	scn->addObj(snowman1);
 	scn->addObj(snowman2);
-
+	*/
 	// Adding light
 	Light* light_src = new Light();
 	light_src->setPosition(10.0, 10.0, 10.0);
@@ -100,7 +98,6 @@ int main(int argc, char **argv) {
 	mat->print();
 	n.print();
 	*/
-
 	RayCasting render(X_WIDTH, Y_WIDTH);
 	render.setScenery(&scn);
 

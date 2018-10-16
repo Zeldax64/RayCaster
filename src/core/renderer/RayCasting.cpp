@@ -97,6 +97,7 @@ Color* RayCasting::getBuffer() { return buff; }
 // Private methods
 void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Vertex3f & ray, Vertex3f & n) {
   // Copy from here on
+
   Light* src = scn->getLight(0);
   Color* src_int = src->getSource();
   Color* col_amb = src->getAmb();
@@ -121,6 +122,7 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Verte
   else {
     I_dif = (*src_int) * 0.0;
   }
+
   // Specular illumination
   Color* k_esp = mat.getSpe();
   Vertex3f r = n*2*(l.dotProduct(n))*n-l;
