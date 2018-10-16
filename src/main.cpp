@@ -1,8 +1,7 @@
 /*
 	What next? List of TODOs!
-	TODO: Check TODO in Scenery.cpp hitRay
-	TODO: Implement hit object to model SnowMan
-	Special TODO: fix triangle intersect from MCube and MTriangle
+	TODO: Fix MCube rendering. Not rendering top and bottom!
+	TODO: Find bug in multiplication of transfomation matrices
 */
 
 #include <iostream>
@@ -11,7 +10,7 @@
 
 #include "core/math/Vertex3f.h"
 #include "core/math/TMatrix.h"
-//#include "core/objects/meshes/MCube.h"
+#include "core/objects/meshes/MCube.h"
 #include "core/objects/meshes/MTriangle.h"
 #include "core/objects/geometric/GSphere.h"
 #include "core/scenery/Scenery.h"
@@ -34,21 +33,22 @@ void buildScenery(Scenery * scn) {
 	rotate.rotateZ(00.0);
 	TMatrix translate;
 	translate.translate(0.0, 0.0, 0.0);
-	/*
+
 	MCube* cube = new MCube();
-	cube->applyTransform(scale);
+	cube->applyTransform(rotate);
 	scn->addObj(cube);
-	*/
+	cube->print();
+	/*
 	MTriangle* triangle = new MTriangle();
-	triangle->applyTransform(rotate*translate*scale);
+	triangle->print();
+	triangle->applyTransform(rotate);
 	scn->addObj(triangle);
 	triangle->print();
-
-	// Adding Snowmen
+	*/
 	/*
+	// Adding Snowmen
 	SnowMan* snowman1 = new SnowMan(-6.0, -6.0, 3.0);
 	SnowMan* snowman2 = new SnowMan(-24.0, -6.0, -3.0);
-
 	scn->addObj(snowman1);
 	scn->addObj(snowman2);
 	*/

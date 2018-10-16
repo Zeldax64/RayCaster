@@ -66,24 +66,6 @@ void SnowMan::applyTransform(const TMatrix & param) {
   }
 }
 
-// TODO: fix this implementation using code similar to
-// the one in Scenery.cpp hitRay
-float SnowMan::hitObject(Vertex3f & ray) {
-  std::list<Object*>::iterator it;
-  for(it = objs.begin(); it != objs.end(); ++it) {
-    (*it)->hitObject(ray);
-  }
-}
-
-// TODO: fix this implementation using code similar to
-// the one in Scenery.cpp hitRay
-float SnowMan::hitObject(Vertex3f & ray, Vertex3f & normal) {
-  std::list<Object*>::iterator it;
-  for(it = objs.begin(); it != objs.end(); ++it) {
-    (*it)->hitObject(ray, normal);
-  }
-}
-
 float SnowMan::hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat) {
   Material* first_mat;
   float best_t = hitObjectList(objs, ray, first_mat, ret_n);

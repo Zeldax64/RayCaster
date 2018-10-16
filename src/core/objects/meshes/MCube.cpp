@@ -55,6 +55,10 @@ MCube::MCube() {
 	faces[9].setFace(3, 4, 7);
 	faces[10].setFace(0, 5, 4);
 	faces[11].setFace(0, 1, 5);
+
+	this->material.setAmb(0.0, 1.0, 0.0);
+  this->material.setDif(0.3, 0.3, 0.3);
+  this->material.setSpe(0.2, 0.2, 0.2);
 }
 
 MCube::~MCube() {
@@ -68,68 +72,28 @@ void MCube::applyTransform(const TMatrix & param) {
 
 // TODO: This method will produce a full red square
 // TODO: There might be some bugs in this function. Gotta find them
-bool MCube::hitObject(Vertex3f & ray, Color & col) {
-	bool found = false;
-	float best_tint = -1.0;
-
-	for(uint8_t i = 0; i < 12; i++) {
+float MCube::hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat) {
+	float best_t = FLT_MAX;
+	for (int i = 0; i < 12; i++) {
 		Face3f face = faces[i];
 		Vertex3f v0 = vertices[face.vertices[0]];
 		Vertex3f v1 = vertices[face.vertices[1]];
 		Vertex3f v2 = vertices[face.vertices[2]];
 
-		Vertex3f u = v1 - v0;
-		Vertex3f v = v2 - v0;
+		Vertex3f n;
 
-		Vertex3f n = (v1.crossProduct(v2)).unit();
+		float tint = hitTriangle(ray, v0, v1, v2, n);
 
-		/* Calculate intersection point of ray and plane */
-		float tint = v0.dotProduct(n) / ray.dotProduct(n);
-		/*
-		std::cout << "V0 = " ; v0.print();
-		std::cout << "V1 = " ; v1.print();
-		std::cout << "V2 = " ; v2.print();
-
-
-		std::cout << "Tint = " << tint << "\n";
-		*/
-		//std::cin.get();
-		// TODO: Check if this if is correct or not
-		if (tint < 1.0) {
-			//std::cout << "Tint < 0 = " << tint << "\n";
-			continue;
-		}
-		//std::cout << "Tint = " << tint << "\n";
-		Vertex3f Pi = ray * tint;
-		// TODO: Possible improvement
-		// If ray * n -> 0, then Pi -> infinity. A check could be done here
-		// like ray . n == 0;
-
-		/* Calculate whether the point is in the triangle */
-		// Partial dot products
-		Vertex3f w = Pi - v0;
-
-		float a = u.dotProduct(v); // a = (u . v);
-		float b = w.dotProduct(v); // b = (w . v);
-		float c = v.dotProduct(v); // c = (v . v);
-		float d = w.dotProduct(u); // d = (w . u);
-		float e = u.dotProduct(u); // e = (u . u);
-		float den = a * a - e * c; // Denominator
-
-		float si = (a * b - c * d) / den;
-		float ti = (a * d - e * b) / den;
-
-		// TODO: improve hit checking to allow diferences between hidden faces
-		if (si >= 0.0 && ti >= 0.0 && si+ti <= 1.0) {
-			best_tint = tint;
-			found = true;
-			col.setColor(1.0, 0.0, 0.0); // Setting red
-			return found;
+		if (tint >= 1.0 && tint < best_t) {
+			best_t = tint;
+			ret_mat = &this->material;
+			ret_n = n;
 		}
 	}
-	return found;
+	return best_t;
 }
 
+Material* MCube::getMaterial() { return &this->material; }
 
 void MCube::print(){
 

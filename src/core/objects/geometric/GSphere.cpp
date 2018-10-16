@@ -16,23 +16,11 @@ void GSphere::applyTransform(const TMatrix & param) {
   // By doing this it'll be possible to handle scale transformations
 }
 
-float GSphere::hitObject(Vertex3f & ray) {
-  float t = hitSphereRayLength(ray, this);
-  return t;
-}
-
-float GSphere::hitObject(Vertex3f & ray, Vertex3f & normal) {
+float GSphere::hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat) {
   float t = hitSphereRayLength(ray, this);
   if (t >= 1.0) {
-    normal = ((ray*t) - this->center).unit();
+    ret_n = ((ray*t) - this->center).unit();
   }
-
-  return t;
-}
-
-float GSphere::hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat) {
-  float t = this->hitObject(ray, ret_n);
-
   ret_mat = this->getMaterial();
 
   return t;

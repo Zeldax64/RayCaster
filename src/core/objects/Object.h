@@ -17,8 +17,6 @@ public:
 	~Object();
 
 	virtual void applyTransform(const TMatrix & param)=0;
-	virtual float hitObject(Vertex3f & ray)=0;
-	virtual float hitObject(Vertex3f & ray, Vertex3f & normal)=0;
 	virtual float hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat)=0;
 
 	virtual Material* getMaterial()=0;
