@@ -27,18 +27,18 @@ using namespace std;
 void buildScenery(Scenery * scn) {
 	// Snowman Debug
 	TMatrix scale;
-	scale.scale(2.0, 2.0, 2.0);
+	scale.scale(10.0, 0.01, 10.0);
 	TMatrix rotatey, rotatez;
-	rotatez.rotateZ(-45.0);
-	rotatey.rotateY(45.0);
+	rotatez.rotateZ(0.0);
+	rotatey.rotateY(0.0);
 	TMatrix translate;
-	translate.translate(-0.5, -0.5, -0.5);
+	translate.translate(-0.5, -0.51, -0.5);
 	TMatrix transf = rotatez*rotatey*scale*translate;
 
-	MCube* cube = new MCube();
-	cube->applyTransform(transf);
-	cube->print();
-	scn->addObj(cube);
+	MCube* plane = new MCube();
+	plane->applyTransform(transf);
+	plane->print();
+	scn->addObj(plane);
 	/*
 	MTriangle* triangle = new MTriangle();
 	triangle->print();
@@ -46,13 +46,11 @@ void buildScenery(Scenery * scn) {
 	scn->addObj(triangle);
 	triangle->print();
 	*/
-	/*
 	// Adding Snowmen
 	SnowMan* snowman1 = new SnowMan(-6.0, -6.0, 3.0);
-	SnowMan* snowman2 = new SnowMan(-24.0, -6.0, -3.0);
+	SnowMan* snowman2 = new SnowMan(-24.0, 3.0, -3.0);
 	scn->addObj(snowman1);
 	scn->addObj(snowman2);
-	*/
 	// Adding light
 	Light* light_src = new Light();
 	light_src->setPosition(10.0, 10.0, 10.0);

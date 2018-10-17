@@ -6,7 +6,7 @@
 #include "core/intersect/intersect.h"
 
 // Iterate through a list of objects to find the best hitted object
-float hitObjectList(std::list<Object*> & objs, Vertex3f ray, Material * & mat, Vertex3f & n) {
+float hitObjectList(std::list<Object*> & objs, Vertex3f & ray, Material * & mat, Vertex3f & n) {
   Vertex3f normal; // Normal of the hitted face
   Vertex3f best_normal; // Normal of the hitted face
   Material* new_mat;
@@ -23,8 +23,6 @@ float hitObjectList(std::list<Object*> & objs, Vertex3f ray, Material * & mat, V
     }
   }
 
-// TODO: Compare the result of this code with the current
-// method implemented in RayCasting.cpp
   if(best_t < FLT_MAX) {
     n = best_normal.unit();
     mat = best_mat;
@@ -63,13 +61,14 @@ float hitSphereRayLength(Vertex3f & ray, GSphere* sphere) {
   if (t_int1 >= 1.0) {
     return t_int1;
   }
-  else {
+  if (t_int2 >= 1.0) {
     return t_int2;
   }
+  return -1.0;
 }
 
 // Trianglez
-float hitTriangle(Vertex3f ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex3f & ret_n) {
+float hitTriangle(Vertex3f & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex3f & ret_n) {
   Vertex3f u = v1 - v0;
 	Vertex3f v = v2 - v0;
 
@@ -88,7 +87,7 @@ float hitTriangle(Vertex3f ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Ver
   // TODO: Check if this if is correct or not
   if (tint < 1.0) {
     //std::cout << "Tint < 0 = " << tint << "\n";
-    return tint;
+    return -1.0;
   }
     //std::cout << "Tint = " << tint << "\n";
   Vertex3f Pi = ray * tint;
@@ -115,5 +114,5 @@ float hitTriangle(Vertex3f ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Ver
     ret_n = n;
     return tint;
   }
-  return 0.0;
+  return -1.0;
 }

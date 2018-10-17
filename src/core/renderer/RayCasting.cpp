@@ -94,10 +94,8 @@ Camera* RayCasting::getCamera() { return cam; }
 Color* RayCasting::getBuffer() { return buff; }
 
 
-// Private methods
+/*----- Private methods -----*/
 void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Vertex3f & ray, Vertex3f & n) {
-  // Copy from here on
-
   Light* src = scn->getLight(0);
   Color* src_int = src->getSource();
   Color* col_amb = src->getAmb();
@@ -131,4 +129,13 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Verte
 
   // Result
   *buffer = I_amb + I_dif + I_esp;
+}
+
+void RayCasting::calcShadow() {
+  std::list<Light*>* lights = scn->getLights();
+
+  std::list<Light*>::iterator it_lights;
+  for(it_lights = lights->begin(); it_lights != lights->end(); ++it_lights){
+    
+  }
 }

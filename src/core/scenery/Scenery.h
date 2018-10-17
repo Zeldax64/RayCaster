@@ -23,7 +23,7 @@ class Scenery
 
 public:
   std::list<Object*> objs;
-  
+
   Scenery();
   ~Scenery();
 
@@ -35,12 +35,12 @@ public:
   void applyTransformAll(const TMatrix & matrix);
 
 /*----- Ray Intersection -----*/
-  float hitRay(Vertex3f ray, Material & mat, Vertex3f & n);
+  float hitRay(Vertex3f & ray, Material & mat, Vertex3f & n);
 
 /*----- Light sources methods -----*/
   void addLight(Light* source);
   Light* getLight(int i);
-
+  std::list<Light*>* getLights();
 /*----- Camera methods -----*/
   void setCamPos(Vertex3f position);
   void setCamLookAt(Vertex3f position);

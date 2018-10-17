@@ -7,7 +7,7 @@ SnowMan::SnowMan(float x, float y, float z) {
 
   snow = new Material(1.0, 1.0, 1.0,
                       0.7, 0.7, 0.7,
-                      1.0, 1.0, 1.0);
+                      0.5, 0.5, 0.5);
 
   rock = new Material(0.0, 0.0, 0.0,
                       0.5, 0.5, 0.5,

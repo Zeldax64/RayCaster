@@ -12,6 +12,7 @@
 #include "core/math/Edge3f.h"
 #include "core/math/Face3f.h"
 #include "core/color/Color.h"
+#include "core/material/Material.h"
 #include "core/intersect/intersect.h"
 
 class MCube : public Object
@@ -24,6 +25,7 @@ class MCube : public Object
 
 public:
 	MCube();
+	MCube(Material & mat);
 	~MCube();
 	void applyTransform(const TMatrix & param);
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <list>
 #include <stdint.h>
 #include <math.h>
 #include "core/scenery/Scenery.h"
@@ -46,6 +47,8 @@ public:
 
   Color* getBuffer();
   Color* getBG();
+
 private:
   void calcIllumination(Color * buffer, float t, Material & mat, Vertex3f & ray, Vertex3f & n);
+  void calcShadow();
 };
