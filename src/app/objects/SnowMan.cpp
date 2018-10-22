@@ -66,7 +66,7 @@ void SnowMan::applyTransform(const TMatrix & param) {
   }
 }
 
-float SnowMan::hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat) {
+float SnowMan::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
   Material* first_mat;
   float best_t = hitObjectList(objs, ray, first_mat, ret_n);
 

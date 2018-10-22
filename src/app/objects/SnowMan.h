@@ -19,9 +19,9 @@ public:
 
   void applyTransform(const TMatrix & param);
 
-  float hitObject(Vertex3f & ray);
-  float hitObject(Vertex3f & ray, Vertex3f & normal);
-  float hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat);
+  float hitObject(Ray & ray);
+  float hitObject(Ray & ray, Vertex3f & normal);
+  float hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat);
 
   Material* getMaterial();
 

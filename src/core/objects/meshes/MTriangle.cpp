@@ -38,7 +38,7 @@ void MTriangle::applyTransform(const TMatrix & param) {
 	}
 }
 
-float MTriangle::hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat) {
+float MTriangle::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
 	Face3f face = faces[0];
 	Vertex3f v0 = vertices[face.vertices[0]];
 	Vertex3f v1 = vertices[face.vertices[1]];

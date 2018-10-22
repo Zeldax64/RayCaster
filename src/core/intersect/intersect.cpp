@@ -6,7 +6,7 @@
 #include "core/intersect/intersect.h"
 
 // Iterate through a list of objects to find the best hitted object
-float hitObjectList(std::list<Object*> & objs, Vertex3f & ray, Material * & mat, Vertex3f & n) {
+float hitObjectList(std::list<Object*> & objs, Ray & ray, Material * & mat, Vertex3f & n) {
   Vertex3f normal; // Normal of the hitted face
   Vertex3f best_normal; // Normal of the hitted face
   Material* new_mat;
@@ -32,12 +32,14 @@ float hitObjectList(std::list<Object*> & objs, Vertex3f & ray, Material * & mat,
 }
 
 // Can be used with a sphere cluster
-float hitSphere(Vertex3f & ray, GSphere* sphere) {
+float hitSphere(Ray & ray, GSphere* sphere) {
+  Vertex3f ray_dir = ray.getDirection();
+
   Vertex3f* center = sphere->getCenter();
   float radius = sphere->getRadius();
   Vertex3f c = -(*center);
-  float alpha = ray.dotProduct(ray);
-  float beta = 2*c.dotProduct(ray);
+  float alpha = ray_dir.dotProduct(ray_dir);
+  float beta = 2*c.dotProduct(ray_dir);
   float gama = (*center).dotProduct(*center) - radius * radius;
 
   float delta = beta * beta - 4 * alpha * gama;
@@ -45,12 +47,14 @@ float hitSphere(Vertex3f & ray, GSphere* sphere) {
   return delta;
 }
 
-float hitSphereRayLength(Vertex3f & ray, GSphere* sphere) {
+float hitSphereRayLength(Ray & ray, GSphere* sphere) {
+  Vertex3f ray_dir = ray.getDirection();
+
   Vertex3f* center = sphere->getCenter();
   float radius = sphere->getRadius();
   Vertex3f c = -(*center);
-  float alpha = ray.dotProduct(ray);
-  float beta = 2*c.dotProduct(ray);
+  float alpha = ray_dir.dotProduct(ray_dir);
+  float beta = 2*c.dotProduct(ray_dir);
   float gama = (*center).dotProduct(*center) - radius * radius;
 
   float delta = beta * beta - 4 * alpha * gama;
@@ -68,14 +72,16 @@ float hitSphereRayLength(Vertex3f & ray, GSphere* sphere) {
 }
 
 // Trianglez
-float hitTriangle(Vertex3f & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex3f & ret_n) {
+float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex3f & ret_n) {
+  Vertex3f ray_dir =  ray.getDirection();
+
   Vertex3f u = v1 - v0;
 	Vertex3f v = v2 - v0;
 
   Vertex3f n = (u.crossProduct(v)).unit();
 
   /* Calculate intersection point of ray and plane */
-  float tint = v0.dotProduct(n) / ray.dotProduct(n);
+  float tint = v0.dotProduct(n) / ray_dir.dotProduct(n);
   /*
   std::cout << "V0 = " ; v0.print();
   std::cout << "V1 = " ; v1.print();
@@ -90,7 +96,7 @@ float hitTriangle(Vertex3f & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, V
     return -1.0;
   }
     //std::cout << "Tint = " << tint << "\n";
-  Vertex3f Pi = ray * tint;
+  Vertex3f Pi = ray_dir * tint;
   // TODO: Possible improvement
   // If ray * n -> 0, then Pi -> infinity. A check could be done here
   // like ray . n == 0;

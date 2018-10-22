@@ -26,7 +26,7 @@ void RayCasting::render() {
     float y = (H/2) - dy/2 - l * dy;
     for(uint32_t c = 0; c < width; c++) {
       float x = -(W/2) + dx/2 + c * dx;
-      Vertex3f ray = Vertex3f(x, y, -d);
+      Ray ray = Ray(x, y, -d);
       Vertex3f n;
       Material mat;
       float t;
@@ -95,13 +95,14 @@ Color* RayCasting::getBuffer() { return buff; }
 
 
 /*----- Private methods -----*/
-void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Vertex3f & ray, Vertex3f & n) {
+void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray & ray, Vertex3f & n) {
   Light* src = scn->getLight(0);
   Color* src_int = src->getSource();
   Color* col_amb = src->getAmb();
 
   // Handling vectors
-  Vertex3f hit_point = ray * t;
+  Vertex3f ray_dir = ray.getDirection();
+  Vertex3f hit_point = ray_dir * t;
   Vertex3f l = *(src->getPosition()) - hit_point;
   l = l.unit();
   Vertex3f v = (-hit_point).unit();
@@ -136,6 +137,6 @@ void RayCasting::calcShadow() {
 
   std::list<Light*>::iterator it_lights;
   for(it_lights = lights->begin(); it_lights != lights->end(); ++it_lights){
-    
+
   }
 }

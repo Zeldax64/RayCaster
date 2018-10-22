@@ -11,6 +11,7 @@
 #include "core/color/Color.h"
 #include "core/light/Light.h"
 #include "core/material/Material.h"
+#include "core/math/Ray.h"
 
 #include "core/intersect/intersect.h"
 
@@ -35,7 +36,7 @@ public:
   void applyTransformAll(const TMatrix & matrix);
 
 /*----- Ray Intersection -----*/
-  float hitRay(Vertex3f & ray, Material & mat, Vertex3f & n);
+  float hitRay(Ray & ray, Material & mat, Vertex3f & n);
 
 /*----- Light sources methods -----*/
   void addLight(Light* source);

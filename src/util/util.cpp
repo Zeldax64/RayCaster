@@ -73,11 +73,11 @@ void setUpOpenGL(uint32_t SCREEN_WIDTH, uint32_t SCREEN_HEIGHT) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
-int mainGL(int argc, char **argv, uint32_t screen_width, uint32_t screen_height, Color* buff) {
+int mainGL(int argc, char **argv, RayCasting & render) {
   glutInit(&argc, argv);
-  buffer = buff;
-  SCREEN_WIDTH = screen_width;
-  SCREEN_HEIGHT = screen_height;
+  buffer = render.getBuffer();
+  SCREEN_WIDTH = render.getWidth();
+  SCREEN_HEIGHT = render.getHeight();
   setUpOpenGL(SCREEN_WIDTH, SCREEN_HEIGHT);
   glutDisplayFunc(display);
   glutMainLoop();

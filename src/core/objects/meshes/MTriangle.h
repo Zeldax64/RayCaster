@@ -12,6 +12,7 @@
 #include "core/math/Face3f.h"
 #include "core/color/Color.h"
 #include "core/intersect/intersect.h"
+#include "core/math/Ray.h"
 
 class MTriangle : public Object
 {
@@ -27,7 +28,7 @@ public:
   ~MTriangle();
   void applyTransform(const TMatrix & param);
 
-  float hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat);
+  float hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat);
 
   Material* getMaterial();
   void setMaterial(Material & new_mat);

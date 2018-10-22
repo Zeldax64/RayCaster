@@ -103,7 +103,7 @@ void MCube::applyTransform(const TMatrix & param) {
 
 // TODO: This method will produce a full red square
 // TODO: There might be some bugs in this function. Gotta find them
-float MCube::hitObject(Vertex3f & ray, Vertex3f & ret_n, Material * & ret_mat) {
+float MCube::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
 	float best_t = FLT_MAX;
 	for (int i = 0; i < 12; i++) {
 		Face3f face = faces[i];

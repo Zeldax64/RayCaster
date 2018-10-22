@@ -4,11 +4,11 @@
 #include <list>
 #include <stdint.h>
 #include <math.h>
+#include "core/math/Ray.h"
 #include "core/scenery/Scenery.h"
 #include "core/color/Color.h"
 #include "core/camera/Camera.h"
 #include "core/material/Material.h"
-
 #include "util/background.h"
 
 class RayCasting
@@ -49,6 +49,6 @@ public:
   Color* getBG();
 
 private:
-  void calcIllumination(Color * buffer, float t, Material & mat, Vertex3f & ray, Vertex3f & n);
+  void calcIllumination(Color * buffer, float t, Material & mat, Ray & ray, Vertex3f & n);
   void calcShadow();
 };

@@ -35,6 +35,7 @@ void buildScenery(Scenery * scn) {
 	translate.translate(-0.5, -0.51, -0.5);
 	TMatrix transf = rotatez*rotatey*scale*translate;
 
+	// Adding plane
 	MCube* plane = new MCube();
 	plane->applyTransform(transf);
 	plane->print();
@@ -51,6 +52,7 @@ void buildScenery(Scenery * scn) {
 	SnowMan* snowman2 = new SnowMan(-24.0, 3.0, -3.0);
 	scn->addObj(snowman1);
 	scn->addObj(snowman2);
+
 	// Adding light
 	Light* light_src = new Light();
 	light_src->setPosition(10.0, 10.0, 10.0);
@@ -106,5 +108,5 @@ int main(int argc, char **argv) {
 	renderScene(render); // Render scene
 
 	Color* buff = render.getBuffer(); // Get buffer
-	mainGL(argc, argv, render.getWidth(), render.getHeight(), buff);
+	mainGL(argc, argv, render);
 }
