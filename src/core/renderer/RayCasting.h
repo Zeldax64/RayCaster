@@ -2,8 +2,11 @@
 
 #include <iostream>
 #include <list>
+
 #include <stdint.h>
 #include <math.h>
+#include <float.h>
+
 #include "core/math/Ray.h"
 #include "core/scenery/Scenery.h"
 #include "core/color/Color.h"
@@ -50,5 +53,5 @@ public:
 
 private:
   void calcIllumination(Color * buffer, float t, Material & mat, Ray & ray, Vertex3f & n);
-  void calcShadow();
+  bool calcShadow(Vertex3f intersection);
 };

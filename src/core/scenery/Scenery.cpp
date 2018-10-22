@@ -52,6 +52,12 @@ float Scenery::hitRay(Ray & ray, Material & mat, Vertex3f & n) {
   return best_t;
 }
 
+// TODO: Beware of the shadow acme problem and check epsilon
+float Scenery::lookShadow(Ray & ray) {
+  float t = hitFirstObjectList(objs, ray);
+  return t;
+}
+
 /*----- Light sources methods -----*/
 void Scenery::addLight(Light* source) {
   lights.push_back(source);

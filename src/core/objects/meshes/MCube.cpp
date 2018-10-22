@@ -43,8 +43,8 @@ MCube::MCube() {
 	faces[11].setFace(0, 1, 5);
 
 	this->material.setAmb(0.0, 1.0, 0.0);
-  this->material.setDif(0.3, 0.3, 0.3);
-  this->material.setSpe(0.2, 0.2, 0.2);
+  this->material.setDif(1.0, 1.0, 1.0);
+  this->material.setSpe(0.0, 0.0, 0.0);
 }
 
 MCube::MCube(Material & mat) {

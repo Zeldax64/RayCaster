@@ -15,7 +15,7 @@
 
 // List of objects
 float hitObjectList(std::list<Object*> & objs, Ray & ray, Material * & mat, Vertex3f & n);
-
+float hitFirstObjectList(std::list<Object*> & objs, Ray & ray);
 // Geometrical Objects
 float hitSphere(Ray & ray, GSphere* sphere); // Can be used with a sphere cluster
 float hitSphereRayLength(Ray & ray, GSphere* sphere);

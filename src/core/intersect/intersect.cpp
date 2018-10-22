@@ -31,16 +31,35 @@ float hitObjectList(std::list<Object*> & objs, Ray & ray, Material * & mat, Vert
   return best_t;
 }
 
+// Iterate through a list of objects and return the t at the first hit
+// Can be used to compute shadows
+float hitFirstObjectList(std::list<Object*> & objs, Ray & ray) {
+  Vertex3f normal;
+  Material* new_mat;
+  float best_t = FLT_MAX;
+  std::list<Object*>::iterator it;
+
+  for(it = objs.begin(); it != objs.end(); ++it) {
+    float t = (*it)->hitObject(ray, normal, new_mat);
+    if(t < best_t) {
+      return t;
+    }
+  }
+
+  return best_t;
+}
+
 // Can be used with a sphere cluster
 float hitSphere(Ray & ray, GSphere* sphere) {
   Vertex3f ray_dir = ray.getDirection();
+  Vertex3f ray_org = ray.getOrigin();
 
-  Vertex3f* center = sphere->getCenter();
+  Vertex3f center = (*sphere->getCenter()) - ray_org;
   float radius = sphere->getRadius();
-  Vertex3f c = -(*center);
+  Vertex3f c = -( center);
   float alpha = ray_dir.dotProduct(ray_dir);
   float beta = 2*c.dotProduct(ray_dir);
-  float gama = (*center).dotProduct(*center) - radius * radius;
+  float gama = ( center).dotProduct( center) - radius * radius;
 
   float delta = beta * beta - 4 * alpha * gama;
 
@@ -49,13 +68,14 @@ float hitSphere(Ray & ray, GSphere* sphere) {
 
 float hitSphereRayLength(Ray & ray, GSphere* sphere) {
   Vertex3f ray_dir = ray.getDirection();
+  Vertex3f ray_org = ray.getOrigin();
 
-  Vertex3f* center = sphere->getCenter();
+  Vertex3f center = (*sphere->getCenter()) - ray_org;
   float radius = sphere->getRadius();
-  Vertex3f c = -(*center);
+  Vertex3f c = -(center);
   float alpha = ray_dir.dotProduct(ray_dir);
   float beta = 2*c.dotProduct(ray_dir);
-  float gama = (*center).dotProduct(*center) - radius * radius;
+  float gama = (center).dotProduct(center) - radius * radius;
 
   float delta = beta * beta - 4 * alpha * gama;
 
@@ -71,9 +91,11 @@ float hitSphereRayLength(Ray & ray, GSphere* sphere) {
   return -1.0;
 }
 
-// Trianglez
+// Triangles
+// TODO: implement shadows by subtraction of ray_org
 float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex3f & ret_n) {
   Vertex3f ray_dir =  ray.getDirection();
+  Vertex3f ray_org = ray.getOrigin();
 
   Vertex3f u = v1 - v0;
 	Vertex3f v = v2 - v0;

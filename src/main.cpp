@@ -27,7 +27,7 @@ using namespace std;
 void buildScenery(Scenery * scn) {
 	// Snowman Debug
 	TMatrix scale;
-	scale.scale(10.0, 0.01, 10.0);
+	scale.scale(15.0, 0.01, 15.0);
 	TMatrix rotatey, rotatez;
 	rotatez.rotateZ(0.0);
 	rotatey.rotateY(0.0);
@@ -48,10 +48,10 @@ void buildScenery(Scenery * scn) {
 	triangle->print();
 	*/
 	// Adding Snowmen
-	SnowMan* snowman1 = new SnowMan(-6.0, -6.0, 3.0);
+	SnowMan* snowman1 = new SnowMan(-0.0, 3.0, 0.0);
 	SnowMan* snowman2 = new SnowMan(-24.0, 3.0, -3.0);
 	scn->addObj(snowman1);
-	scn->addObj(snowman2);
+	//scn->addObj(snowman2);
 
 	// Adding light
 	Light* light_src = new Light();
@@ -81,7 +81,7 @@ int main(int argc, char **argv) {
 	buildScenery(&scn);
 
 	// Build camera
-	Vertex3f cam_pos(10.0, 0.0, 0.0);
+	Vertex3f cam_pos(-15.0, 15.0, -15.0);
 	Vertex3f look_at(0.0, 0.0, 0.0);
 	Vertex3f avup(0.0, 1.0, 0.0);
 	float fov = 90.0;

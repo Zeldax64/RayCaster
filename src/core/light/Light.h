@@ -21,7 +21,7 @@ public:
   void setAmbIntensity(float r, float g, float b);
   void setSourceIntensity(float r, float g, float b);
 
-  Vertex3f* getPosition();
+  Vertex3f& getPosition();
   Color* getAmb();
   Color* getSource();
 

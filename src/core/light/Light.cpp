@@ -19,7 +19,7 @@ void Light::setSourceIntensity(float r, float g, float b) {
   i_intensity.setColor(r, g, b);
 }
 
-Vertex3f* Light::getPosition() { return &pos; }
+Vertex3f& Light::getPosition() { return pos; }
 Color* Light::getAmb() { return &i_amb; }
 Color* Light::getSource() { return &i_intensity; }
 

@@ -10,8 +10,10 @@ class Ray
   Vertex3f direction;
 
 public:
+  Ray(Vertex3f & direction);
+  Ray(Vertex3f & origin, Vertex3f & direction);
   Ray(float d_x, float d_y, float d_z);
-  Ray(float o_x, float o_y, float o_z, float d_x, float d_y, float d_z);
+  Ray(float d_x, float d_y, float d_z, float o_x, float o_y, float o_z);
   ~Ray();
 
   void setOrigin(Vertex3f & O);
@@ -20,4 +22,5 @@ public:
   Vertex3f& getOrigin();
   Vertex3f& getDirection();
 
+  void print();
 };
