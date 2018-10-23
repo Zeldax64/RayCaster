@@ -46,6 +46,11 @@ void RayCasting::render() {
                                    bg_buff[l*width+c].getGreen(),
                                    bg_buff[l*width+c].getBlue());
         }
+        else {
+          buff[l*width+c].setColor(0.0,
+                                   0.0,
+                                   0.0);
+        }
       }
     }
   }

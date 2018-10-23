@@ -89,17 +89,19 @@ bool Scenery::isCoordWorld() {
 
 void Scenery::worldToCamTransform() {
   if(this->isCoordWorld()) {
+    std::cout << "worldToCamTransform()\n";
     TMatrix transform = getWorldToCamTransform();
     this->applyTransformAll(transform);
-    is_coord_world = true;
+    is_coord_world = false;
   }
 }
 
 void Scenery::camToWorldTransform() {
   if(!this->isCoordWorld()) {
+    std::cout << "camToWorldTransform()\n";
     TMatrix transform = getCamToWorldTransform();
     this->applyTransformAll(transform);
-    is_coord_world = false;
+    is_coord_world = true;
   }
 }
 
