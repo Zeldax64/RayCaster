@@ -16,7 +16,7 @@ float hitObjectList(std::list<Object*> & objs, Ray & ray, Material * & mat, Vert
   for(it = objs.begin(); it != objs.end(); ++it) {
     float t = (*it)->hitObject(ray, normal, new_mat);
 
-    if(t <= best_t && t >= 1.0) {
+    if(t <= best_t && t >= 0.0) {
       best_t = t;
       best_normal = normal;
       best_mat = new_mat;

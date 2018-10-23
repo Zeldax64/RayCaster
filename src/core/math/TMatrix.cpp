@@ -7,7 +7,6 @@ void TMatrix::identity() {
 			else matrix[i][j] = 0.0;
 		}
 	}
-	matrix[3][3] = 1.0;
 }
 
 void TMatrix::zeros() {

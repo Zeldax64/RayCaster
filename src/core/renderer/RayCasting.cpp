@@ -127,6 +127,9 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
     Color* k_esp = mat.getSpe();
     Vertex3f r = n*2*(l.dotProduct(n))*n-l;
     cos_theta = r.dotProduct(v);
+    if(cos_theta < 0.0) {
+      cos_theta = 0.0;
+    }
     I_spe = (*src_int) * (*k_esp) * cos_theta;
 
     *buffer = I_amb + I_dif + I_spe;
