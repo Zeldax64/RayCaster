@@ -15,7 +15,7 @@ void Scenery::addObj(Object* obj) {
 //  void findObj(Object obj);
 
 // Return as pointer to the object
-Object* Scenery::getObj(int i) {
+Object* Scenery::getObj(uint32_t i) {
   if(i >= objs.size())
     return NULL;
 
@@ -63,7 +63,7 @@ void Scenery::addLight(Light* source) {
   lights.push_back(source);
 }
 
-Light* Scenery::getLight(int i) {
+Light* Scenery::getLight(uint32_t i) {
   if(i >= objs.size())
     return NULL;
 

@@ -19,7 +19,7 @@
 class MCube : public Object
 {
 	Vertex3f vertices[8];
-	Edge3f edges[12];
+	Edge3f edges[17];
 	Face3f faces[12];
 
 	Material material;

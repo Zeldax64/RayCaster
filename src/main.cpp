@@ -82,7 +82,6 @@ void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, float fov, Sc
 }
 
 void renderScene(RayCasting & render) {
-	Scenery* scn = render.getScenery();
 	render.render();
 }
 
@@ -118,6 +117,5 @@ int main(int argc, char **argv) {
 	}
 	renderScene(render); // Render scene
 
-	Color* buff = render.getBuffer(); // Get buffer
 	mainGL(argc, argv, render);
 }

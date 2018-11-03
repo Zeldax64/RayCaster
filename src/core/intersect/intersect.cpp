@@ -10,7 +10,7 @@ float hitObjectList(std::list<Object*> & objs, Ray & ray, Material * & mat, Vert
   Vertex3f normal; // Normal of the hitted face
   Vertex3f best_normal; // Normal of the hitted face
   Material* new_mat;
-  Material* best_mat;
+  Material* best_mat = NULL;
   float best_t = FLT_MAX;
   std::list<Object*>::iterator it;
   for(it = objs.begin(); it != objs.end(); ++it) {
@@ -147,7 +147,7 @@ float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex
 
 float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces, uint32_t faces_num, Vertex3f & ret_n, Material * & ret_mat) {
   float best_t = FLT_MAX;
-  for (int i = 0; i < faces_num; i++) {
+  for (uint32_t i = 0; i < faces_num; i++) {
     Face3f face = faces[i];
     Vertex3f v0 = vertices[face.vertices[0]];
     Vertex3f v1 = vertices[face.vertices[1]];

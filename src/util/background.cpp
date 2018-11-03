@@ -7,7 +7,8 @@ bool loadImage(const char *filename, Color * & buffer) {
    ilGenImages(1, &image);
    ilBindImage(image);
 
-   if ( success = ilLoadImage(filename) ) {
+   success = ilLoadImage(filename);
+   if (success) {
        success = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
        if (!success) {
                 return false;

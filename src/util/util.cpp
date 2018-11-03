@@ -12,19 +12,19 @@ void setPixel(uint32_t x, uint32_t y, float r, float g, float b) {
   buffer[y * SCREEN_WIDTH + x].setColor(r, g, b);
 }
 
-void drawHLine(int x, int y, int l){
+void drawHLine(uint32_t x, uint32_t y, uint32_t l){
 
   if ((x>=0) && (x<SCREEN_WIDTH) && (y>=0) && (y<SCREEN_HEIGHT)){
-    for (int cx=0; cx<l; cx++){
+    for (uint32_t cx=0; cx<l; cx++){
       buffer[y * SCREEN_WIDTH + cx + x].setColor(1.0, 0, 0);
     }
   }
 }
 
-void drawVLine(int x, int y, int l){
+void drawVLine(uint32_t x, uint32_t y, uint32_t l){
 
   if ((x>=0) && (x<SCREEN_WIDTH) && (y>=0) && (y<SCREEN_HEIGHT)){
-    for (int cy=0; cy<= l; cy++){
+    for (uint32_t cy=0; cy<= l; cy++){
       setPixel(x, y+cy, 1.0, 0.0, 0.0);
     }
   }
@@ -51,8 +51,8 @@ void drawPixel(int x, int y) {
   TODO: There might be a bug here!
 */
 void updateScreen(Color* buffer, uint32_t SCREEN_WIDTH, uint32_t SCREEN_HEIGHT) {
-	for(int y = 0; y < SCREEN_HEIGHT; ++y){
-		for(int x = 0; x < SCREEN_WIDTH; ++x){
+	for(uint32_t y = 0; y < SCREEN_HEIGHT; ++y){
+		for(uint32_t x = 0; x < SCREEN_WIDTH; ++x){
         // Get color
       float r = buffer[y * SCREEN_WIDTH + x].getRed();
       float g = buffer[y * SCREEN_WIDTH + x].getGreen();

@@ -19,7 +19,6 @@ RayCasting::~RayCasting() {
 }
 
 void RayCasting::render() {
-  float x_coord, y_coord;
   scn->worldToCamTransform();
 
   for(uint32_t l = 0; l < height; l++) {

@@ -4,8 +4,7 @@
 # Compiler variable
 CXX = g++
 # Read about -g flag in CFLAGS
-CFLAGS = -c -Wall -g
-CPPFLAGS = -I ./src
+CPPFLAGS = -Wall -O2 -I ./src
 
 # Linked libraries
 GL = -lGL -lGLU -lglut

@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <float.h>
+#include <stdint.h>
 
 #include "core/objects/Object.h"
 #include "core/math/TMatrix.h"
@@ -32,7 +33,7 @@ public:
   void addObj(Object* obj);
 //  void delObj(Object obj);
 //  void findObj(Object obj);
-  Object* getObj(int i);
+  Object* getObj(uint32_t i);
   void applyTransformAll(const TMatrix & matrix);
 
 /*----- Ray Intersection -----*/
@@ -41,7 +42,7 @@ public:
 
 /*----- Light sources methods -----*/
   void addLight(Light* source);
-  Light* getLight(int i);
+  Light* getLight(uint32_t i);
   std::list<Light*>* getLights();
 /*----- Camera methods -----*/
   void setCamPos(Vertex3f position);
