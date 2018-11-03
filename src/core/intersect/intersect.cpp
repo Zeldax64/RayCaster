@@ -144,3 +144,24 @@ float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex
   }
   return -1.0;
 }
+
+float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces, uint32_t faces_num, Vertex3f & ret_n, Material * & ret_mat) {
+  float best_t = FLT_MAX;
+  for (int i = 0; i < faces_num; i++) {
+    Face3f face = faces[i];
+    Vertex3f v0 = vertices[face.vertices[0]];
+    Vertex3f v1 = vertices[face.vertices[1]];
+    Vertex3f v2 = vertices[face.vertices[2]];
+
+    Vertex3f n;
+
+    float tint = hitTriangle(ray, v0, v1, v2, n);
+
+    if (tint >= 1.0 && tint < best_t) {
+      best_t = tint;
+      ret_mat = obj->getMaterial();
+      ret_n = n;
+    }
+  }
+  return best_t;
+}

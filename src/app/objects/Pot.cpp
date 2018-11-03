@@ -67,6 +67,9 @@ void Pot::applyTransform(const TMatrix & param) {
 }
 
 float Pot::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
+	float t = hitTriangles(ray, this, vertices, faces, facessize, ret_n, ret_mat);
+	return t;
+/*
 	float best_t = FLT_MAX;
 	for (int i = 0; i < facessize; i++) {
 		Face3f face = faces[i];
@@ -85,6 +88,7 @@ float Pot::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
 		}
 	}
 	return best_t;
+*/
 }
 
 Material* Pot::getMaterial() { return &this->material; }

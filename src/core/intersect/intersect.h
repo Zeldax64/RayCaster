@@ -8,9 +8,12 @@
 
 #include <math.h>
 #include <float.h>
+#include <stdint.h>
 
 #include "core/math/Vertex3f.h"
+#include "core/math/Face3f.h"
 #include "core/math/Ray.h"
+#include "core/objects/Object.h"
 #include "core/objects/geometric/GSphere.h"
 
 // List of objects
@@ -22,3 +25,4 @@ float hitSphereRayLength(Ray & ray, GSphere* sphere);
 
 // Triangle
 float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex3f & ret_n);
+float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces, uint32_t faces_num, Vertex3f & ret_n, Material * & ret_mat);
