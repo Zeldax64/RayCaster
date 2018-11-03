@@ -1,6 +1,9 @@
 /*
 	What next? List of TODOs
-	TODO: Implement shadows!
+	TODO: Implement multiple light sources
+	TODO: Implement Spotlight
+	TODO: Implement back faces test
+	TODO:
 */
 
 #include <iostream>
@@ -17,7 +20,10 @@
 #include "core/light/Light.h"
 #include "util/util.h"
 #include "util/background.h"
+
+// Objects includes
 #include "app/objects/SnowMan.h"
+#include "app/objects/Pot.h"
 
 #define X_WIDTH 500
 #define Y_WIDTH 500
@@ -25,6 +31,7 @@
 using namespace std;
 
 void buildScenery(Scenery * scn) {
+	/*
 	// Add plane
 	float plane_height = -18.0;
 	TMatrix scale;
@@ -43,18 +50,19 @@ void buildScenery(Scenery * scn) {
 	plane->applyTransform(transf2);
 	plane->print();
 	scn->addObj(plane);
-	/*
-	MTriangle* triangle = new MTriangle();
-	triangle->print();
-	triangle->applyTransform(rotate);
-	scn->addObj(triangle);
-	triangle->print();
-	*/
+
 	// Adding Snowmen
 	SnowMan* snowman1 = new SnowMan(-0.0, 3.0 + plane_height, 0.0);
 	SnowMan* snowman2 = new SnowMan(8.0, 3.0 + plane_height, 8.0);
 	scn->addObj(snowman1);
 	//scn->addObj(snowman2);
+	*/
+	Pot* pot = new Pot();
+	scn->addObj(pot);
+	TMatrix scale;
+	scale.scale(10.0, 10.0, 10.0);
+	pot->applyTransform(scale);
+	pot->print();
 
 	// Adding light
 	Light* light_src = new Light();
