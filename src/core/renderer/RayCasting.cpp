@@ -114,7 +114,6 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
   for(it_lights = lights->begin(); it_lights != lights->end(); ++it_lights){
       Light* src = (*it_lights);
       Color* src_int = src->getSource();
-
       // Handling vectors
       Vertex3f ray_dir = ray.getDirection();
       Vertex3f hit_point = ray_dir * t;

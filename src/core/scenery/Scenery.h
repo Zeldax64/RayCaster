@@ -11,6 +11,7 @@
 #include "core/camera/Camera.h"
 #include "core/color/Color.h"
 #include "core/light/Light.h"
+#include "core/light/LPoint.h"
 #include "core/material/Material.h"
 #include "core/math/Ray.h"
 

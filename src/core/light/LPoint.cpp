@@ -30,4 +30,5 @@ void LPoint::applyTransform(const TMatrix & transform) {
 void LPoint::print() {
   std::cout << "Position: "; pos.print();
   i_amb.print();
+  i_intensity.print();
 }

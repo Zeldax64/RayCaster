@@ -16,17 +16,17 @@ public:
   Light();
   ~Light();
 
-  void setPosition(const Vertex3f & param);
-  void setPosition(float x, float y, float z);
+  virtual void setPosition(const Vertex3f & param)=0;
+  virtual void setPosition(float x, float y, float z)=0;
 
-  void setAmbIntensity(float r, float g, float b);
-  void setSourceIntensity(float r, float g, float b);
+  virtual void setAmbIntensity(float r, float g, float b)=0;
+  virtual void setSourceIntensity(float r, float g, float b)=0;
 
-  Vertex3f& getPosition();
-  Color* getAmb();
-  Color* getSource();
+  virtual Vertex3f& getPosition()=0;
+  virtual Color* getAmb()=0;
+  virtual Color* getSource() =0;
 
-  void applyTransform(const TMatrix & transform);
+  virtual void applyTransform(const TMatrix & transform)=0;
 
-  void print();
+  virtual void print()=0;
 };
