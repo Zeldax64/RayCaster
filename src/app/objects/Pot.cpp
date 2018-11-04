@@ -53,7 +53,7 @@ Pot::Pot() {
 
 	this->material.setAmb(0.8, 0.8, 0.8);
   this->material.setDif(0.5, 0.5, 0.5);
-  this->material.setSpe(0.0, 0.0, 0.0);
+  this->material.setSpe(0.0, 0.0, 0.0, 0.0);
 }
 
 Pot::~Pot() {

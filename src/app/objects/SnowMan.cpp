@@ -7,11 +7,11 @@ SnowMan::SnowMan(float x, float y, float z) {
 
   snow = new Material(1.0, 1.0, 1.0,
                       0.7, 0.7, 0.7,
-                      0.5, 0.5, 0.5);
+                      0.5, 0.5, 0.5, 1.0);
 
   rock = new Material(0.0, 0.0, 0.0,
                       0.5, 0.5, 0.5,
-                      0.5, 0.5, 0.5);
+                      0.5, 0.5, 0.5, 1.0);
 
 	GSphere* body = new GSphere(Vertex3f(0.0+dx, 0.0+dy, 0.0+dz),
 																3.0,

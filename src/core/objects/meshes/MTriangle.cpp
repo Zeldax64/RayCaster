@@ -13,7 +13,7 @@ MTriangle::MTriangle() {
 
   this->material.setAmb(1.0, 0.0, 0.0);
   this->material.setDif(0.3, 0.3, 0.3);
-  this->material.setSpe(0.2, 0.2, 0.2);
+  this->material.setSpe(0.2, 0.2, 0.2, 1.0);
 }
 
 MTriangle::MTriangle(Material & mat) {
