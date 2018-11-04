@@ -24,8 +24,9 @@ To build and run:
 
 
 1. freeglut: To create a window and paint it;
-2. DevIL: To load images and handle images:
+2. DevIL: To load images and handle images;
+3. OpenMP: To support multithreading (check your gcc version);
 
 To install DevIL:
 
-    $ sudo apt-get install libdevil-dev
+    sudo apt-get install libdevil-dev

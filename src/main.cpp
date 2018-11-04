@@ -25,8 +25,8 @@
 #include "app/objects/SnowMan.h"
 #include "app/objects/Pot.h"
 
-#define X_WIDTH 500
-#define Y_WIDTH 500
+#define X_WIDTH 1000
+#define Y_WIDTH 1000
 
 using namespace std;
 
@@ -62,7 +62,6 @@ void buildScenery(Scenery * scn) {
 	TMatrix scale;
 	scale.scale(10.0, 10.0, 10.0);
 	pot->applyTransform(scale);
-	pot->print();
 
 	// Adding light
 	Light* light_src = new Light();

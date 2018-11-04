@@ -126,6 +126,7 @@ TMatrix TMatrix::operator*(const TMatrix & param) {
 
 	int row;
 	int col;
+	
 	for (row = 0; row < 4; row++) {
 		for (col = 0; col < 4; col++) {
 			for (int inner = 0; inner < 4; inner++) {

@@ -4,12 +4,12 @@
 # Compiler variable
 CXX = g++
 # Read about -g flag in CFLAGS
-CPPFLAGS = -Wall -O2 -I ./src
+CPPFLAGS = -Wall -O2 -I ./src -fopenmp
 
 # Linked libraries
 GL = -lGL -lGLU -lglut
 DEVIL = -lIL
-LIBS = $(GL) $(DEVIL)
+LIBS = $(GL) $(DEVIL) -fopenmp
 RM = rm -f
 
 SRCDIR = src

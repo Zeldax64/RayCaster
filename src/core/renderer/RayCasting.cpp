@@ -21,6 +21,7 @@ RayCasting::~RayCasting() {
 void RayCasting::render() {
   scn->worldToCamTransform();
 
+#pragma omp parallel for
   for(uint32_t l = 0; l < height; l++) {
     float y = (H/2) - dy/2 - l * dy;
     for(uint32_t c = 0; c < width; c++) {

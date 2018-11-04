@@ -147,6 +147,7 @@ float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex
 
 float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces, uint32_t faces_num, Vertex3f & ret_n, Material * & ret_mat) {
   float best_t = FLT_MAX;
+
   for (uint32_t i = 0; i < faces_num; i++) {
     Face3f face = faces[i];
     Vertex3f v0 = vertices[face.vertices[0]];

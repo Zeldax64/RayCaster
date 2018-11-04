@@ -26,10 +26,12 @@ Object* Scenery::getObj(uint32_t i) {
 
 void Scenery::applyTransformAll(const TMatrix & matrix) {
   std::list<Object*>::iterator it_objs;
+  // TODO: Change iteration method to a simpler to support OpenMP
   for(it_objs = objs.begin(); it_objs != objs.end(); ++it_objs){
     (*it_objs)->applyTransform(matrix);
   }
 
+  // TODO: Change iteration method to a simpler to support OpenMP
   std::list<Light*>::iterator it_lights;
   for(it_lights = lights.begin(); it_lights != lights.end(); ++it_lights){
     (*it_lights)->applyTransform(matrix);
