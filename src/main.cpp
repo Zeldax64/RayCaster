@@ -25,8 +25,8 @@
 #include "app/objects/SnowMan.h"
 #include "app/objects/Pot.h"
 
-#define X_WIDTH 1000
-#define Y_WIDTH 1000
+#define X_WIDTH 500
+#define Y_WIDTH 500
 
 using namespace std;
 
@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
 	buildScenery(&scn);
 
 	// Build camera
-	Vertex3f cam_pos(40.0, 8.0, 0.0);
+	Vertex3f cam_pos(40.0, 0.0, 0.0);
 	Vertex3f look_at(0.0, 0.0, 0.0);
 	Vertex3f avup(0.0, 1.0, 0.0);
 	float fov = 90.0;

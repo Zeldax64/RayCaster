@@ -6,6 +6,10 @@ static Camera* cam;
 static Color* buffer;
 static uint32_t SCREEN_WIDTH;
 static uint32_t SCREEN_HEIGHT;
+static bool rotatex = false;
+static bool rotatey = false;
+static bool rotatez = false;
+
 
 /* Buffer Debug functions */
 void setPixel(uint32_t x, uint32_t y, float r, float g, float b) {
@@ -34,6 +38,10 @@ void drawVLine(uint32_t x, uint32_t y, uint32_t l){
 
 void display(void) {
   std::cout << "display()\n";
+  if(rotatex || rotatey || rotatez) {
+    rotateObject();
+  }
+
   rdr->render();
   buffer = rdr->getBuffer();
   updateScreen(buffer, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -67,8 +75,6 @@ void updateScreen(Color* buffer, uint32_t SCREEN_WIDTH, uint32_t SCREEN_HEIGHT) 
 void keyboardDown(unsigned char key, int x, int y) {
   if(key == 27)    // esc
     exit(0);
-
-
 }
 
 void keyboardUp(unsigned char key, int x, int y) {}
@@ -81,7 +87,19 @@ void keyboardSpecial(int key, int x, int y) {
     case GLUT_KEY_RIGHT:
       rotateCamera(1.0);
     break;
+    case GLUT_KEY_F1:
+      rotatex = (!rotatex);
+    break;
+    case GLUT_KEY_F2:
+      rotatey = (!rotatey);
+    break;
+    case GLUT_KEY_F3:
+      rotatez = (!rotatez);
+    break;
+
   }
+  glutPostRedisplay();
+
 }
 
 void rotateCamera(float dir) {
@@ -105,6 +123,26 @@ void rotateCamera(float dir) {
   cam->print();
   glutPostRedisplay();
 }
+
+void rotateObject() {
+  float theta = 10.0;
+  TMatrix X, Y, Z, RES;
+
+  if(rotatex)
+    X.rotateX(theta);
+  if(rotatey)
+    Y.rotateY(theta);
+  if(rotatez)
+    Z.rotateZ(theta);
+
+  RES = X*Y*Z;
+
+  Object* obj = scn->getObj(0);
+  scn->camToWorldTransform();
+  obj->applyTransform(RES);
+  glutPostRedisplay();
+}
+
 
 void setUpOpenGL(uint32_t SCREEN_WIDTH, uint32_t SCREEN_HEIGHT) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);

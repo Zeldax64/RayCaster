@@ -20,4 +20,5 @@ void keyboardDown(unsigned char key, int x, int y);
 void keyboardUp(unsigned char key, int x, int y);
 void keyboardSpecial(int key, int x, int y);
 void rotateCamera(float dir);
+void rotateObject();
 int mainGL(int argc, char **argv, RayCasting & render);
