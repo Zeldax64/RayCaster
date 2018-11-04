@@ -2,6 +2,7 @@
 
 Scenery::Scenery() {
   is_coord_world = true;
+  k_amb.setColor(0.7, 0.7, 0.7);
 }
 
 Scenery::~Scenery() {
@@ -75,6 +76,9 @@ Light* Scenery::getLight(uint32_t i) {
 }
 
 std::list<Light*>* Scenery::getLights() { return &lights; }
+
+void Scenery::setAmb(float r, float g, float b) { k_amb.setColor(r, g, b); }
+Color* Scenery::getAmb() { return &k_amb; }
 
 /*----- Camera Methods -----*/
 void Scenery::setCamPos(Vertex3f position) { cam.setPosition(position); }

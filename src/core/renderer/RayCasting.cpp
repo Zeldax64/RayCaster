@@ -101,67 +101,65 @@ Color* RayCasting::getBuffer() { return buff; }
 
 /*----- Private methods -----*/
 void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray & ray, Vertex3f & n) {
-  Light* src = scn->getLight(0);
-  Color* src_int = src->getSource();
-  Color* col_amb = src->getAmb();
-  Color I_amb, I_dif, I_spe;
+  Color* col_amb = scn->getAmb();
 
-  // Handling vectors
-  Vertex3f ray_dir = ray.getDirection();
-  Vertex3f hit_point = ray_dir * t;
-  Vertex3f l = src->getPosition() - hit_point;
-  l = l.unit();
-  Vertex3f v = (-hit_point).unit();
+  Color I_amb, I_dif, I_spe;
 
   // Ambient illumination
   Color* kamb = mat.getAmb();
   I_amb = (*col_amb) * (*kamb);
 
-  if(!calcShadow(hit_point)) {
-    // Diffuse illumination
-    float cos_theta = n.dotProduct(l);
-    if(cos_theta >= 0.0) {
-      Color* kdif = mat.getDif();
-      I_dif =  (*src_int) * (*kdif) * cos_theta;
-    }
-    else {
-      I_dif = (*src_int) * 0.0;
-    }
-
-    // Specular illumination
-    Color* k_spe = mat.getSpe();
-    float spe_exp = mat.getSpeExp();
-    Vertex3f r = n*2*(l.dotProduct(n))*n-l;
-    cos_theta = r.dotProduct(v);
-    if(cos_theta < 0.0) {
-      cos_theta = 0.0;
-    }
-    cos_theta = pow(cos_theta, spe_exp);
-    I_spe = (*src_int) * (*k_spe) * cos_theta;
-
-    *buffer = I_amb + I_dif + I_spe;
-  }
-  else {
-    *buffer = I_amb;
-  }
-}
-
-bool RayCasting::calcShadow(Vertex3f intersection) {
   std::list<Light*>* lights = scn->getLights();
-
   std::list<Light*>::iterator it_lights;
   for(it_lights = lights->begin(); it_lights != lights->end(); ++it_lights){
-      Vertex3f dir = (*it_lights)->getPosition() - intersection;
+      Light* src = (*it_lights);
+      Color* src_int = src->getSource();
+
+      // Handling vectors
+      Vertex3f ray_dir = ray.getDirection();
+      Vertex3f hit_point = ray_dir * t;
+      Vertex3f l = src->getPosition() - hit_point;
+      l = l.unit();
+      Vertex3f v = (-hit_point).unit();
+
+      if(!calcShadow(src, hit_point)) {
+        // Diffuse illumination
+        float cos_theta = n.dotProduct(l);
+        if(cos_theta >= 0.0) {
+          Color* kdif = mat.getDif();
+          Color contribution = (*src_int) * (*kdif) * cos_theta;
+          I_dif =  I_dif + contribution;
+        }
+
+        // Specular illumination
+        Color* k_spe = mat.getSpe();
+        float spe_exp = mat.getSpeExp();
+        Vertex3f r = n*2*(l.dotProduct(n))*n-l;
+        cos_theta = r.dotProduct(v);
+        if(cos_theta >= 0.0) {
+          cos_theta = pow(cos_theta, spe_exp);
+          Color contribution = (*src_int) * (*k_spe) * cos_theta;
+          I_spe = I_spe + contribution;
+        }
+
+        *buffer = I_amb + I_dif + I_spe;
+      }
+      else {
+        *buffer = I_amb;
+      }
+  }
+
+}
+
+bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
+      Vertex3f dir = src->getPosition() - intersection;
       dir = dir.unit();
       Ray ray = Ray(intersection, dir);
       float t = scn->lookShadow(ray);
 
-//      std::cout << "T = " << t << "\n";
-  //    ray.print();
       if(t != FLT_MAX) {
         return true;
       }
-  }
 
   return false;
 }

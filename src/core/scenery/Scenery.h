@@ -22,6 +22,7 @@ class Scenery
 
   Camera cam;
   bool is_coord_world;
+  Color k_amb;
 
 public:
   std::list<Object*> objs;
@@ -44,6 +45,8 @@ public:
   void addLight(Light* source);
   Light* getLight(uint32_t i);
   std::list<Light*>* getLights();
+  void setAmb(float r, float g, float b);
+  Color* getAmb();
 /*----- Camera methods -----*/
   void setCamPos(Vertex3f position);
   void setCamLookAt(Vertex3f position);

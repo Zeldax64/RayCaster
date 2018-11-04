@@ -53,5 +53,5 @@ public:
 
 private:
   void calcIllumination(Color * buffer, float t, Material & mat, Ray & ray, Vertex3f & n);
-  bool calcShadow(Vertex3f intersection);
+  bool calcShadow(Light* src, Vertex3f intersection);
 };

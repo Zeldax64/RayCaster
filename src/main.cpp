@@ -31,11 +31,10 @@
 using namespace std;
 
 void buildScenery(Scenery * scn) {
-	/*
 	// Add plane
 	float plane_height = -18.0;
 	TMatrix scale;
-	scale.scale(15.0, 0.01, 15.0);
+	scale.scale(30.0, 0.01, 30.0);
 	TMatrix rotatey, rotatez;
 	rotatez.rotateZ(0.0);
 	rotatey.rotateY(0.0);
@@ -55,20 +54,26 @@ void buildScenery(Scenery * scn) {
 	SnowMan* snowman1 = new SnowMan(-0.0, 3.0 + plane_height, 0.0);
 	SnowMan* snowman2 = new SnowMan(8.0, 3.0 + plane_height, 8.0);
 	scn->addObj(snowman1);
-	//scn->addObj(snowman2);
-	*/
+	scn->addObj(snowman2);
+
+	/*
 	Pot* pot = new Pot();
 	scn->addObj(pot);
 	TMatrix scale;
 	scale.scale(10.0, 10.0, 10.0);
 	pot->applyTransform(scale);
-
+	*/
 	// Adding light
-	Light* light_src = new Light();
-	light_src->setPosition(10.0, 10.0, 10.0);
-	light_src->setAmbIntensity(0.7, 0.7, 0.7);
-	light_src->setSourceIntensity(1.0, 1.0, 1.0);
-	scn->addLight(light_src);
+	Light* light_src1 = new Light();
+	light_src1->setPosition(40.0, 40.0, 40.0);
+	light_src1->setSourceIntensity(0.7, 0.7, 0.7);
+
+	Light* light_src2 = new Light();
+	light_src2->setPosition(40.0, 40.0, 10.0);
+	light_src2->setSourceIntensity(0.7, 0.7, 0.7);
+
+	scn->addLight(light_src1);
+	scn->addLight(light_src2);
 }
 
 void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, float fov, Scenery * scn) {
@@ -90,7 +95,7 @@ int main(int argc, char **argv) {
 	buildScenery(&scn);
 
 	// Build camera
-	Vertex3f cam_pos(40.0, 0.0, 0.0);
+	Vertex3f cam_pos(15.0, 15.0, -15.0);
 	Vertex3f look_at(0.0, 0.0, 0.0);
 	Vertex3f avup(0.0, 1.0, 0.0);
 	float fov = 90.0;

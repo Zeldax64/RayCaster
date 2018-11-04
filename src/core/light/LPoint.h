@@ -5,16 +5,17 @@
 #include "core/math/Vertex3f.h"
 #include "core/math/TMatrix.h"
 #include "core/color/Color.h"
+#include "core/light/Light.h"
 
-class Light
+class LPoint : public Light
 {
   Vertex3f pos;
   Color i_amb;
   Color i_intensity;
 
 public:
-  Light();
-  ~Light();
+  LPoint();
+  ~LPoint();
 
   void setPosition(const Vertex3f & param);
   void setPosition(float x, float y, float z);
