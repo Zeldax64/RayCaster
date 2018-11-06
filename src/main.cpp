@@ -31,7 +31,6 @@
 using namespace std;
 
 void buildScenery(Scenery * scn) {
-	/*
 	// Add plane
 	float plane_height = -18.0;
 	TMatrix scale;
@@ -56,12 +55,14 @@ void buildScenery(Scenery * scn) {
 	SnowMan* snowman2 = new SnowMan(8.0, 3.0 + plane_height, 8.0);
 	scn->addObj(snowman1);
 	scn->addObj(snowman2);
-	*/
+	/*
 	Pot* pot = new Pot();
 	scn->addObj(pot);
 	TMatrix scale;
 	scale.scale(10.0, 10.0, 10.0);
 	pot->applyTransform(scale);
+	*/
+
 	// Adding light
 	LPoint* light_src1 = new LPoint();
 	light_src1->setPosition(40.0, 40.0, 40.0);
@@ -70,8 +71,8 @@ void buildScenery(Scenery * scn) {
 	light_src2->setPosition(40.0, 40.0, 10.0);
 	light_src2->setSourceIntensity(0.7, 0.7, 0.7);
 
+	scn->addLight(light_src2);
 	scn->addLight(light_src1);
-	//scn->addLight(light_src2);
 }
 
 void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, float fov, Scenery * scn) {

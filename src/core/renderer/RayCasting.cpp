@@ -140,13 +140,9 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
           Color contribution = (*src_int) * (*k_spe) * cos_theta;
           I_spe = I_spe + contribution;
         }
-
-        *buffer = I_amb + I_dif + I_spe;
       }
-      else {
-        *buffer = I_amb;
-      }
-  }
+    }
+    *buffer = I_amb + I_dif + I_spe;
 
 }
 
@@ -156,7 +152,7 @@ bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
       Ray ray = Ray(intersection, dir);
       float t = scn->lookShadow(ray);
 
-      if(t != FLT_MAX) {
+      if(t != FLT_MAX && t > 0) {
         return true;
       }
 
