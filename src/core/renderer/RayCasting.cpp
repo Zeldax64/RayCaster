@@ -12,19 +12,24 @@ RayCasting::RayCasting(uint32_t width, uint32_t height) {
   this->bg = false; // No background
 }
 
-
 RayCasting::~RayCasting() {
   delete[] buff;
   delete[] bg_buff;
 }
 
+static int x_line;
+static int y_line;
+
 void RayCasting::render() {
   scn->worldToCamTransform();
 
-#pragma omp parallel for
+//#pragma omp parallel for
   for(uint32_t l = 0; l < height; l++) {
     float y = (H/2) - dy/2 - l * dy;
     for(uint32_t c = 0; c < width; c++) {
+      x_line = c;
+      y_line = l;
+
       float x = -(W/2) + dx/2 + c * dx;
       Ray ray = Ray(x, y, -d);
       Vertex3f n;
@@ -152,7 +157,11 @@ bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
       Ray ray = Ray(intersection, dir);
       float t = scn->lookShadow(ray);
 
-      if(t != FLT_MAX && t > 0) {
+      if(t != FLT_MAX && t > 0.00005) { // t > epsilon to avoid shadow acme
+        std::cout << "--- calcShadow() --- \n";
+        std::cout << "direction: "; dir.print();
+        std::cout << "origin: "; intersection.print();
+        std::cout << "X: " << x_line << " Y: " << y_line << " t = " << t << "\n";
         return true;
       }
 

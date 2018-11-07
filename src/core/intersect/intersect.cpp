@@ -39,9 +39,13 @@ float hitFirstObjectList(std::list<Object*> & objs, Ray & ray) {
   float best_t = FLT_MAX;
   std::list<Object*>::iterator it;
 
+  //std::cout << "intersection: "; ray.getOrigin().print();
+  int i = 0;
   for(it = objs.begin(); it != objs.end(); ++it) {
     float t = (*it)->hitObject(ray, normal, new_mat);
+    i++;
     if(t < best_t) {
+      //std::cout << "Obj" << i;
       return t;
     }
   }
@@ -82,48 +86,77 @@ float hitSphereRayLength(Ray & ray, GSphere* sphere) {
   float t_int1 = (-beta - sqrt(delta))/(2 * alpha);
   float t_int2 = (-beta + sqrt(delta))/(2 * alpha);
 
-  if (t_int1 >= 1.0) {
+  if (t_int1 >= 0.0) {
     return t_int1;
   }
-  if (t_int2 >= 1.0) {
+  if (t_int2 >= 0.0) {
     return t_int2;
   }
   return -1.0;
 }
 
 // Triangles
-// TODO: implement shadows by subtraction of ray_org
 float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex3f & ret_n) {
-  Vertex3f ray_dir =  ray.getDirection();
+  // TM Algorithm!
+  Vertex3f ray_dir = ray.getDirection();
   Vertex3f ray_org = ray.getOrigin();
 
-  Vertex3f u = v1 - v0;
-	Vertex3f v = v2 - v0;
+  Vertex3f v0_n = v0 - ray_org;
+  Vertex3f v1_n = v1 - ray_org;
+  Vertex3f v2_n = v2 - ray_org;
+
+  const float EPSILON = 0.0000001;
+  Vertex3f edge1, edge2, h, s, q;
+  float a, f, u, v;
+  edge1 = v1_n - v0_n;
+  edge2 = v2_n - v0_n;
+  h = ray_dir.crossProduct(edge2);
+  a = edge1.dotProduct(h);
+  if (a > EPSILON && a < EPSILON)
+    return -1.0;
+
+  f = 1.0/a;
+  s = ray_org - v0_n;
+  u = f * (s.dotProduct(h));
+  if (u < 0.0 || u > 1.0)
+      return -1.0;
+
+  q = s.crossProduct(edge1);
+  v = f * ray_dir.dotProduct(q);
+  if (v < 0.0 || u + v > 1.0)
+    return -1.0;
+
+  // At this stage we can compute t to find out where the intersection point is on the line.
+  float t = f * edge2.dotProduct(q);
+    if (t > EPSILON) // ray intersection
+    {
+      ret_n = edge1.crossProduct(edge2);
+      return t;
+    }
+    else // This means that there is a line intersection but not a ray intersection.
+      return -1.0;
+
+  /*----- End of TM algorithm -----*/
+
+  /*
+  Vertex3f u = v1_n - v0_n;
+	Vertex3f v = v2_n - v0_n;
 
   Vertex3f n = (u.crossProduct(v)).unit();
 
-  /* Calculate intersection point of ray and plane */
-  float tint = v0.dotProduct(n) / ray_dir.dotProduct(n);
-  /*
-  std::cout << "V0 = " ; v0.print();
-  std::cout << "V1 = " ; v1.print();
-  std::cout << "V2 = " ; v2.print();
-
-  std::cout << "Tint = " << tint << "\n";
-  */
+  // Calculate intersection point of ray and plane
+  float tint = v0_n.dotProduct(n) / ray_dir.dotProduct(n);
   //std::cin.get();
   // TODO: Check if this if is correct or not
-  if (tint < 1.0) {
-    //std::cout << "Tint < 0 = " << tint << "\n";
+  if (tint < 0.0) {
     return -1.0;
   }
-    //std::cout << "Tint = " << tint << "\n";
   Vertex3f Pi = ray_dir * tint;
   // TODO: Possible improvement
   // If ray * n -> 0, then Pi -> infinity. A check could be done here
   // like ray . n == 0;
 
-  /* Calculate whether the point is in the triangle */
+  // Calculate whether the point is in the triangle
   // Partial dot products
   Vertex3f w = Pi - v0;
 
@@ -143,6 +176,7 @@ float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex
     return tint;
   }
   return -1.0;
+  */
 }
 
 float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces, uint32_t faces_num, Vertex3f & ret_n, Material * & ret_mat) {
@@ -158,7 +192,7 @@ float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces,
 
     float tint = hitTriangle(ray, v0, v1, v2, n);
 
-    if (tint >= 1.0 && tint < best_t) {
+    if (tint >= 0.0 && tint < best_t) {
       best_t = tint;
       ret_mat = obj->getMaterial();
       ret_n = n;

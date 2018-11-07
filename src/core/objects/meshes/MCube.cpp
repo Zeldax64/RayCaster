@@ -101,27 +101,9 @@ void MCube::applyTransform(const TMatrix & param) {
 	}
 }
 
-// TODO: This method will produce a full red square
-// TODO: There might be some bugs in this function. Gotta find them
 float MCube::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
-	float best_t = FLT_MAX;
-	for (int i = 0; i < 12; i++) {
-		Face3f face = faces[i];
-		Vertex3f v0 = vertices[face.vertices[0]];
-		Vertex3f v1 = vertices[face.vertices[1]];
-		Vertex3f v2 = vertices[face.vertices[2]];
-
-		Vertex3f n;
-
-		float tint = hitTriangle(ray, v0, v1, v2, n);
-
-		if (tint >= 1.0 && tint < best_t) {
-			best_t = tint;
-			ret_mat = &this->material;
-			ret_n = n;
-		}
-	}
-	return best_t;
+	float t =hitTriangles(ray, this, vertices, faces, 12, ret_n, ret_mat);
+	return t;
 }
 
 Material* MCube::getMaterial() { return &this->material; }
@@ -132,29 +114,4 @@ void MCube::print(){
 		vertices[i].print();
 	}
 
-	/*
-	std::cout << "Normals:\n";
-
-	for(int i = 0; i < 12; i++){
-		std::cout << "--- Face " << i <<" ---\n";
-		Face3f face = faces[i];
-
-		Vertex3f v0 = vertices[face.vertices[0]];
-		Vertex3f v1 = vertices[face.vertices[1]];
-		Vertex3f v2 = vertices[face.vertices[2]];
-		std::cout << "v0: ";
-		v0.print();
-		std::cout << "v1: ";v1.print();
-		std::cout << "v2: ";v2.print();
-
-		Vertex3f u = v1 - v0;
-		Vertex3f v = v2 - v0;
-
-		std::cout << "u: ";u.print();
-		std::cout << "v: ";v.print();
-		Vertex3f n = (u.crossProduct(v)).unit();
-		std::cout << "n: ";n.print();
-		std::cout << "\n ";
-	}
-	*/
 }
