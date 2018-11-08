@@ -1,6 +1,6 @@
 /*
 	What next? List of TODOs
-	TODO: Implement triangle shadows
+	TODO: Fiz shadow acne when two objects intersect
 	TODO: Implement Spotlight
 	TODO: Implement back faces test
 */
@@ -45,10 +45,8 @@ void buildScenery(Scenery * scn) {
 	translate2.translate(0.0, plane_height, 0.0);
 	TMatrix transf2 = translate2*rotatez*rotatey*scale*translate1;
 
-	(scale*translate1).print();
 	MCube* plane = new MCube();
 	plane->applyTransform(transf2);
-	plane->print();
 
 	// Adding Snowmen
 	SnowMan* snowman1 = new SnowMan(-0.0, 3.0 + plane_height, 0.0);
@@ -59,21 +57,27 @@ void buildScenery(Scenery * scn) {
 	Material* mat = new Material(0.8, 0.0, 0.0, 0.2, 0.2, 0.2, 1.0, 0.0, 0.0, 0.0);
 	MCube* cube = new MCube(*mat);
 	scale.scale(4.0, 4.0, 4.0);
-	translate1.translate(5.0, 5.0, 5.0);
+	translate1.translate(0.0, 0.0, 0.0);
 	cube->applyTransform(translate1*scale);
 
-	Vertex3f c; c.moveTo(0.0, 5.0, 0.0);
+	Vertex3f c; c.moveTo(0.0, 0.0, 0.0);
 	GSphere* sphere = new GSphere(c, 2, *mat);
 
 	MTriangle* tr = new MTriangle(*mat);
-	rotatez.rotateZ(-90.0);
-	translate1.translate(0.0, 15.0, 0.0);
+	rotatez.rotateZ(90.0);
+	translate1.translate(0.0, 5.0, 0.0);
 	tr->applyTransform(translate1*rotatez*scale);
 
-	scn->addObj(tr);
+	std::cout << "Triangle: \n";
+	tr->print();
+
+	std::cout << "Plane: \n";
+	plane->print();
+
+	//scn->addObj(tr);
+	scn->addObj(cube);
 	scn->addObj(plane);
-	//scn->addObj(cube);
-	//scn->addObj(sphere);
+	scn->addObj(sphere);
 	/*
 	Pot* pot = new Pot();
 	scn->addObj(pot);
@@ -87,11 +91,11 @@ void buildScenery(Scenery * scn) {
 	light_src1->setPosition(40.0, 40.0, 40.0);
 	light_src1->setSourceIntensity(0.7, 0.7, 0.7);
 	LPoint* light_src2 = new LPoint();
-	light_src2->setPosition(0.0, 2.5, 0.0);
+	light_src2->setPosition(0.0, 25.5, 0.0);
 	light_src2->setSourceIntensity(0.7, 0.7, 0.7);
 
-	//scn->addLight(light_src1);
-	scn->addLight(light_src2);
+	scn->addLight(light_src1);
+	//scn->addLight(light_src2);
 }
 
 void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, float fov, Scenery * scn) {
@@ -146,7 +150,7 @@ int main(int argc, char **argv) {
 	if(argc >= 1) {
 		render.loadBG(argv[1]);
 	}
-	renderScene(render); // Render scene
+	//renderScene(render); // Render scene
 
 	mainGL(argc, argv, render);
 }

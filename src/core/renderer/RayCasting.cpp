@@ -23,7 +23,7 @@ static int y_line;
 void RayCasting::render() {
   scn->worldToCamTransform();
 
-//#pragma omp parallel for
+#pragma omp parallel for
   for(uint32_t l = 0; l < height; l++) {
     float y = (H/2) - dy/2 - l * dy;
     for(uint32_t c = 0; c < width; c++) {
@@ -153,15 +153,17 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
 
 bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
       Vertex3f dir = src->getPosition() - intersection;
-      dir = dir.unit();
-      Ray ray = Ray(intersection, dir);
+      Vertex3f vector = dir.unit();
+      Ray ray = Ray(intersection, vector);
       float t = scn->lookShadow(ray);
 
-      if(t != FLT_MAX && t > 0.00005) { // t > epsilon to avoid shadow acme
-        std::cout << "--- calcShadow() --- \n";
-        std::cout << "direction: "; dir.print();
-        std::cout << "origin: "; intersection.print();
-        std::cout << "X: " << x_line << " Y: " << y_line << " t = " << t << "\n";
+      if(t != FLT_MAX && t > 1e-4 && (vector*t).length() < dir.length()) { // t > epsilon to avoid shadow acme
+        //std::cout << "--- calcShadow() --- \n";
+        //std::cout << "vector: "; vector.print();
+        //std::cout << "origin: "; intersection.print();
+        //std::cout << "hitpoint: "; (vector*t+intersection).print();
+        //std::cout << "Light pos: "; src->getPosition().print();
+        //std::cout << "X: " << x_line << " Y: " << y_line << " t = " << t << "\n";
         return true;
       }
 

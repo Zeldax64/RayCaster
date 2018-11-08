@@ -33,23 +33,30 @@ float hitObjectList(std::list<Object*> & objs, Ray & ray, Material * & mat, Vert
 
 // Iterate through a list of objects and return the t at the first hit
 // Can be used to compute shadows
+// TODO: Fix this function! It must return the t of the fisrt object hitted
+// but the object must be between the origin of the ray and the light source.
+// The light source position must be included in this function.
 float hitFirstObjectList(std::list<Object*> & objs, Ray & ray) {
-  Vertex3f normal;
+  Vertex3f normal; // Normal of the hitted face
   Material* new_mat;
   float best_t = FLT_MAX;
-  std::list<Object*>::iterator it;
 
-  //std::cout << "intersection: "; ray.getOrigin().print();
   int i = 0;
+  int best_i = -1;
+  std::list<Object*>::iterator it;
   for(it = objs.begin(); it != objs.end(); ++it) {
     float t = (*it)->hitObject(ray, normal, new_mat);
-    i++;
-    if(t < best_t) {
-      //std::cout << "Obj" << i;
-      return t;
-    }
-  }
 
+    if(t < best_t && t >= 0.0) {
+      best_t = t;
+
+      best_i = i;
+    }
+    i++;
+  }
+  if(best_i != -1) {
+    //std::cout << "Obj" << best_i << " melhor! t = "<< best_t << "\n";
+  }
   return best_t;
 }
 
@@ -101,9 +108,9 @@ float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex
   Vertex3f ray_dir = ray.getDirection();
   Vertex3f ray_org = ray.getOrigin();
 
-  Vertex3f v0_n = v0 - ray_org;
-  Vertex3f v1_n = v1 - ray_org;
-  Vertex3f v2_n = v2 - ray_org;
+  Vertex3f v0_n = v0;
+  Vertex3f v1_n = v1;
+  Vertex3f v2_n = v2;
 
   const float EPSILON = 0.0000001;
   Vertex3f edge1, edge2, h, s, q;
