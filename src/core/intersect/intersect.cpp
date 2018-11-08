@@ -55,7 +55,7 @@ float hitFirstObjectList(std::list<Object*> & objs, Ray & ray) {
     i++;
   }
   if(best_i != -1) {
-    //std::cout << "Obj" << best_i << " melhor! t = "<< best_t << "\n";
+    std::cout << "Obj" << best_i << " melhor! t = "<< best_t << "\n";
   }
   return best_t;
 }

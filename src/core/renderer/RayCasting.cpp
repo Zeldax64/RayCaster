@@ -158,12 +158,12 @@ bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
       float t = scn->lookShadow(ray);
 
       if(t != FLT_MAX && (vector*t).length() < dir.length()) { // t > epsilon to avoid shadow acme
-        //std::cout << "--- calcShadow() --- \n";
-        //std::cout << "vector: "; vector.print();
-        //std::cout << "origin: "; intersection.print();
-        //std::cout << "hitpoint: "; (vector*t+intersection).print();
-        //std::cout << "Light pos: "; src->getPosition().print();
-        //std::cout << "X: " << x_line << " Y: " << y_line << " t = " << t << "\n";
+        std::cout << "--- calcShadow() --- \n";
+        std::cout << "vector: "; vector.print();
+        std::cout << "origin: "; intersection.print();
+        std::cout << "hitpoint: "; (vector*t+intersection).print();
+        std::cout << "Light pos: "; src->getPosition().print();
+        std::cout << "X: " << x_line << " Y: " << y_line << " t = " << t << "\n";
         return true;
       }
 

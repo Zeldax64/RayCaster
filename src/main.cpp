@@ -6,12 +6,15 @@
 */
 
 #include <iostream>
+#include <vector>
 
 #include <math.h>
 
 #include "core/math/Vertex3f.h"
+#include "core/math/Face3f.h"
 #include "core/math/TMatrix.h"
 #include "core/objects/meshes/MCube.h"
+#include "core/objects/meshes/MObj.h"
 #include "core/objects/meshes/MTriangle.h"
 #include "core/math/Ray.h"
 #include "core/objects/geometric/GSphere.h"
@@ -19,8 +22,10 @@
 #include "core/renderer/RayCasting.h"
 #include "core/light/Light.h"
 #include "core/light/LPoint.h"
+
 #include "util/util.h"
 #include "util/background.h"
+#include "util/objloader.h"
 
 // Objects includes
 #include "app/objects/SnowMan.h"
@@ -74,17 +79,18 @@ void buildScenery(Scenery * scn) {
 	std::cout << "Plane: \n";
 	plane->print();
 
-	//scn->addObj(tr);
-	scn->addObj(cube);
-	scn->addObj(plane);
-	scn->addObj(sphere);
-	/*
+
 	Pot* pot = new Pot();
-	scn->addObj(pot);
-	TMatrix scale;
 	scale.scale(10.0, 10.0, 10.0);
 	pot->applyTransform(scale);
-	*/
+
+
+
+	//scn->addObj(tr);
+	//scn->addObj(pot);
+	//scn->addObj(cube);
+	scn->addObj(plane);
+	//scn->addObj(sphere);
 
 	// Adding light
 	LPoint* light_src1 = new LPoint();
@@ -143,7 +149,24 @@ int main(int argc, char **argv) {
 	mat->print();
 	std::cout << "t = " << t << "\n";
 	*/
+	/*
+	std::vector <Vertex3f> vertices;
+	std::vector <Face3f> faces;
+	bool obj = loadOBJ("cube.obj", &vertices, &faces);
+	std::cout << "obj: " << obj << "\n";
+	for (int i = 0; i < vertices.size(); i++) {
+		vertices[i].print();
+	}
+	for (int i = 0; i < faces.size(); i++) {
+		faces[i].print();
+	}
+	*/
 
+	MObj obj;
+	obj.loadObj("cube.obj");
+	obj.print();
+
+	/*
 	RayCasting render(X_WIDTH, Y_WIDTH);
 	render.setScenery(&scn);
 
@@ -153,4 +176,5 @@ int main(int argc, char **argv) {
 	//renderScene(render); // Render scene
 
 	mainGL(argc, argv, render);
+	*/
 }
