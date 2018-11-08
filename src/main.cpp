@@ -1,8 +1,8 @@
 /*
 	What next? List of TODOs
-	TODO: Fiz shadow acne when two objects intersect
 	TODO: Implement Spotlight
 	TODO: Implement back faces test
+	TODO: Check intersect.cpp to optimize some functions
 */
 
 #include <iostream>

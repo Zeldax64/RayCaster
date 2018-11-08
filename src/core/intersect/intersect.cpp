@@ -47,7 +47,7 @@ float hitFirstObjectList(std::list<Object*> & objs, Ray & ray) {
   for(it = objs.begin(); it != objs.end(); ++it) {
     float t = (*it)->hitObject(ray, normal, new_mat);
 
-    if(t < best_t && t >= 0.0) {
+    if(t < best_t && t >= 1e-4) { // t >= 1e-4 To solve shadow acne problem
       best_t = t;
 
       best_i = i;

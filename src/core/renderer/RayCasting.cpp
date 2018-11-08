@@ -157,7 +157,7 @@ bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
       Ray ray = Ray(intersection, vector);
       float t = scn->lookShadow(ray);
 
-      if(t != FLT_MAX && t > 1e-4 && (vector*t).length() < dir.length()) { // t > epsilon to avoid shadow acme
+      if(t != FLT_MAX && (vector*t).length() < dir.length()) { // t > epsilon to avoid shadow acme
         //std::cout << "--- calcShadow() --- \n";
         //std::cout << "vector: "; vector.print();
         //std::cout << "origin: "; intersection.print();
