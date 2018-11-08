@@ -14,8 +14,8 @@ void MObj::applyTransform(const TMatrix & param) {
 }
 
 float MObj::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
-	//float t =hitTriangles(ray, this, vertices, faces, 12, ret_n, ret_mat);
-	return -1.0;
+	float t =hitTriangles(ray, this, vertices, faces, faces_num, ret_n, ret_mat);
+	return t;
 }
 
 Material* MObj::getMaterial() { return &this->material; }
@@ -36,10 +36,14 @@ bool MObj::loadObj(const char * path) {
   std::vector <Face3f> out_faces;
   std::cout << "Load file init!\n";
   bool load = loadOBJ(path, &out_vertices, &out_faces);
-  this->~MObj();
+
+  if(this->vertices != NULL)
+  std::cout << "Load file done!\n";
+    delete[] this->vertices;
+  if(this->faces != NULL)
+    delete[] this->faces;
 
   if (load){
-    std::cout << "Load file done!\n";
 
     this->vertices = new Vertex3f[out_vertices.size()];
     this->faces = new Face3f[out_faces.size()];

@@ -154,16 +154,17 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
 bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
       Vertex3f dir = src->getPosition() - intersection;
       Vertex3f vector = dir.unit();
+      intersection = intersection+vector*1e-3; // Trick to avoid self-intersection: Push ray origin a little in light's direction
       Ray ray = Ray(intersection, vector);
       float t = scn->lookShadow(ray);
 
       if(t != FLT_MAX && (vector*t).length() < dir.length()) { // t > epsilon to avoid shadow acme
-        std::cout << "--- calcShadow() --- \n";
-        std::cout << "vector: "; vector.print();
-        std::cout << "origin: "; intersection.print();
-        std::cout << "hitpoint: "; (vector*t+intersection).print();
-        std::cout << "Light pos: "; src->getPosition().print();
-        std::cout << "X: " << x_line << " Y: " << y_line << " t = " << t << "\n";
+        //std::cout << "--- calcShadow() --- \n";
+        //std::cout << "vector: "; vector.print();
+        //std::cout << "origin: "; intersection.print();
+        //std::cout << "hitpoint: "; (vector*t+intersection).print();
+        //std::cout << "Light pos: "; src->getPosition().print();
+        //std::cout << "X: " << x_line << " Y: " << y_line << " t = " << t << "\n";
         return true;
       }
 

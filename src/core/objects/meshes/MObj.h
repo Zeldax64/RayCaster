@@ -17,9 +17,9 @@
 
 class MObj : public Object
 {
-  Vertex3f* vertices;
+  Vertex3f* vertices = NULL;
   uint32_t vertices_num;
-  Face3f* faces;
+  Face3f* faces = NULL;
   uint32_t faces_num;
 
   Material material;

@@ -55,7 +55,7 @@ float hitFirstObjectList(std::list<Object*> & objs, Ray & ray) {
     i++;
   }
   if(best_i != -1) {
-    std::cout << "Obj" << best_i << " melhor! t = "<< best_t << "\n";
+    //std::cout << "Obj" << best_i << " melhor! t = "<< best_t << "\n";
   }
   return best_t;
 }
@@ -119,7 +119,7 @@ float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex
   edge2 = v2_n - v0_n;
   h = ray_dir.crossProduct(edge2);
   a = edge1.dotProduct(h);
-  if (a > EPSILON && a < EPSILON)
+  if (a > -EPSILON && a < EPSILON) // This ray is parallel to this triangle.
     return -1.0;
 
   f = 1.0/a;
@@ -142,48 +142,6 @@ float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex
     }
     else // This means that there is a line intersection but not a ray intersection.
       return -1.0;
-
-  /*----- End of TM algorithm -----*/
-
-  /*
-  Vertex3f u = v1_n - v0_n;
-	Vertex3f v = v2_n - v0_n;
-
-  Vertex3f n = (u.crossProduct(v)).unit();
-
-  // Calculate intersection point of ray and plane
-  float tint = v0_n.dotProduct(n) / ray_dir.dotProduct(n);
-  //std::cin.get();
-  // TODO: Check if this if is correct or not
-  if (tint < 0.0) {
-    return -1.0;
-  }
-  Vertex3f Pi = ray_dir * tint;
-  // TODO: Possible improvement
-  // If ray * n -> 0, then Pi -> infinity. A check could be done here
-  // like ray . n == 0;
-
-  // Calculate whether the point is in the triangle
-  // Partial dot products
-  Vertex3f w = Pi - v0;
-
-  float a = u.dotProduct(v); // a = (u . v);
-  float b = w.dotProduct(v); // b = (w . v);
-  float c = v.dotProduct(v); // c = (v . v);
-  float d = w.dotProduct(u); // d = (w . u);
-  float e = u.dotProduct(u); // e = (u . u);
-  float den = a * a - e * c; // Denominator
-
-  float si = (a * b - c * d) / den;
-  float ti = (a * d - e * b) / den;
-
-  // TODO: improve hit checking to allow diferences between hidden faces
-  if (si >= 0.0 && ti >= 0.0 && si+ti <= 1.0) {
-    ret_n = n;
-    return tint;
-  }
-  return -1.0;
-  */
 }
 
 float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces, uint32_t faces_num, Vertex3f & ret_n, Material * & ret_mat) {

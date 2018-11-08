@@ -85,11 +85,10 @@ void buildScenery(Scenery * scn) {
 	pot->applyTransform(scale);
 
 
-
 	//scn->addObj(tr);
 	//scn->addObj(pot);
 	//scn->addObj(cube);
-	scn->addObj(plane);
+	//scn->addObj(plane);
 	//scn->addObj(sphere);
 
 	// Adding light
@@ -162,19 +161,26 @@ int main(int argc, char **argv) {
 	}
 	*/
 
-	MObj obj;
-	obj.loadObj("cube.obj");
-	obj.print();
+	MObj* obj = new MObj();
+	bool load = obj->loadObj("YoungLink.obj");
+	if(!load) {
+		return 0;
+	}
+	scn.addObj(obj);
+	TMatrix scale, rotatex, rotatey, rotatez;
+	rotatez.rotateZ(90);
+	rotatex.rotateX(90);
+	rotatey.rotateY(90);
+	scale.scale(0.2, 0.2, 0.2);
+	obj->applyTransform(scale);
 
-	/*
 	RayCasting render(X_WIDTH, Y_WIDTH);
+
 	render.setScenery(&scn);
 
 	if(argc >= 1) {
 		render.loadBG(argv[1]);
 	}
-	//renderScene(render); // Render scene
 
 	mainGL(argc, argv, render);
-	*/
 }
