@@ -41,7 +41,7 @@ public:
 /*----- Ray Intersection -----*/
   float hitRay(Ray & ray, Material & mat, Vertex3f & n);
   float lookShadow(Ray & ray);
-
+  float castRay(Ray & ray);
 /*----- Light sources methods -----*/
   void addLight(Light* source);
   Light* getLight(uint32_t i);

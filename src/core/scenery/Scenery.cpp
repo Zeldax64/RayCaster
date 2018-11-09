@@ -56,15 +56,16 @@ float Scenery::hitRay(Ray & ray, Material & mat, Vertex3f & n) {
 }
 
 float Scenery::lookShadow(Ray & ray) {
-/*
+  float t = hitFirstObjectList(objs, ray);
+  return t;
+}
+
+float Scenery::castRay(Ray & ray) {
   Material* first_mat;
   Vertex3f n;
   float best_t = hitObjectList(objs, ray, first_mat, n);
 
   return best_t;
-*/
-  float t = hitFirstObjectList(objs, ray);
-  return t;
 }
 
 /*----- Light sources methods -----*/
@@ -105,6 +106,7 @@ void Scenery::worldToCamTransform() {
     TMatrix transform = getWorldToCamTransform();
     this->applyTransformAll(transform);
     is_coord_world = false;
+
   }
 }
 

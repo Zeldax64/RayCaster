@@ -21,9 +21,10 @@ static int x_line;
 static int y_line;
 
 void RayCasting::render() {
+  std::cout << "RayCasting::render()->render start!\n";
   scn->worldToCamTransform();
 
-#pragma omp parallel for
+//#pragma omp parallel for
   for(uint32_t l = 0; l < height; l++) {
     float y = (H/2) - dy/2 - l * dy;
     for(uint32_t c = 0; c < width; c++) {
@@ -37,7 +38,7 @@ void RayCasting::render() {
       float t;
       t = scn->hitRay(ray, mat, n);
 
-      if(t >= 1.0 && t < FLT_MAX) {
+      if(t >= 0.0 && t < FLT_MAX) {
         calcIllumination(&buff[l*width+c],
                          t,
                          mat,
@@ -59,6 +60,8 @@ void RayCasting::render() {
       }
     }
   }
+  std::cout << "RayCasting::render()->render finishes!\n";
+
 }
 
 void RayCasting::setScenery(Scenery * scn) {
@@ -104,8 +107,11 @@ Camera* RayCasting::getCamera() { return cam; }
 Color* RayCasting::getBuffer() { return buff; }
 
 
-/*----- Private methods -----*/
 void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray & ray, Vertex3f & n) {
+  if(x_line == 269 && y_line == 187) {
+    std::cout << "RayCasting::calcIllumination()\n";
+  }
+
   Color* col_amb = scn->getAmb();
 
   Color I_amb, I_dif, I_spe;
@@ -116,39 +122,68 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
 
   std::list<Light*>* lights = scn->getLights();
   std::list<Light*>::iterator it_lights;
+
+  Vertex3f hit_point;
+  bool shadow;
   for(it_lights = lights->begin(); it_lights != lights->end(); ++it_lights){
       Light* src = (*it_lights);
       Color* src_int = src->getSource();
       // Handling vectors
       Vertex3f ray_dir = ray.getDirection();
-      Vertex3f hit_point = ray_dir * t;
+      Vertex3f ray_org = ray.getOrigin();
+      hit_point = ray_dir * t + ray_org;
       Vertex3f l = src->getPosition() - hit_point;
       l = l.unit();
       Vertex3f v = (-hit_point).unit();
 
-      if(!calcShadow(src, hit_point)) {
+      shadow = calcShadow(src, hit_point);
+
+      if(!shadow) {
         // Diffuse illumination
-        float cos_theta = n.dotProduct(l);
+        float cos_theta = l.dotProduct(n);
         if(cos_theta >= 0.0) {
           Color* kdif = mat.getDif();
           Color contribution = (*src_int) * (*kdif) * cos_theta;
           I_dif =  I_dif + contribution;
+        }
+        if(x_line == 269 && y_line == 187) {
+          std::cout << "Diffuse Contribution:\n";
+          std::cout << "cos" << cos_theta << "\n";
+          std::cout << "normal: "; n.print();
+          std::cout << "l: "; l.print();
         }
 
         // Specular illumination
         Color* k_spe = mat.getSpe();
         float spe_exp = mat.getSpeExp();
         Vertex3f r = n*2*(l.dotProduct(n))*n-l;
+        r = r.unit();
         cos_theta = r.dotProduct(v);
         if(cos_theta >= 0.0) {
           cos_theta = pow(cos_theta, spe_exp);
           Color contribution = (*src_int) * (*k_spe) * cos_theta;
           I_spe = I_spe + contribution;
         }
+
+        if(x_line == 269 && y_line == 187) {
+          std::cout << "Specular Contribution:\n";
+          std::cout << "cos" << cos_theta << "\n";
+        }
       }
     }
     *buffer = I_amb + I_dif + I_spe;
-
+    if(x_line == 269 && y_line == 187) {
+      std::cout << "---calcIllumination()--- \n";
+      std::cout << "X: " << x_line << " Y: " << y_line << " t = " << t << "\n";
+      std::cout << "shadow: " << shadow << "\n";
+      std::cout << "Colors: \n";
+      std::cout << "I_Amb: "; I_amb.print();
+      std::cout << "I_Dif: "; I_dif.print();
+      std::cout << "I_Spe: "; I_spe.print();
+      std::cout << "Buffer: \n"; buffer->print();
+      std::cout << "Ray: "; ray.print();
+      std::cout << "***calcIllumination()*** \n";
+    }
 }
 
 bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
@@ -164,7 +199,6 @@ bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
         //std::cout << "origin: "; intersection.print();
         //std::cout << "hitpoint: "; (vector*t+intersection).print();
         //std::cout << "Light pos: "; src->getPosition().print();
-        //std::cout << "X: " << x_line << " Y: " << y_line << " t = " << t << "\n";
         return true;
       }
 

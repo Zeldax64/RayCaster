@@ -122,8 +122,8 @@ int main(int argc, char **argv) {
 	buildScenery(&scn);
 
 	// Build camera
-	Vertex3f cam_pos(0.0, 40.0, 0.0);
-	Vertex3f avup(1.0, 0.0, 0.0);
+	Vertex3f cam_pos(10.0, 0.0, 0.0);
+	Vertex3f avup(0.0, 1.0, 0.0);
 
 	Vertex3f look_at(0.0, 0.0, 0.0);
 	float fov = 90.0;
@@ -133,7 +133,7 @@ int main(int argc, char **argv) {
 	// Render Debug
 	/*
 	scn.worldToCamTransform();
-	float l = 0; float c = 436;
+	float c = 254; float l = 275;
 
 	float dx = 1.0/X_WIDTH;
 	float dy = 1.0/Y_WIDTH;
@@ -148,31 +148,19 @@ int main(int argc, char **argv) {
 	mat->print();
 	std::cout << "t = " << t << "\n";
 	*/
-	/*
-	std::vector <Vertex3f> vertices;
-	std::vector <Face3f> faces;
-	bool obj = loadOBJ("cube.obj", &vertices, &faces);
-	std::cout << "obj: " << obj << "\n";
-	for (int i = 0; i < vertices.size(); i++) {
-		vertices[i].print();
-	}
-	for (int i = 0; i < faces.size(); i++) {
-		faces[i].print();
-	}
-	*/
-
 	MObj* obj = new MObj();
 	bool load = obj->loadObj("YoungLink.obj");
 	if(!load) {
 		return 0;
 	}
 	scn.addObj(obj);
-	TMatrix scale, rotatex, rotatey, rotatez;
+	TMatrix scale, rotatex, rotatey, rotatez, translate;
 	rotatez.rotateZ(90);
 	rotatex.rotateX(90);
 	rotatey.rotateY(90);
-	scale.scale(0.2, 0.2, 0.2);
-	obj->applyTransform(scale);
+	scale.scale(0.3, 0.3, 0.3);
+	translate.translate(0.0, -12.0, 0.0);
+	obj->applyTransform(translate*rotatey*scale);
 
 	RayCasting render(X_WIDTH, Y_WIDTH);
 

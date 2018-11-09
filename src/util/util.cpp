@@ -35,15 +35,19 @@ void drawVLine(uint32_t x, uint32_t y, uint32_t l){
 }
 
 /*------------------------*/
-
-void display(void) {
-  std::cout << "display()\n";
+void renderBuffer() {
+  std::cout << "render()\n";
   if(rotatex || rotatey || rotatez) {
     rotateObject();
   }
 
   rdr->render();
   buffer = rdr->getBuffer();
+  glutPostRedisplay();
+}
+
+void display(void) {
+  std::cout << "Display()\n";
   updateScreen(buffer, SCREEN_WIDTH, SCREEN_HEIGHT);
   glutSwapBuffers();
 }
@@ -55,9 +59,6 @@ void drawPixel(int x, int y) {
 }
 
 // Draw screen
-/*
-  TODO: There might be a bug here!
-*/
 void updateScreen(Color* buffer, uint32_t SCREEN_WIDTH, uint32_t SCREEN_HEIGHT) {
 	for(uint32_t y = 0; y < SCREEN_HEIGHT; ++y){
 		for(uint32_t x = 0; x < SCREEN_WIDTH; ++x){
@@ -80,26 +81,74 @@ void keyboardDown(unsigned char key, int x, int y) {
 void keyboardUp(unsigned char key, int x, int y) {}
 
 void keyboardSpecial(int key, int x, int y) {
+  std::cout << "keyboardSpecial()\n";
   switch(key) {
     case GLUT_KEY_LEFT:
       rotateCamera(-1.0);
+      renderBuffer();
     break;
     case GLUT_KEY_RIGHT:
       rotateCamera(1.0);
+      renderBuffer();
     break;
     case GLUT_KEY_F1:
       rotatex = (!rotatex);
+      renderBuffer();
     break;
     case GLUT_KEY_F2:
       rotatey = (!rotatey);
+      renderBuffer();
     break;
     case GLUT_KEY_F3:
       rotatez = (!rotatez);
+      renderBuffer();
     break;
 
   }
-  glutPostRedisplay();
 
+}
+
+void mouse(int button,int state,int x,int y) {
+  Ray ray;
+  float l, c, t;
+  bool shadow;
+  switch(button)
+	{
+	case GLUT_LEFT_BUTTON:
+		if(state==GLUT_DOWN) {
+			std::cout << "Mouse X: " << x << " Y: " << y << "\n";
+
+      x = 269; y = 187;
+      buffer[y*SCREEN_WIDTH+x].print();
+
+      l = (1.0/2) - (1.0/SCREEN_HEIGHT)/2 - y * (1.0/SCREEN_HEIGHT);
+      c = -(1.0/2) + (1.0/SCREEN_WIDTH)/2 + x * (1.0/SCREEN_WIDTH);
+
+      ray.setDirection(c, l, -1.0);
+      t = scn->castRay(ray);
+      std::cout << "T = " << t << "\n";
+
+      Vertex3f ray_dir = ray.getDirection();
+      Vertex3f ray_org = ray.getOrigin();
+      Vertex3f hit_point = ray_dir * t + ray_org;
+
+      shadow = rdr->calcShadow(scn->getLight(0), hit_point);
+      std::cout << "Shadow: " << shadow << "\n";
+      std::cout << "ray: "; ray.print();
+    }
+		break;
+	case GLUT_MIDDLE_BUTTON:
+		if(state==GLUT_DOWN) {
+		}
+		break;
+	case GLUT_RIGHT_BUTTON:
+		if(state==GLUT_DOWN) {
+
+    }
+		break;
+	default:
+		break;
+	}
 }
 
 void rotateCamera(float dir) {
@@ -121,7 +170,7 @@ void rotateCamera(float dir) {
   scn->camToWorldTransform();
   scn->calcCamCoord();
   cam->print();
-  glutPostRedisplay();
+  renderBuffer();
 }
 
 void rotateObject() {
@@ -140,7 +189,7 @@ void rotateObject() {
   Object* obj = scn->getObj(0);
   scn->camToWorldTransform();
   obj->applyTransform(RES);
-  glutPostRedisplay();
+  renderBuffer();
 }
 
 
@@ -170,6 +219,8 @@ int mainGL(int argc, char **argv, RayCasting & render) {
   glutDisplayFunc(display);
   glutKeyboardFunc(keyboardDown);
   glutSpecialFunc(keyboardSpecial);
+  glutMouseFunc(mouse);
+  renderBuffer();
   glutMainLoop();
   return 0;
 }

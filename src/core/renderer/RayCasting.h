@@ -51,7 +51,6 @@ public:
   Color* getBuffer();
   Color* getBG();
 
-private:
   void calcIllumination(Color * buffer, float t, Material & mat, Ray & ray, Vertex3f & n);
   bool calcShadow(Light* src, Vertex3f intersection);
 };
