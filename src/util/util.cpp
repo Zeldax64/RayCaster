@@ -10,6 +10,7 @@ static bool rotatex = false;
 static bool rotatey = false;
 static bool rotatez = false;
 
+bool mouse_debug = false;
 
 /* Buffer Debug functions */
 void setPixel(uint32_t x, uint32_t y, float r, float g, float b) {
@@ -50,6 +51,9 @@ void display(void) {
   std::cout << "Display()\n";
   updateScreen(buffer, SCREEN_WIDTH, SCREEN_HEIGHT);
   glutSwapBuffers();
+  if(rotatex || rotatey || rotatez) {
+    rotateObject();
+  }
 }
 
 void drawPixel(int x, int y) {
@@ -112,20 +116,26 @@ void mouse(int button,int state,int x,int y) {
   Ray ray;
   float l, c, t;
   bool shadow;
+  std::cout << "--- mouse() --- \n";
+
   switch(button)
 	{
 	case GLUT_LEFT_BUTTON:
 		if(state==GLUT_DOWN) {
 			std::cout << "Mouse X: " << x << " Y: " << y << "\n";
-
-      x = 269; y = 187;
-      buffer[y*SCREEN_WIDTH+x].print();
+      mouse_debug = true;
+      //x = 269; y = 187;
 
       l = (1.0/2) - (1.0/SCREEN_HEIGHT)/2 - y * (1.0/SCREEN_HEIGHT);
       c = -(1.0/2) + (1.0/SCREEN_WIDTH)/2 + x * (1.0/SCREEN_WIDTH);
 
-      ray.setDirection(c, l, -1.0);
+      Vertex3f vector = Vertex3f(c, l, -1.0);
+      vector = vector.unit();
+
+      ray.setDirection(vector);
       t = scn->castRay(ray);
+      buffer[y*SCREEN_WIDTH+x].print();
+
       std::cout << "T = " << t << "\n";
 
       Vertex3f ray_dir = ray.getDirection();
@@ -135,6 +145,7 @@ void mouse(int button,int state,int x,int y) {
       shadow = rdr->calcShadow(scn->getLight(0), hit_point);
       std::cout << "Shadow: " << shadow << "\n";
       std::cout << "ray: "; ray.print();
+      mouse_debug = false;
     }
 		break;
 	case GLUT_MIDDLE_BUTTON:
@@ -149,6 +160,8 @@ void mouse(int button,int state,int x,int y) {
 	default:
 		break;
 	}
+  std::cout << "--- mouse() --- \n";
+
 }
 
 void rotateCamera(float dir) {
@@ -189,7 +202,6 @@ void rotateObject() {
   Object* obj = scn->getObj(0);
   scn->camToWorldTransform();
   obj->applyTransform(RES);
-  renderBuffer();
 }
 
 

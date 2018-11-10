@@ -65,6 +65,7 @@ float Scenery::castRay(Ray & ray) {
   Vertex3f n;
   float best_t = hitObjectList(objs, ray, first_mat, n);
 
+  std::cout << "castRay()->n="; n.print();
   return best_t;
 }
 

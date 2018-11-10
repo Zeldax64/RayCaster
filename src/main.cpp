@@ -1,5 +1,6 @@
 /*
 	What next? List of TODOs
+	TODO: verify best faces to check which face is being hitted!
 	TODO: Implement Spotlight
 	TODO: Implement back faces test
 	TODO: Check intersect.cpp to optimize some functions
@@ -93,7 +94,7 @@ void buildScenery(Scenery * scn) {
 
 	// Adding light
 	LPoint* light_src1 = new LPoint();
-	light_src1->setPosition(40.0, 40.0, 40.0);
+	light_src1->setPosition(40.0,40.0,40.0);
 	light_src1->setSourceIntensity(0.7, 0.7, 0.7);
 	LPoint* light_src2 = new LPoint();
 	light_src2->setPosition(0.0, 25.5, 0.0);
@@ -122,7 +123,7 @@ int main(int argc, char **argv) {
 	buildScenery(&scn);
 
 	// Build camera
-	Vertex3f cam_pos(10.0, 0.0, 0.0);
+	Vertex3f cam_pos(-40.0, 0.0, 0.0);
 	Vertex3f avup(0.0, 1.0, 0.0);
 
 	Vertex3f look_at(0.0, 0.0, 0.0);
@@ -148,6 +149,7 @@ int main(int argc, char **argv) {
 	mat->print();
 	std::cout << "t = " << t << "\n";
 	*/
+
 	MObj* obj = new MObj();
 	bool load = obj->loadObj("YoungLink.obj");
 	if(!load) {
