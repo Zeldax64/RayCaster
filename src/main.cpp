@@ -1,6 +1,5 @@
 /*
 	What next? List of TODOs
-	TODO: verify best faces to check which face is being hitted!
 	TODO: Implement Spotlight
 	TODO: Implement back faces test
 	TODO: Check intersect.cpp to optimize some functions
@@ -60,7 +59,7 @@ void buildScenery(Scenery * scn) {
 	//scn->addObj(snowman1);
 	//scn->addObj(snowman2);
 
-	Material* mat = new Material(0.8, 0.0, 0.0, 0.2, 0.2, 0.2, 1.0, 0.0, 0.0, 0.0);
+	Material* mat = new Material(0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 1.0);
 	MCube* cube = new MCube(*mat);
 	scale.scale(4.0, 4.0, 4.0);
 	translate1.translate(0.0, 0.0, 0.0);
@@ -74,23 +73,16 @@ void buildScenery(Scenery * scn) {
 	translate1.translate(0.0, 5.0, 0.0);
 	tr->applyTransform(translate1*rotatez*scale);
 
-	std::cout << "Triangle: \n";
-	tr->print();
-
-	std::cout << "Plane: \n";
-	plane->print();
-
-
 	Pot* pot = new Pot();
 	scale.scale(10.0, 10.0, 10.0);
 	pot->applyTransform(scale);
 
 
-	//scn->addObj(tr);
 	//scn->addObj(pot);
-	//scn->addObj(cube);
-	//scn->addObj(plane);
+	scn->addObj(cube);
 	//scn->addObj(sphere);
+	//scn->addObj(tr);
+	scn->addObj(plane);
 
 	// Adding light
 	LPoint* light_src1 = new LPoint();
@@ -122,15 +114,17 @@ int main(int argc, char **argv) {
 	Scenery scn;
 	buildScenery(&scn);
 
-	// Build camera
-	Vertex3f cam_pos(-40.0, 0.0, 0.0);
-	Vertex3f avup(0.0, 1.0, 0.0);
+/*
+	Vertex3f cam_pos(-2.0, 32.0, 25.0*sqrt(6)/6);
+	Vertex3f avup(0.0, 0.0, 1.0);
+	Vertex3f look_at(51.0/2.0, 12.0+25.0*sqrt(3)/6, 0);
+*/
+	Vertex3f cam_pos(0.0, 40.0, 0.0);
+	Vertex3f avup(1.0, 0.0, 0.0);
+	Vertex3f look_at(0, 0, 0);
 
-	Vertex3f look_at(0.0, 0.0, 0.0);
 	float fov = 90.0;
-
 	buildCam(cam_pos, look_at, avup, fov, &scn);
-
 	// Render Debug
 	/*
 	scn.worldToCamTransform();
@@ -150,6 +144,8 @@ int main(int argc, char **argv) {
 	std::cout << "t = " << t << "\n";
 	*/
 
+	//	Load object from file
+	/*
 	MObj* obj = new MObj();
 	bool load = obj->loadObj("YoungLink.obj");
 	if(!load) {
@@ -161,9 +157,9 @@ int main(int argc, char **argv) {
 	rotatex.rotateX(90);
 	rotatey.rotateY(90);
 	scale.scale(0.3, 0.3, 0.3);
-	translate.translate(0.0, -12.0, 0.0);
-	obj->applyTransform(translate*rotatey*scale);
-
+	translate.translate(0.0, -30.0, 0.0);
+	obj->applyTransform(translate*rotatey);
+	*/
 	RayCasting render(X_WIDTH, Y_WIDTH);
 
 	render.setScenery(&scn);

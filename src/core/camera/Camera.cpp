@@ -23,6 +23,7 @@ float Camera::getFOV() { return fov; }
 
 void Camera::calcCoordSystemBasis() {
   Vertex3f look_at_p0 = cam_pos - look_at;
+  (cam_pos-look_at).print();
   this->k = look_at_p0.unit();
 
   this->vup = avup - cam_pos;
@@ -35,6 +36,13 @@ Vertex3f Camera::getJ() { return j; }
 Vertex3f Camera::getK() { return k; }
 
 void Camera::print() {
-  std::cout << "Cam_pos \n";
+  std::cout << "Cam_pos: "; cam_pos.print();
+  std::cout << "ic: "; i.print();
+  std::cout << "jc: "; j.print();
+  std::cout << "kc: "; k.print();
+  std::cout << "Cam_pos: "; cam_pos.print();
+  std::cout << "ic.dot(kc): " << i.dotProduct(k) << "\n" ;
+  std::cout << "ic.dot(jc): " << i.dotProduct(j) << "\n" ;
+  std::cout << "kc.dot(jc): " << j.dotProduct(k) << "\n" ;
 
 }

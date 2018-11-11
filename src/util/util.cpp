@@ -11,7 +11,7 @@ static bool rotatey = false;
 static bool rotatez = false;
 
 bool mouse_debug = false;
-
+bool debug = false;
 /* Buffer Debug functions */
 void setPixel(uint32_t x, uint32_t y, float r, float g, float b) {
   buffer[y * SCREEN_WIDTH + x].setColor(r, g, b);
@@ -51,9 +51,6 @@ void display(void) {
   std::cout << "Display()\n";
   updateScreen(buffer, SCREEN_WIDTH, SCREEN_HEIGHT);
   glutSwapBuffers();
-  if(rotatex || rotatey || rotatez) {
-    rotateObject();
-  }
 }
 
 void drawPixel(int x, int y) {
@@ -89,23 +86,22 @@ void keyboardSpecial(int key, int x, int y) {
   switch(key) {
     case GLUT_KEY_LEFT:
       rotateCamera(-1.0);
-      renderBuffer();
     break;
     case GLUT_KEY_RIGHT:
       rotateCamera(1.0);
-      renderBuffer();
     break;
     case GLUT_KEY_F1:
       rotatex = (!rotatex);
-      renderBuffer();
     break;
     case GLUT_KEY_F2:
       rotatey = (!rotatey);
-      renderBuffer();
     break;
     case GLUT_KEY_F3:
       rotatez = (!rotatez);
-      renderBuffer();
+    break;
+    case GLUT_KEY_F4:
+      debug = !debug;
+      std::cout << "Debug: "<< debug <<"\n";
     break;
 
   }
@@ -163,6 +159,14 @@ void mouse(int button,int state,int x,int y) {
   std::cout << "--- mouse() --- \n";
 
 }
+
+void animation() {
+  if(rotatex || rotatey || rotatez) {
+    rotateObject();
+    renderBuffer();
+  }
+}
+
 
 void rotateCamera(float dir) {
   float theta = 10.0;
@@ -232,6 +236,7 @@ int mainGL(int argc, char **argv, RayCasting & render) {
   glutKeyboardFunc(keyboardDown);
   glutSpecialFunc(keyboardSpecial);
   glutMouseFunc(mouse);
+  glutIdleFunc(animation);
   renderBuffer();
   glutMainLoop();
   return 0;

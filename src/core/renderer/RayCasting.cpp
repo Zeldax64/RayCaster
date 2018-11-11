@@ -1,7 +1,7 @@
 #include "core/renderer/RayCasting.h"
 
 bool shadow_debug = false;
-extern bool mouse_debug;
+extern bool debug, mouse_debug;
 
 RayCasting::RayCasting(uint32_t width, uint32_t height) {
   buff = new Color[width * height];
@@ -115,16 +115,16 @@ Color* RayCasting::getBuffer() { return buff; }
 
 
 void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray & ray, Vertex3f & n) {
-  if(x_line == 269 && (y_line == 187 || y_line == 188 || y_line == 189)) {
-    std::cout << "--- RayCasting::calcIllumination() ---\n";
-  }
-
+  //std::cout << "->calcIllumination()" << "\n";
+  //std::cout << "X: " << x_line << " Y: " << y_line << "\n";
   Color* col_amb = scn->getAmb();
 
   Color I_amb, I_dif, I_spe;
-
+  Color* kamb;
+  Color* kdif;
+  Color* kspe;
   // Ambient illumination
-  Color* kamb = mat.getAmb();
+  kamb = mat.getAmb();
   I_amb = (*col_amb) * (*kamb);
 
   std::list<Light*>* lights = scn->getLights();
@@ -149,7 +149,7 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
         // Diffuse illumination
         float cos_theta = l.dotProduct(n);
         if(cos_theta >= 0.0) {
-          Color* kdif = mat.getDif();
+          kdif = mat.getDif();
           Color contribution = (*src_int) * (*kdif) * cos_theta;
           I_dif =  I_dif + contribution;
         }
@@ -161,35 +161,33 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
         }
 
         // Specular illumination
-        Color* k_spe = mat.getSpe();
+        kspe = mat.getSpe();
         float spe_exp = mat.getSpeExp();
         Vertex3f r = n*2*(l.dotProduct(n))*n-l;
         r = r.unit();
         cos_theta = r.dotProduct(v);
         if(cos_theta >= 0.0) {
           cos_theta = pow(cos_theta, spe_exp);
-          Color contribution = (*src_int) * (*k_spe) * cos_theta;
+          Color contribution = (*src_int) * (*kspe) * cos_theta;
           I_spe = I_spe + contribution;
         }
 
         if(mouse_debug) {
           std::cout << "Specular Contribution:\n";
           std::cout << "cos" << cos_theta << "\n";
+
         }
+
+        //std::cout << "I_amb: "; I_amb.print();
+        //std::cout << "I_dif: "; I_dif.print();
+        //std::cout << "I_spe: "; I_spe.print();
+        //std::cout << "kamb: "; kamb->print();
+        //std::cout << "kdif: "; kdif->print();
+        //std::cout << "kspe: "; kspe->print();
       }
     }
+
     *buffer = I_amb + I_dif + I_spe;
-    if(x_line == 269 && (y_line == 187 || y_line == 188 || y_line == 189)) {
-      std::cout << "X: " << x_line << " Y: " << y_line << " t = " << t << "\n";
-      std::cout << "shadow: " << shadow << "\n";
-      std::cout << "Colors: \n";
-      std::cout << "I_Amb: "; I_amb.print();
-      std::cout << "I_Dif: "; I_dif.print();
-      std::cout << "I_Spe: "; I_spe.print();
-      std::cout << "Buffer: \n"; buffer->print();
-      std::cout << "Ray: "; ray.print();
-      std::cout << "***calcIllumination()*** \n";
-    }
 }
 
 bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
@@ -202,29 +200,29 @@ bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
 
       //if(t != FLT_MAX && (vector*t).length() < dir.length()) { // t > epsilon to avoid shadow acme
       if(t > 0.0 && t < dir.length()) { // t > epsilon to avoid shadow acme
-        std::cout << "--- calcShadow() SHADOW --- \n";
-        std::cout << "X: " << x_line << " Y: " << y_line << "\n";
-        std::cout << "vector: "; vector.print();
-        std::cout << "origin: "; intersection.print();
-        std::cout << "hitpoint to light: "; (vector*t+intersection).print();
-        std::cout << "T: " << t << "\n";
-        std::cout << "Light pos: "; src->getPosition().print();
-        std::cout << "Ray: "; ray.print();
-
+        if(mouse_debug) {
+          std::cout << "--- calcShadow() SHADOW --- \n";
+          std::cout << "vector: "; vector.print();
+          std::cout << "origin: "; intersection.print();
+          std::cout << "hitpoint to light: "; (vector*t+intersection).print();
+          std::cout << "T: " << t << "\n";
+          std::cout << "Light pos: "; src->getPosition().print();
+          std::cout << "Ray: "; ray.print();
+        }
         shadow_debug = false;
         return true;
       }
       else{
-        std::cout << "--- calcShadow() NO SHADOW--- \n";
-        std::cout << "X: " << x_line << " Y: " << y_line << "\n";
-        std::cout << "vector: "; vector.print();
-        std::cout << "origin: "; intersection.print();
-        std::cout << "hitpoint: "; (vector*t+intersection).print();
-        std::cout << "T: " << t << "\n";
-        std::cout << "Light pos: "; src->getPosition().print();
-        std::cout << "Ray: "; ray.print();
-        shadow_debug = false;
-
+        if(mouse_debug) {
+          std::cout << "--- calcShadow() NO SHADOW--- \n";
+          std::cout << "vector: "; vector.print();
+          std::cout << "origin: "; intersection.print();
+          std::cout << "hitpoint: "; (vector*t+intersection).print();
+          std::cout << "T: " << t << "\n";
+          std::cout << "Light pos: "; src->getPosition().print();
+          std::cout << "Ray: "; ray.print();
+          shadow_debug = false;
+        }
         return false;
       }
 }
