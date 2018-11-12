@@ -141,7 +141,8 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
       hit_point = ray_dir * t + ray_org;
       Vertex3f l = src->getPosition() - hit_point;
       l = l.unit();
-      Vertex3f v = (-hit_point).unit();
+      //Vertex3f v = (-hit_point).unit(); // Flipped ray
+      Vertex3f v = -ray_dir; // Flipped ray
 
       shadow = calcShadow(src, hit_point);
 
@@ -163,7 +164,7 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
         // Specular illumination
         kspe = mat.getSpe();
         float spe_exp = mat.getSpeExp();
-        Vertex3f r = n*2*(l.dotProduct(n))*n-l;
+        Vertex3f r = n*2*(l.dotProduct(n));
         r = r.unit();
         cos_theta = r.dotProduct(v);
         if(cos_theta >= 0.0) {
