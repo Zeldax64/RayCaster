@@ -79,10 +79,10 @@ void buildScenery(Scenery * scn) {
 
 
 	//scn->addObj(pot);
-	scn->addObj(cube);
+	//scn->addObj(cube);
 	//scn->addObj(sphere);
 	//scn->addObj(tr);
-	scn->addObj(plane);
+	//scn->addObj(plane);
 
 	// Adding light
 	LPoint* light_src1 = new LPoint();
@@ -119,8 +119,8 @@ int main(int argc, char **argv) {
 	Vertex3f avup(0.0, 0.0, 1.0);
 	Vertex3f look_at(51.0/2.0, 12.0+25.0*sqrt(3)/6, 0);
 */
-	Vertex3f cam_pos(0.0, 40.0, 0.0);
-	Vertex3f avup(1.0, 0.0, 0.0);
+	Vertex3f cam_pos(40.0, 0.0, 0.0);
+	Vertex3f avup(0.0, 1.0, 0.0);
 	Vertex3f look_at(0, 0, 0);
 
 	float fov = 90.0;
@@ -145,7 +145,6 @@ int main(int argc, char **argv) {
 	*/
 
 	//	Load object from file
-	/*
 	MObj* obj = new MObj();
 	bool load = obj->loadObj("YoungLink.obj");
 	if(!load) {
@@ -157,9 +156,8 @@ int main(int argc, char **argv) {
 	rotatex.rotateX(90);
 	rotatey.rotateY(90);
 	scale.scale(0.3, 0.3, 0.3);
-	translate.translate(0.0, -30.0, 0.0);
-	obj->applyTransform(translate*rotatey);
-	*/
+	translate.translate(0.0, -15.0, 0.0);
+	obj->applyTransform(translate*rotatey*scale);
 	RayCasting render(X_WIDTH, Y_WIDTH);
 
 	render.setScenery(&scn);

@@ -2,7 +2,7 @@
 
 Scenery::Scenery() {
   is_coord_world = true;
-  k_amb.setColor(0.0, 0.0, 0.0);
+  k_amb.setColor(0.3, 0.3, 0.3);
 }
 
 Scenery::~Scenery() {

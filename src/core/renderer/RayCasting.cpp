@@ -195,7 +195,7 @@ bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
       shadow_debug = true;
       Vertex3f dir = src->getPosition() - intersection;
       Vertex3f vector = dir.unit();
-      intersection = intersection+vector*1e-3; // Trick to avoid self-intersection: Push ray origin a little in light's direction
+      intersection = intersection+vector*1e-5; // Trick to avoid self-intersection: Push ray origin a little in light's direction
       Ray ray = Ray(intersection, vector);
       float t = scn->lookShadow(ray);
 
