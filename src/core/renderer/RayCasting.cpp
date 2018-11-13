@@ -164,7 +164,7 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
         // Specular illumination
         kspe = mat.getSpe();
         float spe_exp = mat.getSpeExp();
-        Vertex3f r = n*2*(l.dotProduct(n));
+        Vertex3f r = n*2*(l.dotProduct(n))-l;
         r = r.unit();
         cos_theta = r.dotProduct(v);
         if(cos_theta >= 0.0) {
@@ -195,7 +195,7 @@ bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
       shadow_debug = true;
       Vertex3f dir = src->getPosition() - intersection;
       Vertex3f vector = dir.unit();
-      intersection = intersection+vector*1e-5; // Trick to avoid self-intersection: Push ray origin a little in light's direction
+      intersection = intersection+vector*1e-6; // Trick to avoid self-intersection: Push ray origin a little in light's direction
       Ray ray = Ray(intersection, vector);
       float t = scn->lookShadow(ray);
 
