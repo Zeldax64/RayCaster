@@ -23,6 +23,7 @@ class MObj : public Object
   uint32_t faces_num;
 
   Material material;
+  Color* texture;
 
 public:
   MObj();

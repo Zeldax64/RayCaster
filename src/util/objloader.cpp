@@ -3,7 +3,9 @@
 bool loadOBJ (
   const char* path,
   std::vector <Vertex3f> * out_vertices,
-  std::vector <Face3f> * out_faces
+  std::vector <Face3f> * out_faces,
+  Material &out_mat,
+  Color* & out_tex
 ) {
 
   FILE * file  = fopen(path, "r");
@@ -16,6 +18,8 @@ bool loadOBJ (
   std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
   std::vector<Vertex3f> temp_vertices;
 
+  char mat_path[100];
+
   while(1) {
     char lineHeader[128];
     // read the first word of the line
@@ -23,12 +27,30 @@ bool loadOBJ (
     if (res == EOF) { // EOF = End of File
       break;
     }
-
     else { // Parse lineHeader
-        if(strcmp(lineHeader, "v") == 0) {
+        if(strcmp(lineHeader, "mtllib") == 0) {
+          int matches = fscanf(file, "%s\n", mat_path);
+          if (matches != 1) {
+            std::cout << "File can't be read by our simple parser\n";
+            fclose(file);
+            return false;
+          }
+
+          std::cout << mat_path << std::endl;
+          loadMTL(mat_path, out_mat, out_tex);
+          std::cout << "Material: " << std::endl;
+          out_mat.print();
+        }
+        else if(strcmp(lineHeader, "v") == 0) {
           Vertex3f vertex;
           float x, y, z;
-          fscanf(file, "%f %f %f\n", &x, &y, &z);
+          int matches = fscanf(file, "%f %f %f\n", &x, &y, &z);
+          if (matches != 3) {
+            std::cout << "File can't be read by our simple parser\n";
+            fclose(file);
+            return false;
+          }
+
           vertex.moveTo(x, y, z);
           out_vertices->push_back(vertex);
         }
@@ -62,6 +84,96 @@ bool loadOBJ (
 
   fclose(file);
   std::cout << "Finished!\n";
+  return true;
+
+}
+
+// This function loads just ONE material from a .mtl file
+bool loadMTL (
+  const char* path,
+  Material &mat,
+  Color * & texture
+) {
+
+  FILE * file  = fopen(path, "r");
+  if (file == NULL) {
+    std::cout << "-Impossible to open .mtl file!\n";
+    return false;
+  }
+  std::cout << "-MTL File opened!\n";
+
+  float Ka_r, Ka_g, Ka_b;
+  float Kd_r, Kd_g, Kd_b;
+  float Ks_r, Ks_g, Ks_b, Ks_n;
+
+  while(1) {
+    char lineHeader[128];
+    // read the first word of the line
+    int res = fscanf(file, "%s", lineHeader);
+    if (res == EOF) { // EOF = End of File
+      break;
+    }
+
+    else { // Parse lineHeader
+        if(strcmp(lineHeader, "Ka") == 0) {
+          int matches = fscanf(file, "%f %f %f\n", &Ka_r, &Ka_g, &Ka_b);
+          if (matches != 3) {
+            std::cout << "MTL file can't be read by our simple parser\n";
+            fclose(file);
+            return false;
+          }
+        }
+        else if(strcmp(lineHeader, "Kd") == 0) {
+          int matches = fscanf(file, "%f %f %f\n", &Kd_r, &Kd_g, &Kd_b);
+          if (matches != 3) {
+            std::cout << "MTL file can't be read by our simple parser\n";
+            fclose(file);
+            return false;
+          }
+        }
+        else if(strcmp(lineHeader, "Ks") == 0) {
+          int matches = fscanf(file, "%f %f %f\n", &Ks_r, &Ks_g, &Ks_b);
+          if (matches != 3) {
+            std::cout << "MTL file can't be read by our simple parser\n";
+            fclose(file);
+            return false;
+          }
+        }
+        else if(strcmp(lineHeader, "Ns") == 0) {
+          int matches = fscanf(file, "%f\n", &Ks_n);
+          if (matches != 1) {
+            std::cout << "MTL file can't be read by our simple parser\n";
+            fclose(file);
+            return false;
+          }
+        }
+        else if(strcmp(lineHeader, "map_Kd") == 0) {
+          char img_path[100];
+          int matches = fscanf(file, "%s\n", img_path);
+          if (matches != 1) {
+            std::cout << "MTLasdasdsa file can't be read by our simple parser\n";
+            fclose(file);
+            return false;
+          }
+          if(!loadImage(img_path, texture)) {
+            std::cout << "Texture image could not be loaded\n";
+          }
+
+        }
+        else{
+          // Probably a comment, eat up the rest of the line
+          char stupidBuffer[1000];
+          fgets(stupidBuffer, 1000, file);
+        }
+
+    }
+  }
+
+  fclose(file);
+  std::cout << "-Finished!\n";
+  mat.setAmb(Ka_r, Ka_g, Ka_b);
+  mat.setDif(Kd_r, Kd_g, Kd_b);
+  mat.setSpe(Ks_r, Ks_g, Ks_b, Ks_n);
   return true;
 
 }

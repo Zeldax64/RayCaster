@@ -49,4 +49,5 @@ void Material::print() {
   k_amb.print();
   k_dif.print();
   k_spe.print();
+  std::cout << "Specular Exp: " << getSpeExp() << std::endl;
 }

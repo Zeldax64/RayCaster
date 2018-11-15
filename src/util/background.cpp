@@ -1,3 +1,5 @@
+// TODO: maybe move the contents of this file to objloader
+// to have just one file read source in the entire project
 #include "util/background.h"
 
 bool loadImage(const char *filename, Color * & buffer) {
@@ -11,7 +13,7 @@ bool loadImage(const char *filename, Color * & buffer) {
    if (success) {
        success = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
        if (!success) {
-                return false;
+          return false;
        }
    }
    else {

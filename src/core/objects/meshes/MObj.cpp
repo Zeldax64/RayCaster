@@ -34,33 +34,37 @@ void MObj::print(){
 bool MObj::loadObj(const char * path) {
   std::vector <Vertex3f> out_vertices;
   std::vector <Face3f> out_faces;
-  std::cout << "Load file init!\n";
-  bool load = loadOBJ(path, &out_vertices, &out_faces);
+  Material out_mat;
+  Color* out_tex;
 
-  if(this->vertices != NULL)
+  std::cout << "Load file init!\n";
+  bool load = loadOBJ(path, &out_vertices, &out_faces, out_mat, out_tex);
   std::cout << "Load file done!\n";
-    delete[] this->vertices;
-  if(this->faces != NULL)
-    delete[] this->faces;
 
   if (load){
+    if(this->vertices != NULL)
+      delete[] this->vertices;
+    if(this->faces != NULL)
+      delete[] this->faces;
+    if(this->texture != NULL)
+      delete[] this->texture;
 
     this->vertices = new Vertex3f[out_vertices.size()];
     this->faces = new Face3f[out_faces.size()];
     for(uint32_t i = 0; i < out_vertices.size(); i++){
       vertices[i] = out_vertices[i];
     }
-    std::cout << "Load vertices done!\n";
 
     vertices_num = out_vertices.size();
     for(uint32_t i = 0; i < out_faces.size(); i++){
       faces[i] = out_faces[i];
     }
-    std::cout << "Load faces done!\n";
     faces_num = out_faces.size();
 
+    this->material = out_mat;
+    this->texture = out_tex;
+
     std::cout << "Passed!\n";
-    return load;
   }
 
   return load;
