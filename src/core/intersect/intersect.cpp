@@ -15,6 +15,7 @@ float hitObjectList(std::list<Object*> & objs, Ray & ray, Material * & mat, Vert
   Vertex3f best_normal; // Normal of the hitted face
   Material* new_mat;
   Material* best_mat = NULL;
+  Object* best_obj = NULL;
   float best_t = FLT_MAX;
 
   std::list<Object*>::iterator it;
@@ -25,12 +26,14 @@ float hitObjectList(std::list<Object*> & objs, Ray & ray, Material * & mat, Vert
       best_t = t;
       best_normal = normal;
       best_mat = new_mat;
+      best_obj = (*it);
     }
   }
 
   if(best_t < FLT_MAX) {
     n = best_normal.unit();
     mat = best_mat;
+    ray.setHittedObject(best_obj);
   }
 
   return best_t;
@@ -110,7 +113,7 @@ float hitSphereRayLength(Ray & ray, GSphere* sphere) {
 }
 
 // Triangles
-float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex3f & ret_n) {
+float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, float & out_u, float & out_v) {
   // TM Algorithm!
   Vertex3f ray_dir = ray.getDirection();
   Vertex3f ray_org = ray.getOrigin();
@@ -157,8 +160,8 @@ float hitTriangle(Ray & ray, Vertex3f & v0, Vertex3f & v1, Vertex3f & v2, Vertex
   float t = f * edge2.dotProduct(q);
     if (t > EPSILON) // ray intersection
     {
-
-      ret_n = edge1.crossProduct(edge2);
+      out_u = u;
+      out_v = v;
       return t;
     }
     else // This means that there is a line intersection but not a ray intersection.
@@ -169,7 +172,9 @@ float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces,
   float best_t = FLT_MAX;
   int best_face = -1;
   Vertex3f vector = ray.getDirection();
-
+  float best_u = 0.0;
+  float best_v = 0.0;
+  
   for (uint32_t i = 0; i < faces_num; i++) {
       Face3f face = faces[i];
       Vertex3f v0 = vertices[face.vertices[0]];
@@ -182,19 +187,18 @@ float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces,
       if(n.unit().dotProduct(-(ray.getDirection())) < 0.0) {
         continue;
       }
-      float tint = hitTriangle(ray, v0, v1, v2, n);
+      float u, v;
+      float tint = hitTriangle(ray, v0, v1, v2, u, v);
 
       if (tint >= 1e-4 && tint < best_t) {
-        /*
-        if(tint+1e-4 <= best_t && n.unit().dotProduct(-(ray.getDirection())) < 0.0) {
-          continue;
-        }
-        */
         best_t = tint;
         ret_mat = obj->getMaterial();
         ret_n = n;
 
         best_face = i;
+        best_u = u;
+        best_v = v;
+
         if(mouse_debug && !shadow_debug) {
           std::cout << "hitFirstObjectListe(): T: " << tint <<"\n";
         }
@@ -207,5 +211,9 @@ float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces,
   if(mouse_debug && shadow_debug) {
     std::cout << "-> hitTriangles(shadow) best_t: " << best_t <<"\n";
   }
+
+  ray.setLength(best_t);
+  ray.setHittedFace(best_face);
+  ray.setUV(best_u, best_v);
   return best_t;
 }

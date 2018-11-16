@@ -12,6 +12,8 @@
 #include "core/material/Material.h"
 #include "core/math/Ray.h"
 
+class Ray;
+
 class Object
 {
 

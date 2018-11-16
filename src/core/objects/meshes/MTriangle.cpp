@@ -44,14 +44,16 @@ float MTriangle::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
 	Vertex3f v1 = vertices[face.vertices[1]];
 	Vertex3f v2 = vertices[face.vertices[2]];
 
-  Vertex3f n;
+	Vertex3f n;
+	float u, v;
 
-  float tint = hitTriangle(ray, v0, v1, v2, n);
+	float tint = hitTriangle(ray, v0, v1, v2, u, v);
 
 	// TODO: improve hit checking to allow diferences between hidden faces
 	if (tint >= 1.0) {
 		ret_mat = &this->material;
-    ret_n = n;
+    	ret_n = (v1-v0).crossProduct(v2-v0);
+    	ray.setUV(u, v);
 	}
 	return tint;
 }
