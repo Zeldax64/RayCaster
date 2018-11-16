@@ -121,6 +121,9 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
   Object* obj = ray.getHittedObject();
   float u, v;
   ray.getUV(u, v);
+  if(ray.getLength() != t) {
+    std::cout << "Ray Length != t!!!" << std::endl;
+  }
   Material tex_mat = obj->getTexturedMaterial(ray.getHittedFace(), u, v);
 
   Color* col_amb = scn->getAmb();
@@ -149,7 +152,6 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
       hit_point = ray_dir * t + ray_org;
       Vertex3f l = src->getPosition() - hit_point;
       l = l.unit();
-      //Vertex3f v = (-hit_point).unit(); // Flipped ray
       Vertex3f v = -ray_dir; // Flipped ray
 
       shadow = calcShadow(src, hit_point);

@@ -22,18 +22,18 @@ float hitObjectList(std::list<Object*> & objs, Ray & ray, Material * & mat, Vert
   for(it = objs.begin(); it != objs.end(); ++it) {
     float t = (*it)->hitObject(ray, normal, new_mat);
 
-    if(t < best_t && t >= 0.0) {
+    if(ray.updateLength(t)) {
       best_t = t;
       best_normal = normal;
       best_mat = new_mat;
       best_obj = (*it);
+      ray.setHittedObject(best_obj);
     }
   }
 
   if(best_t < FLT_MAX) {
     n = best_normal.unit();
     mat = best_mat;
-    ray.setHittedObject(best_obj);
   }
 
   return best_t;
@@ -174,7 +174,7 @@ float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces,
   Vertex3f vector = ray.getDirection();
   float best_u = 0.0;
   float best_v = 0.0;
-  
+
   for (uint32_t i = 0; i < faces_num; i++) {
       Face3f face = faces[i];
       Vertex3f v0 = vertices[face.vertices[0]];
@@ -190,7 +190,7 @@ float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces,
       float u, v;
       float tint = hitTriangle(ray, v0, v1, v2, u, v);
 
-      if (tint >= 1e-4 && tint < best_t) {
+      if (ray.updateLength(tint)) {
         best_t = tint;
         ret_mat = obj->getMaterial();
         ret_n = n;
@@ -198,6 +198,10 @@ float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces,
         best_face = i;
         best_u = u;
         best_v = v;
+
+        ray.setUV(u, v);
+        ray.setHittedFace(best_face);
+        ray.setHittedObject(obj);
 
         if(mouse_debug && !shadow_debug) {
           std::cout << "hitFirstObjectListe(): T: " << tint <<"\n";
@@ -212,8 +216,5 @@ float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces,
     std::cout << "-> hitTriangles(shadow) best_t: " << best_t <<"\n";
   }
 
-  ray.setLength(best_t);
-  ray.setHittedFace(best_face);
-  ray.setUV(best_u, best_v);
   return best_t;
 }

@@ -41,6 +41,7 @@ public:
   Vertex3f& getDirection();
 
   void setLength(float t);
+  bool updateLength(float t);
   float getLength();
 
   void setMaxLength(float t);
@@ -51,7 +52,7 @@ public:
 
   void setHittedFace(int hitted_face);
   int getHittedFace();
-  
+
   void setUV(float u, float v);
   void getUV(float &u, float &v);
 

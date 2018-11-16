@@ -55,6 +55,15 @@ void Ray::setLength(float t) {
   }
 }
 
+bool Ray::updateLength(float t) {
+  if(t <= this->length && t > 1e-4 && t < FLT_MAX) {
+    this->length = t;
+    return true;
+  }
+  return false;
+}
+
+
 float Ray::getLength() {
   return this->length;
 }
@@ -80,10 +89,9 @@ void Ray::setHittedFace(int face) {
 }
 
 int Ray::getHittedFace() {
-  return this->hitted_face; 
+  return this->hitted_face;
 }
 
-  
 void Ray::setUV(float u, float v) {
   this->u = u;
   this->v = v;
