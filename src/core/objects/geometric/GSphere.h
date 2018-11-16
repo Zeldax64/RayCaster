@@ -36,6 +36,8 @@ public:
   void setRadius(float r);
   void setCenter(Vertex3f c);
   void setMaterial(Material & new_mat);
+  Material getTexturedMaterial(uint32_t face, float u, float v);
+
 
   float getRadius();
   Vertex3f* getCenter();

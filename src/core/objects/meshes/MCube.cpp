@@ -108,6 +108,10 @@ float MCube::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
 
 Material* MCube::getMaterial() { return &this->material; }
 
+Material MCube::getTexturedMaterial(uint32_t face, float u, float v) {
+	return *(this->getMaterial());
+}
+
 void MCube::print(){
 	for(uint8_t i = 0; i < 8; i++){
 		vertices[i].print();

@@ -36,6 +36,10 @@ float GSphere::getRadius() { return radius; }
 Vertex3f* GSphere::getCenter() { return &center; }
 Material* GSphere::getMaterial() { return &material; }
 
+Material GSphere::getTexturedMaterial(uint32_t face, float u, float v) {
+  return *(this->getMaterial());
+}
+
 void GSphere::print() {
   std::cout << "Center: ";
   center.print();

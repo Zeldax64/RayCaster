@@ -32,6 +32,8 @@ public:
 
   Material* getMaterial();
   void setMaterial(Material & new_mat);
+  Material getTexturedMaterial(uint32_t face, float u, float v);
+  
   void print();
 
 };

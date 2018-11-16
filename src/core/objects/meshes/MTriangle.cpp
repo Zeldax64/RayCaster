@@ -60,6 +60,11 @@ float MTriangle::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
 
 Material* MTriangle::getMaterial() { return &this->material; }
 
+Material MTriangle::getTexturedMaterial(uint32_t face, float u, float v) {
+	return *(this->getMaterial());
+}
+
+
 void MTriangle::print(){
 	for(uint8_t i = 0; i < 3; i++){
 		vertices[i].print();

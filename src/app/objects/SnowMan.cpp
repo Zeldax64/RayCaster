@@ -81,6 +81,10 @@ Material* SnowMan::getMaterial() {
   return NULL;
 }
 
+Material SnowMan::getTexturedMaterial(uint32_t face, float u, float v) {
+	return Material();
+}
+
 void SnowMan::print() {
   this->snow->print();
   this->rock->print();

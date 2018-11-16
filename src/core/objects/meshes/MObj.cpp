@@ -20,6 +20,11 @@ float MObj::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
 
 Material* MObj::getMaterial() { return &this->material; }
 
+Material MObj::getTexturedMaterial(uint32_t face, float u, float v) {
+  Material tex_mat = texture->getTexturedMaterial(faces[face], face, u, v);
+  return tex_mat;
+}
+
 void MObj::print(){
   	for(uint32_t i = 0; i < vertices_num; i++){
   		vertices[i].print();

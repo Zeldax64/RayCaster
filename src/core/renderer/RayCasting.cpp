@@ -117,14 +117,22 @@ Color* RayCasting::getBuffer() { return buff; }
 void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray & ray, Vertex3f & n) {
   //std::cout << "->calcIllumination()" << "\n";
   //std::cout << "X: " << x_line << " Y: " << y_line << "\n";
+  // TODO: texture test!
+  Object* obj = ray.getHittedObject();
+  float u, v;
+  ray.getUV(u, v);
+  Material tex_mat = obj->getTexturedMaterial(ray.getHittedFace(), u, v);
+
   Color* col_amb = scn->getAmb();
 
   Color I_amb, I_dif, I_spe;
   Color* kamb;
   Color* kdif;
   Color* kspe;
+
   // Ambient illumination
   kamb = mat.getAmb();
+  kamb = tex_mat.getAmb();
   I_amb = (*col_amb) * (*kamb);
 
   std::list<Light*>* lights = scn->getLights();
@@ -151,6 +159,7 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
         float cos_theta = l.dotProduct(n);
         if(cos_theta >= 0.0) {
           kdif = mat.getDif();
+          kdif = tex_mat.getDif();
           Color contribution = (*src_int) * (*kdif) * cos_theta;
           I_dif =  I_dif + contribution;
         }
@@ -163,6 +172,7 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
 
         // Specular illumination
         kspe = mat.getSpe();
+        kspe = tex_mat.getSpe();
         float spe_exp = mat.getSpeExp();
         Vertex3f r = n*2*(l.dotProduct(n))-l;
         r = r.unit();
