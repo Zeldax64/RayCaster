@@ -13,6 +13,7 @@
 #include "core/material/Material.h"
 #include "core/intersect/intersect.h"
 #include "core/math/Ray.h"
+#include "core/texture/Texture.h"
 #include "util/objloader.h"
 
 class MObj : public Object
@@ -23,7 +24,7 @@ class MObj : public Object
   uint32_t faces_num;
 
   Material material;
-  Color* texture;
+  Texture* texture;
 
 public:
   MObj();

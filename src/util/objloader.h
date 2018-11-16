@@ -21,6 +21,8 @@ bool loadOBJ (
   const char* path,
   std::vector <Vertex3f> * out_vertices,
   std::vector <Face3f> * out_faces,
+  std::vector <float> * out_u,
+  std::vector <float> * out_v,
   Material & out_mat,
   Color* & out_tex
 );

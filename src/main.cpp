@@ -147,7 +147,7 @@ int main(int argc, char **argv) {
 	//	Load object from file
 	MObj* obj = new MObj();
 	//bool load = obj->loadObj("cube_textured.obj");
-	bool load = obj->loadObj("YoungLink.obj");
+	bool load = obj->loadObj("cube_textured.obj");
 	if(!load) {
 		return 0;
 	}

@@ -34,11 +34,13 @@ void MObj::print(){
 bool MObj::loadObj(const char * path) {
   std::vector <Vertex3f> out_vertices;
   std::vector <Face3f> out_faces;
+  std::vector <float> out_u;
+  std::vector <float> out_v;
   Material out_mat;
   Color* out_tex;
 
   std::cout << "Load file init!\n";
-  bool load = loadOBJ(path, &out_vertices, &out_faces, out_mat, out_tex);
+  bool load = loadOBJ(path, &out_vertices, &out_faces, &out_u, &out_v, out_mat, out_tex);
   std::cout << "Load file done!\n";
 
   if (load){
@@ -62,7 +64,18 @@ bool MObj::loadObj(const char * path) {
     faces_num = out_faces.size();
 
     this->material = out_mat;
-    this->texture = out_tex;
+
+    if(this->texture != NULL) {
+      delete texture;
+    }
+
+    texture = new Texture(out_mat, 
+                          out_u, 
+                          out_v,
+                          out_tex,
+                          getImageWidth(),
+                          getImageHeight());
+
 
     std::cout << "Passed!\n";
   }

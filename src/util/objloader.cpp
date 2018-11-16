@@ -4,6 +4,8 @@ bool loadOBJ (
   const char* path,
   std::vector <Vertex3f> * out_vertices,
   std::vector <Face3f> * out_faces,
+  std::vector <float> * out_u,
+  std::vector <float> * out_v,
   Material &out_mat,
   Color* & out_tex
 ) {
@@ -17,6 +19,8 @@ bool loadOBJ (
 
   std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
   std::vector<Vertex3f> temp_vertices;
+  std::vector<float> temp_u;
+  std::vector<float> temp_v;
 
   char mat_path[100];
 
@@ -54,6 +58,18 @@ bool loadOBJ (
           vertex.moveTo(x, y, z);
           out_vertices->push_back(vertex);
         }
+        else if(strcmp(lineHeader, "vt") == 0) {
+          float u, v;
+          int matches = fscanf(file, "%f %f", &u, &v);
+          if(matches != 2) {
+            std::cout << "File can't be read by our simple parser\n";
+            fclose(file);
+            return false;
+          }
+          temp_u.push_back(u);
+          temp_v.push_back(v);
+
+        }
         else if(strcmp(lineHeader, "f") == 0) {
           std::string vertex1, vertex2, vertex3;
           unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
@@ -66,12 +82,18 @@ bool loadOBJ (
           }
           //int matches = fscanf(file, "%d %d %d\n", &vertexIndex[0], &vertexIndex[1], &vertexIndex[2]);
 
-
           vertexIndices.push_back(vertexIndex[0]);
           vertexIndices.push_back(vertexIndex[1]);
           vertexIndices.push_back(vertexIndex[2]);
+          
+          uvIndices.push_back(uvIndex[0]);
+          uvIndices.push_back(uvIndex[1]);
+          uvIndices.push_back(uvIndex[2]);
+
           Face3f face(vertexIndex[0]-1, vertexIndex[1]-1, vertexIndex[2]-1);
           out_faces->push_back(face);
+
+
         }
         else{
           // Probably a comment, eat up the rest of the line
@@ -80,6 +102,13 @@ bool loadOBJ (
         }
 
     }
+  }
+
+  for (uint32_t i=0; i < vertexIndices.size(); i++) {
+    
+    out_u->push_back(temp_u[uvIndices[i]-1]);
+    out_v->push_back(temp_v[uvIndices[i]-1]);
+
   }
 
   fclose(file);
