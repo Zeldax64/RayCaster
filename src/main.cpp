@@ -144,6 +144,7 @@ int main(int argc, char **argv) {
 	std::cout << "t = " << t << "\n";
 	*/
 
+
 	//	Load object from file
 	MObj* obj = new MObj();
 	//bool load = obj->loadObj("YoungLink.obj");
@@ -159,6 +160,7 @@ int main(int argc, char **argv) {
 	scale.scale(0.07, 0.07, 0.07);
 	translate.translate(0.0, -4.0, 0.0);
 	//obj->applyTransform(translate*rotatey*scale);
+
 	RayCasting render(X_WIDTH, Y_WIDTH);
 
 	render.setScenery(&scn);

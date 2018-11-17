@@ -121,9 +121,7 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
   Object* obj = ray.getHittedObject();
   float u, v;
   ray.getUV(u, v);
-  if(ray.getLength() != t) {
-    std::cout << "Ray Length != t!!!" << std::endl;
-  }
+
   Material tex_mat = obj->getTexturedMaterial(ray.getHittedFace(), u, v);
 
   Color* col_amb = scn->getAmb();
@@ -134,7 +132,6 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
   Color* kspe;
 
   // Ambient illumination
-  kamb = mat.getAmb();
   kamb = tex_mat.getAmb();
   I_amb = (*col_amb) * (*kamb);
 
@@ -160,7 +157,6 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
         // Diffuse illumination
         float cos_theta = l.dotProduct(n);
         if(cos_theta >= 0.0) {
-          kdif = mat.getDif();
           kdif = tex_mat.getDif();
           Color contribution = (*src_int) * (*kdif) * cos_theta;
           I_dif =  I_dif + contribution;
@@ -173,9 +169,8 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
         }
 
         // Specular illumination
-        kspe = mat.getSpe();
         kspe = tex_mat.getSpe();
-        float spe_exp = mat.getSpeExp();
+        float spe_exp = tex_mat.getSpeExp();
         Vertex3f r = n*2*(l.dotProduct(n))-l;
         r = r.unit();
         cos_theta = r.dotProduct(v);

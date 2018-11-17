@@ -13,10 +13,10 @@ Texture::Texture(Material new_mat,
 		this->v.push_back(v[i]);
 	}
 
-	/*
+	std::cout << "Printing vt: "<< std::endl;
 	for(int i = 0; i < v.size(); i++) {
-      std::cout << i << ") u: " << u[i] <<" v: " << v[i] << std::endl;
-    }*/
+		std::cout << i << ") u: " << u[i] <<" v: " << v[i] << std::endl;
+  }
 
     this->tex_img = image;
     this->img_width = width;
@@ -36,16 +36,6 @@ Material Texture::getTexturedMaterial(Face3f & face, uint32_t face_num, float u,
 
 	float ua, ub, uc, va, vb, vc;
 
-	/*
-	ua = this->u[Va+face_num*3];
-	va = this->v[Va+face_num*3];
-
-	ub = this->u[Vb+face_num*3];
-	vb = this->v[Vb+face_num*3];
-
-	uc = this->u[Vc+face_num*3];
-	vc = this->v[Vc+face_num*3];
-	*/
 	ua = this->u[face_num*3+0];
 	va = this->v[face_num*3+0];
 
@@ -54,37 +44,27 @@ Material Texture::getTexturedMaterial(Face3f & face, uint32_t face_num, float u,
 
 	uc = this->u[face_num*3+2];
 	vc = this->v[face_num*3+2];
-/*
-		if(face_num == 6) {
-			std::cout << "ua = " << ua << " va = " << va << std::endl;
-			std::cout << "ub = " << ub << " vb = " << vb << std::endl;
-			std::cout << "uc = " << uc << " vc = " << vc << std::endl;
-		}
-*/
-	//float u_img = ua + u*(ub-ua) + v*(uc-ua);
-	//float v_img = va + u*(vb-va) + v*(vc-va);
+
 
 	float u_img = ua + u*(ub-ua) + v*(uc-ua);
 	float v_img = va + u*(vb-va) + v*(vc-va);
 
 
 	if(u_img > 1.0) {
-		std::cout << "u_img > 1.0 = " << u_img << std::endl;
 		u_img = 1.0;
 	}
 	if(u_img < 0.0) {
-		std::cout << "u_img < 0.0 = " << u_img << std::endl;
 		u_img = 0.0;
 	}
 	if(v_img > 1.0) {
-		std::cout << "v_img > 1.0 = " << v_img << std::endl;
 		v_img = 1.0;
 	}
-
 	if( v_img < 0.0) {
-		std::cout << "v_img < 1.0 = " << v_img << std::endl;
 		v_img = 0.0;
 	}
+
+	//u_img = 1.0 - u_img;
+	//v_img = 1.0 - v_img;
 	u_img = u_img * img_width;
 	v_img = v_img * img_width;
 

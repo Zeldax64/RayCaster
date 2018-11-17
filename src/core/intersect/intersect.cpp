@@ -49,8 +49,6 @@ float hitFirstObjectList(std::list<Object*> & objs, Ray & ray) {
   Material* new_mat;
   float best_t = FLT_MAX;
 
-  int i = 0;
-  int best_i = -1;
   std::list<Object*>::iterator it;
   for(it = objs.begin(); it != objs.end(); ++it) {
     float t = (*it)->hitObject(ray, normal, new_mat);
@@ -58,14 +56,7 @@ float hitFirstObjectList(std::list<Object*> & objs, Ray & ray) {
     if(t < best_t && t >= 1e-4) { // t >= 1e-4 To solve shadow acne problem
       best_t = t;
 
-      best_i = i;
     }
-
-
-    i++;
-  }
-  if(best_i != -1) {
-    ////std::cout << "Obj" << best_i << " melhor! t = "<< best_t << "\n";
   }
   return best_t;
 }
@@ -215,6 +206,8 @@ float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces,
   if(mouse_debug && shadow_debug) {
     std::cout << "-> hitTriangles(shadow) best_t: " << best_t <<"\n";
   }
+  if(ray.getHittedFace() != best_face) {
 
+  }
   return best_t;
 }
