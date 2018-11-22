@@ -16,15 +16,15 @@
 #include "core/intersect/intersect.h"
 #include "core/math/Ray.h"
 
-#define verticessize 44
-#define facessize 80
-#define imax 11
+//#define verticessize 44
+//#define facessize 80
+//#define imax 11
 #define PI 3.14159265
 class Pot : public Object
 {
-	Vertex3f vertices[verticessize];
+	Vertex3f *vertices;
 	//Edge3f edges[12];
-	Face3f faces[facessize];
+	Face3f *faces;
 
 	Material material;
 
@@ -32,6 +32,8 @@ public:
 	Pot();
 	Pot(Material & mat);
 	~Pot();
+	int verticessize;
+	int facessize;
 	void applyTransform(const TMatrix & param);
 
 	float hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat);
