@@ -1,9 +1,19 @@
 #include "app/objects/Pot.h"
+#define imax 11
 
 Pot::Pot() {
-	int angulo = 90;
+	int angulo = 45;
 	float seno, cosseno;
+	int j,k,a,b,c,d;
+    	int kmax = 360/angulo;
+
+	verticessize = imax*kmax;
+	facessize = (imax-1)*kmax*2;
+
+	vertices = new Vertex3f[verticessize];
+	faces = new Face3f[facessize]; 
 	float pote[imax][2] = {
+			{0.0,0.0},
                         {0.85,0.0},
                         {0.85,0.1},
                         {0.80,0.2},
@@ -14,8 +24,7 @@ Pot::Pot() {
                         {0.20,0.7},
                         {0.30,0.8},
                         {0.40,0.9}};
-
-    int j=0;
+	j=0;
     for(int ang=0;ang<360;ang=ang+angulo)
     {
         cosseno = cos(ang*PI/180);
@@ -23,12 +32,11 @@ Pot::Pot() {
 
         for(int i=0;i<imax;i++)
         {
-						vertices[j].moveTo(pote[i][0]*cosseno+0, pote[i][1], -pote[i][0]*seno+0);
+			vertices[j].moveTo(pote[i][0]*cosseno+0, pote[i][1], -pote[i][0]*seno+0);
             j++;
         }
     }
-    int k,a,b,c,d;
-    int kmax = 360/angulo;
+
     j=0;
 
     for(int kaux=0;kaux<kmax;kaux++)
@@ -38,22 +46,19 @@ Pot::Pot() {
             k =  kaux;
             a =  k*imax+i;
             c =  k*imax+i+1;
-
             if((k+1)>=kmax) b=i;
             else b = (k+1)*imax +i;
             if((k+1)>=kmax) d=i+1;
             else d = (k+1)*imax +i+1;
-
-						faces[j].setFace(a, b, c);
+			faces[j].setFace(a, b, c);
             j++;
-						faces[j].setFace(b, d, c);
+			faces[j].setFace(b, d, c);
             j++;
         }
     }
-
 	this->material.setAmb(0.8, 0.8, 0.8);
-  this->material.setDif(0.5, 0.5, 0.5);
-  this->material.setSpe(0.0, 0.0, 0.0, 0.0);
+	this->material.setDif(0.5, 0.5, 0.5);
+	this->material.setSpe(0.0, 0.0, 0.0, 0.0);
 }
 
 Pot::~Pot() {
