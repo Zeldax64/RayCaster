@@ -85,7 +85,7 @@ bool loadOBJ (
           vertexIndices.push_back(vertexIndex[0]);
           vertexIndices.push_back(vertexIndex[1]);
           vertexIndices.push_back(vertexIndex[2]);
-          
+
           uvIndices.push_back(uvIndex[0]);
           uvIndices.push_back(uvIndex[1]);
           uvIndices.push_back(uvIndex[2]);
@@ -105,7 +105,7 @@ bool loadOBJ (
   }
 
   for (uint32_t i=0; i < vertexIndices.size(); i++) {
-    
+
     out_u->push_back(temp_u[uvIndices[i]-1]);
     out_v->push_back(temp_v[uvIndices[i]-1]);
 
@@ -133,7 +133,12 @@ bool loadMTL (
 
   float Ka_r, Ka_g, Ka_b;
   float Kd_r, Kd_g, Kd_b;
-  float Ks_r, Ks_g, Ks_b, Ks_n;
+  float Ks_r, Ks_g, Ks_b;
+  float Ks_n = 1;
+
+  Ka_r = Ka_g = Ka_b = 0;
+  Kd_r = Kd_g = Kd_b = 0;
+  Ks_r = Ks_g = Ks_b = 0;
 
   while(1) {
     char lineHeader[128];

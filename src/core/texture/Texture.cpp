@@ -13,16 +13,17 @@ Texture::Texture(Material new_mat,
 		this->v.push_back(v[i]);
 	}
 
+/*
 	std::cout << "Printing vt: "<< std::endl;
 	for(int i = 0; i < v.size(); i++) {
 		std::cout << i << ") u: " << u[i] <<" v: " << v[i] << std::endl;
   }
-
+*/
     this->tex_img = image;
     this->img_width = width;
     this->img_height = height;
 
-    std::cout << "Width: " << img_width << " Height: " << img_height << std::endl;
+//    std::cout << "Width: " << img_width << " Height: " << img_height << std::endl;
 }
 
 Texture::~Texture() {
@@ -30,10 +31,6 @@ Texture::~Texture() {
 }
 
 Material Texture::getTexturedMaterial(Face3f & face, uint32_t face_num, float u, float v) {
-	uint32_t Va = face.vertices[0];
-	uint32_t Vb = face.vertices[1];
-	uint32_t Vc = face.vertices[2];
-
 	float ua, ub, uc, va, vb, vc;
 
 	ua = this->u[face_num*3+0];

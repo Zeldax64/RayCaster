@@ -1,10 +1,14 @@
 #include "core/objects/meshes/MObj.h"
 MObj::MObj() {
+  this->vertices = NULL;
+  this->faces = NULL;
+  this->texture = NULL;
 }
 
 MObj::~MObj() {
   delete[] this->vertices;
   delete[] this->faces;
+  delete[] this->texture;
 }
 
 void MObj::applyTransform(const TMatrix & param) {
@@ -21,8 +25,12 @@ float MObj::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
 Material* MObj::getMaterial() { return &this->material; }
 
 Material MObj::getTexturedMaterial(uint32_t face, float u, float v) {
-  Material tex_mat = texture->getTexturedMaterial(faces[face], face, u, v);
-  return tex_mat;
+  if(this->texture != NULL) {
+    return texture->getTexturedMaterial(faces[face], face, u, v);
+  }
+  else {
+    return *(this->getMaterial());
+  }
 }
 
 void MObj::print(){
@@ -53,8 +61,10 @@ bool MObj::loadObj(const char * path) {
       delete[] this->vertices;
     if(this->faces != NULL)
       delete[] this->faces;
-    if(this->texture != NULL)
+    if(this->texture != NULL) {
       delete[] this->texture;
+    }
+    this->texture = NULL;
 
     this->vertices = new Vertex3f[out_vertices.size()];
     this->faces = new Face3f[out_faces.size()];
@@ -70,17 +80,14 @@ bool MObj::loadObj(const char * path) {
 
     this->material = out_mat;
 
-    if(this->texture != NULL) {
-      delete texture;
+    if(getImageWidth()) { // Check if there is a texture loaded. v_out.size() could be used instead
+      texture = new Texture(out_mat,
+                            out_u,
+                            out_v,
+                            out_tex,
+                            getImageWidth(),
+                            getImageHeight());
     }
-
-    texture = new Texture(out_mat, 
-                          out_u, 
-                          out_v,
-                          out_tex,
-                          getImageWidth(),
-                          getImageHeight());
-
 
     std::cout << "Passed!\n";
   }

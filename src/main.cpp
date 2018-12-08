@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
 	Vertex3f avup(0.0, 0.0, 1.0);
 	Vertex3f look_at(51.0/2.0, 12.0+25.0*sqrt(3)/6, 0);
 */
-	Vertex3f cam_pos(10.0, 0.0, 0.0);
+	Vertex3f cam_pos(40.0, 0.0, 0.0);
 	Vertex3f avup(0.0, 1.0, 0.0);
 	Vertex3f look_at(0, 0, 0);
 
@@ -149,6 +149,7 @@ int main(int argc, char **argv) {
 	MObj* obj = new MObj();
 	//bool load = obj->loadObj("YoungLink.obj");
 	bool load = obj->loadObj("cube_textured.obj");
+	//bool load = obj->loadObj("simplev3.obj");
 	if(!load) {
 		return 0;
 	}
@@ -159,6 +160,7 @@ int main(int argc, char **argv) {
 	rotatey.rotateY(90);
 	scale.scale(0.07, 0.07, 0.07);
 	translate.translate(0.0, -4.0, 0.0);
+
 	//obj->applyTransform(translate*rotatey*scale);
 
 	RayCasting render(X_WIDTH, Y_WIDTH);

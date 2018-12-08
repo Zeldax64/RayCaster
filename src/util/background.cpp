@@ -5,7 +5,11 @@
 bool loadImage(const char *filename, Color * & buffer) {
    ILuint    image;
    ILboolean success;
+   // TODO: test background again
    ilInit();
+   ilEnable(IL_ORIGIN_SET);
+   ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+
    ilGenImages(1, &image);
    ilBindImage(image);
 

@@ -163,8 +163,6 @@ float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces,
   float best_t = FLT_MAX;
   int best_face = -1;
   Vertex3f vector = ray.getDirection();
-  float best_u = 0.0;
-  float best_v = 0.0;
 
   for (uint32_t i = 0; i < faces_num; i++) {
       Face3f face = faces[i];
@@ -187,8 +185,6 @@ float hitTriangles(Ray & ray, Object * obj, Vertex3f * vertices, Face3f * faces,
         ret_n = n;
 
         best_face = i;
-        best_u = u;
-        best_v = v;
 
         ray.setUV(u, v);
         ray.setHittedFace(best_face);
