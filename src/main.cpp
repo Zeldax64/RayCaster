@@ -31,8 +31,8 @@
 #include "app/objects/SnowMan.h"
 #include "app/objects/Pot.h"
 
-#define X_WIDTH 500
-#define Y_WIDTH 500
+#define X_WIDTH 1000
+#define Y_WIDTH 1000
 
 using namespace std;
 
@@ -56,7 +56,7 @@ void buildScenery(Scenery * scn) {
 	// Adding Snowmen
 	SnowMan* snowman1 = new SnowMan(-0.0, 3.0 + plane_height, 0.0);
 	SnowMan* snowman2 = new SnowMan(8.0, 3.0 + plane_height, 8.0);
-	//scn->addObj(snowman1);
+	scn->addObj(snowman1);
 	//scn->addObj(snowman2);
 
 	Material* mat = new Material(0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 1.0);
@@ -95,13 +95,20 @@ void buildScenery(Scenery * scn) {
 	scn->addLight(light_src1);
 	//scn->addLight(light_src2);
 }
+void buildScenerySpheres(Scenery * scn) {
+	Material * snow = new Material(1.0, 1.0, 1.0,
+						 									 	 0.7, 0.7, 0.7,
+															 	 0.5, 0.5, 0.5, 1.0);
+	GSphere * s1 = new GSphere();
+	s1->setRadius(3.0);
+	s1->setMaterial(*snow);
 
-void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, float fov, Scenery * scn) {
+}
+
+void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, Scenery * scn) {
 	scn->setCamPos(pos);
 	scn->setCamLookAt(look_at);
 	scn->setCamAViewUp(avup);
-	Camera* cam = scn->getCam();
-	cam->setFOV(90.0);
 	scn->calcCamCoord();
 }
 
@@ -114,42 +121,18 @@ int main(int argc, char **argv) {
 	Scenery scn;
 	buildScenery(&scn);
 
-/*
-	Vertex3f cam_pos(-2.0, 32.0, 25.0*sqrt(6)/6);
-	Vertex3f avup(0.0, 0.0, 1.0);
-	Vertex3f look_at(51.0/2.0, 12.0+25.0*sqrt(3)/6, 0);
-*/
-	Vertex3f cam_pos(40.0, 0.0, 0.0);
+	Vertex3f cam_pos(15.0, 15.0, -15.0);
 	Vertex3f avup(0.0, 1.0, 0.0);
 	Vertex3f look_at(0, 0, 0);
 
-	float fov = 90.0;
-	buildCam(cam_pos, look_at, avup, fov, &scn);
-	// Render Debug
-	/*
-	scn.worldToCamTransform();
-	float c = 254; float l = 275;
-
-	float dx = 1.0/X_WIDTH;
-	float dy = 1.0/Y_WIDTH;
-	float x = -(1.0/2) + dx/2 + c * dx;
-	float y = (1.0/2) - dy/2 - l * dy;
-	Vertex3f dir = Vertex3f(x, y, -1.0);
-	Ray ray(dir);
-	Material* mat;
-	Vertex3f n;
-	float t = hitObjectList(scn.objs, ray, mat, n);
-	std::cout << "&mat = " << mat << "\n";
-	mat->print();
-	std::cout << "t = " << t << "\n";
-	*/
-
+	buildCam(cam_pos, look_at, avup, &scn);
 
 	//	Load object from file
 	MObj* obj = new MObj();
-	//bool load = obj->loadObj("YoungLink.obj");
-	bool load = obj->loadObj("cube_textured.obj");
-	//bool load = obj->loadObj("simplev3.obj");
+	bool load = true;
+	//load = obj->loadObj("YoungLink.obj");
+	//load = obj->loadObj("cube_textured.obj");
+	//load = obj->loadObj("simplev3.obj");
 	if(!load) {
 		return 0;
 	}
@@ -158,7 +141,7 @@ int main(int argc, char **argv) {
 	rotatez.rotateZ(90);
 	rotatex.rotateX(90);
 	rotatey.rotateY(90);
-	scale.scale(0.07, 0.07, 0.07);
+	scale.scale(0.20, 0.20, 0.20);
 	translate.translate(0.0, -4.0, 0.0);
 
 	//obj->applyTransform(translate*rotatey*scale);

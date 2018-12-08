@@ -30,13 +30,9 @@ public:
   MObj();
   ~MObj();
   void applyTransform(const TMatrix & param);
-
-	float hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat);
-  Material* getMaterial();
-
-  Material getTexturedMaterial(uint32_t face, float u, float v);
-  
+	float hitObject(Ray & ray);
+  Material getMaterial(Ray &ray);
 	void print();
-  bool loadObj(const char * path);
 
+  bool loadObj(const char * path);
 };

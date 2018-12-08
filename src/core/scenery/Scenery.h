@@ -39,7 +39,7 @@ public:
   void applyTransformAll(const TMatrix & matrix);
 
 /*----- Ray Intersection -----*/
-  float hitRay(Ray & ray, Material & mat, Vertex3f & n);
+  float hitRay(Ray & ray);
   float lookShadow(Ray & ray);
   float castRay(Ray & ray);
 /*----- Light sources methods -----*/

@@ -30,7 +30,11 @@ Texture::~Texture() {
 	delete[] this->tex_img;
 }
 
-Material Texture::getTexturedMaterial(Face3f & face, uint32_t face_num, float u, float v) {
+Material Texture::getTexturedMaterial(Ray &ray) {
+	uint32_t face_num = ray.getHittedFace();
+	float u, v;
+	ray.getUV(u, v);
+
 	float ua, ub, uc, va, vb, vc;
 
 	ua = this->u[face_num*3+0];
@@ -60,8 +64,6 @@ Material Texture::getTexturedMaterial(Face3f & face, uint32_t face_num, float u,
 		v_img = 0.0;
 	}
 
-	//u_img = 1.0 - u_img;
-	//v_img = 1.0 - v_img;
 	u_img = u_img * img_width;
 	v_img = v_img * img_width;
 

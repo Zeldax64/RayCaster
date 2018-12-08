@@ -9,7 +9,6 @@ class Camera
   Vertex3f look_at; // Point where camera is looking at
   Vertex3f avup;    // A View Up
   Vertex3f vup;     // View up (check if this is necessary)
-  float fov;
 
   // New basis vectors
   Vertex3f j; // Unit vector i from coordinate system
@@ -20,27 +19,21 @@ class Camera
 
 public:
   Camera();
-  Camera(Vertex3f cam_position, Vertex3f look_at, Vertex3f a_view_up, Vertex3f view_up, float fov);
+  Camera(Vertex3f cam_position, Vertex3f look_at, Vertex3f a_view_up, Vertex3f view_up);
   ~Camera();
 
   void setPosition(Vertex3f position);
-  void setLookAt(Vertex3f position);
-  void setAViewUp(Vertex3f position);
-  void setFOV(float fov);
-
   Vertex3f getPosition();
   Vertex3f getLookAt();
+  void setLookAt(Vertex3f position);
   Vertex3f getAViewUp();
-  float getFOV();
+  void setAViewUp(Vertex3f position);
 
   void calcCoordSystemBasis();
 
   Vertex3f getI();
   Vertex3f getJ();
   Vertex3f getK();
-
 //  void getCoord();
-
   void print();
-
 };

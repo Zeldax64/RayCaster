@@ -18,13 +18,7 @@ public:
   ~SnowMan();
 
   void applyTransform(const TMatrix & param);
-
   float hitObject(Ray & ray);
-  float hitObject(Ray & ray, Vertex3f & normal);
-  float hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat);
-
-  Material* getMaterial();
-  Material getTexturedMaterial(uint32_t face, float u, float v);
-
+  Material getMaterial(Ray & ray);
   void print();
 };

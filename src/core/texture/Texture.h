@@ -23,14 +23,14 @@ class Texture
 	int img_width, img_height;
 
 public:
-	Texture(Material new_mat, 
-			std::vector <float> u, 
-			std::vector <float> v, 
-			Color* image, 
-			int width, 
+	Texture(Material new_mat,
+			std::vector <float> u,
+			std::vector <float> v,
+			Color* image,
+			int width,
 			int height);
 
 	~Texture();
 
-	Material getTexturedMaterial(Face3f & face, uint32_t face_num, float u, float v);
-};	
+	Material getTexturedMaterial(Ray &ray);
+};

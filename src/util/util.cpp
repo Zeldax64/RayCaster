@@ -176,17 +176,12 @@ void rotateCamera(float dir) {
   rotatey.rotateY(theta);
 
   Vertex3f pos = cam->getPosition();
-/*
-  std::cout << "rotateCamera()";
-  std::cout << "CamPos (old): "; pos.print();
-  std::cout << "rotateCamera";
-*/
   pos.applyTransform(rotatey);
+
   cam->setPosition(pos);
-//  std::cout << "CamPos (new): "; (cam->getPosition()).print();
+
   scn->camToWorldTransform();
   scn->calcCamCoord();
-  cam->print();
   renderBuffer();
 }
 

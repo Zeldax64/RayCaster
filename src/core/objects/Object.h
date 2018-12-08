@@ -22,10 +22,9 @@ public:
 	~Object();
 
 	virtual void applyTransform(const TMatrix & param)=0;
-	virtual float hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat)=0;
+	virtual float hitObject(Ray & ray)=0;
 
-	virtual Material* getMaterial()=0;
-	virtual Material getTexturedMaterial(uint32_t face, float u, float v)=0;
-	
+	virtual Material getMaterial(Ray &ray)=0;
+
 	virtual void print()=0;
 };

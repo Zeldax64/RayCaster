@@ -11,7 +11,7 @@ Pot::Pot() {
 	facessize = (imax-1)*kmax*2;
 
 	vertices = new Vertex3f[verticessize];
-	faces = new Face3f[facessize]; 
+	faces = new Face3f[facessize];
 	float pote[imax][2] = {
 			{0.0,0.0},
                         {0.85,0.0},
@@ -71,17 +71,12 @@ void Pot::applyTransform(const TMatrix & param) {
 	}
 }
 
-float Pot::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
-	float t = hitTriangles(ray, this, vertices, faces, facessize, ret_n, ret_mat);
+float Pot::hitObject(Ray & ray) {
+	float t = hitTriangles(ray, this, vertices, faces, facessize);
 	return t;
 }
 
-Material* Pot::getMaterial() { return &this->material; }
-
-Material Pot::getTexturedMaterial(uint32_t face, float u, float v) {
-    return *(this->getMaterial());
-}
-
+Material Pot::getMaterial(Ray & ray) { return this->material; }
 
 void Pot::print(){
 

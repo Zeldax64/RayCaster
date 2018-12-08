@@ -102,6 +102,14 @@ void Ray::getUV(float &u, float &v) {
   v = this->v;
 }
 
+void Ray::setNormal(Vertex3f & n) {
+  this->n = n;
+}
+
+Vertex3f& Ray::getNormal() {
+  return this->n;
+}
+
 void Ray::print() {
   std::cout << "Origin = ";
   origin.print();

@@ -23,6 +23,7 @@ class Ray
   Object* hitted_obj;
   int hitted_face;
   float u, v;
+  Vertex3f n;
 
 public:
   Ray();
@@ -55,6 +56,9 @@ public:
 
   void setUV(float u, float v);
   void getUV(float &u, float &v);
+
+  void setNormal(Vertex3f & n);
+  Vertex3f& getNormal();
 
   void print();
 };

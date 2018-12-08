@@ -66,23 +66,14 @@ void SnowMan::applyTransform(const TMatrix & param) {
   }
 }
 
-float SnowMan::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
-  Material* first_mat;
-  float best_t = hitObjectList(objs, ray, first_mat, ret_n);
-
-  if(best_t < FLT_MAX) {
-    ret_mat = first_mat;
-  }
-
+float SnowMan::hitObject(Ray & ray) {
+  float best_t = hitObjectList(objs, ray);
   return best_t;
 }
 
-Material* SnowMan::getMaterial() {
-  return NULL;
-}
-
-Material SnowMan::getTexturedMaterial(uint32_t face, float u, float v) {
-	return Material();
+// This method should never be called.
+Material SnowMan::getMaterial(Ray & ray) {
+  return Material();
 }
 
 void SnowMan::print() {

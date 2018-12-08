@@ -25,18 +25,15 @@ public:
 
 	void applyTransform(const TMatrix & param);
 
-  float hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat);
-  //float hitObject(Ray & ray, Object * & out_obj, uint32_t & out_face, float & out_u, float & out_v)=0;
+  float hitObject(Ray & ray);
 
-  Material* getMaterial();
-  //Material getTexturedMaterial(uint32_t face, float u, float v)=0;
+  Material getMaterial(Ray & ray);
 
   void print();
 
   void setRadius(float r);
   void setCenter(Vertex3f c);
   void setMaterial(Material & new_mat);
-  Material getTexturedMaterial(uint32_t face, float u, float v);
 
 
   float getRadius();

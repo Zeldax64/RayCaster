@@ -35,8 +35,6 @@ Color* Material::getDif() { return &k_dif; }
 Color* Material::getSpe() { return &k_spe; }
 float Material::getSpeExp() { return spe_exp; }
 void Material::operator = (Material &param) {
-  //std::cout << "Operator = ";
-  //param.print();
   Color* k = param.getAmb();
   this->setAmb(k->getRed(), k->getGreen(), k->getBlue());
   k = param.getDif();

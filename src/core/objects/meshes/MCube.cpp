@@ -101,16 +101,12 @@ void MCube::applyTransform(const TMatrix & param) {
 	}
 }
 
-float MCube::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
-	float t =hitTriangles(ray, this, vertices, faces, 12, ret_n, ret_mat);
+float MCube::hitObject(Ray & ray) {
+	float t =hitTriangles(ray, this, vertices, faces, 12);
 	return t;
 }
 
-Material* MCube::getMaterial() { return &this->material; }
-
-Material MCube::getTexturedMaterial(uint32_t face, float u, float v) {
-	return *(this->getMaterial());
-}
+Material MCube::getMaterial(Ray & ray) { return this->material; }
 
 void MCube::print(){
 	for(uint8_t i = 0; i < 8; i++){

@@ -38,7 +38,7 @@ void MTriangle::applyTransform(const TMatrix & param) {
 	}
 }
 
-float MTriangle::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
+float MTriangle::hitObject(Ray & ray) {
 	Face3f face = faces[0];
 	Vertex3f v0 = vertices[face.vertices[0]];
 	Vertex3f v1 = vertices[face.vertices[1]];
@@ -50,20 +50,15 @@ float MTriangle::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
 	float tint = hitTriangle(ray, v0, v1, v2, u, v);
 
 	// TODO: improve hit checking to allow diferences between hidden faces
-	if (tint >= 1.0) {
-		ret_mat = &this->material;
-    	ret_n = (v1-v0).crossProduct(v2-v0);
+	if (ray.updateLength(tint)) {
+      Vertex3f n = (v1-v0).crossProduct(v2-v0);
+    	ray.setNormal(n);
     	ray.setUV(u, v);
 	}
 	return tint;
 }
 
-Material* MTriangle::getMaterial() { return &this->material; }
-
-Material MTriangle::getTexturedMaterial(uint32_t face, float u, float v) {
-	return *(this->getMaterial());
-}
-
+Material MTriangle::getMaterial(Ray &ray) { return this->material; }
 
 void MTriangle::print(){
 	for(uint8_t i = 0; i < 3; i++){

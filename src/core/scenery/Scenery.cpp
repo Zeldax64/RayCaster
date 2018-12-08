@@ -44,14 +44,8 @@ void Scenery::applyTransformAll(const TMatrix & matrix) {
 // in models which cointain more than one object.
 // Object hitObject must also return a material or a reference to the
 // hitted object.
-float Scenery::hitRay(Ray & ray, Material & mat, Vertex3f & n) {
-  Material* first_mat;
-  float best_t = hitObjectList(objs, ray, first_mat, n);
-
-  if(best_t < FLT_MAX) {
-    mat = *first_mat;
-  }
-
+float Scenery::hitRay(Ray & ray) {
+  float best_t = hitObjectList(objs, ray);
   return best_t;
 }
 
@@ -61,11 +55,7 @@ float Scenery::lookShadow(Ray & ray) {
 }
 
 float Scenery::castRay(Ray & ray) {
-  Material* first_mat;
-  Vertex3f n;
-  float best_t = hitObjectList(objs, ray, first_mat, n);
-
-  std::cout << "castRay()->n="; n.print();
+  float best_t = hitObjectList(objs, ray);
   return best_t;
 }
 

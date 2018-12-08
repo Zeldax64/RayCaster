@@ -43,14 +43,11 @@ void RayCasting::render() {
       Vertex3f n;
       Material mat;
       float t;
-      t = scn->hitRay(ray, mat, n);
+      t = scn->hitRay(ray);
 
       if(t >= 0.0 && t < FLT_MAX) {
         calcIllumination(&buff[l*width+c],
-                         t,
-                         mat,
-                         ray,
-                         n
+                         ray
                        );
       }
       else {
@@ -114,18 +111,19 @@ Camera* RayCasting::getCamera() { return cam; }
 Color* RayCasting::getBuffer() { return buff; }
 
 
-void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray & ray, Vertex3f & n) {
+void RayCasting::calcIllumination(Color * buffer, Ray & ray) {
   //std::cout << "->calcIllumination()" << "\n";
   //std::cout << "X: " << x_line << " Y: " << y_line << "\n";
   // TODO: texture test!
   Object* obj = ray.getHittedObject();
+  Material tex_mat = obj->getMaterial(ray);
+
   float u, v;
   ray.getUV(u, v);
 
-  Material tex_mat = obj->getTexturedMaterial(ray.getHittedFace(), u, v);
+  float t = ray.getLength();
 
   Color* col_amb = scn->getAmb();
-
   Color I_amb, I_dif, I_spe;
   Color* kamb;
   Color* kdif;
@@ -149,6 +147,8 @@ void RayCasting::calcIllumination(Color * buffer, float t, Material & mat, Ray &
       hit_point = ray_dir * t + ray_org;
       Vertex3f l = src->getPosition() - hit_point;
       l = l.unit();
+      Vertex3f n = ray.getNormal();
+      n = n.unit();
       Vertex3f v = -ray_dir; // Flipped ray
 
       shadow = calcShadow(src, hit_point);

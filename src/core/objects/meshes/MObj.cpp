@@ -17,19 +17,18 @@ void MObj::applyTransform(const TMatrix & param) {
 	}
 }
 
-float MObj::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
-	float t =hitTriangles(ray, this, vertices, faces, faces_num, ret_n, ret_mat);
+float MObj::hitObject(Ray & ray) {
+	float t =hitTriangles(ray, this, vertices, faces, faces_num);
 	return t;
 }
 
-Material* MObj::getMaterial() { return &this->material; }
-
-Material MObj::getTexturedMaterial(uint32_t face, float u, float v) {
+Material MObj::getMaterial(Ray &ray) {
   if(this->texture != NULL) {
-    return texture->getTexturedMaterial(faces[face], face, u, v);
+    Material mat = texture->getTexturedMaterial(ray);
+    return mat;
   }
   else {
-    return *(this->getMaterial());
+    return this->material;
   }
 }
 

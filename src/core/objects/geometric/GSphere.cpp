@@ -16,15 +16,14 @@ void GSphere::applyTransform(const TMatrix & param) {
   // By doing this it'll be possible to handle scale transformations
 }
 
-float GSphere::hitObject(Ray & ray, Vertex3f & ret_n, Material * & ret_mat) {
+float GSphere::hitObject(Ray & ray) {
   Vertex3f ray_dir = ray.getDirection();
 
   float t = hitSphereRayLength(ray, this);
-  if (t >= 1.0) {
-    ret_n = ((ray_dir*t) - this->center).unit();
+  if (ray.updateLength(t)) {
+    Vertex3f n = ((ray_dir*t) - this->center);
+    ray.setNormal(n);
   }
-  ret_mat = this->getMaterial();
-
   return t;
 }
 
@@ -34,11 +33,7 @@ void GSphere::setMaterial(Material & new_mat) { this->material = new_mat; }
 
 float GSphere::getRadius() { return radius; }
 Vertex3f* GSphere::getCenter() { return &center; }
-Material* GSphere::getMaterial() { return &material; }
-
-Material GSphere::getTexturedMaterial(uint32_t face, float u, float v) {
-  return *(this->getMaterial());
-}
+Material GSphere::getMaterial(Ray & ray) { return material; }
 
 void GSphere::print() {
   std::cout << "Center: ";
