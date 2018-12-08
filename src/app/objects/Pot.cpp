@@ -1,5 +1,5 @@
 #include "app/objects/Pot.h"
-#define imax 11
+#define imax 12
 
 Pot::Pot() {
 	int angulo = 45;
@@ -13,7 +13,7 @@ Pot::Pot() {
 	vertices = new Vertex3f[verticessize];
 	faces = new Face3f[facessize];
 	float pote[imax][2] = {
-			{0.0,0.0},
+			            {0.0,0.0},
                         {0.85,0.0},
                         {0.85,0.1},
                         {0.80,0.2},
@@ -23,7 +23,8 @@ Pot::Pot() {
                         {0.40,0.6},
                         {0.20,0.7},
                         {0.30,0.8},
-                        {0.40,0.9}};
+                        {0.40,0.9},
+                        {0.0,0.7}};
 	j=0;
     for(int ang=0;ang<360;ang=ang+angulo)
     {

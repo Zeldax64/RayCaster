@@ -31,64 +31,69 @@
 #include "app/objects/SnowMan.h"
 #include "app/objects/Pot.h"
 
-#define X_WIDTH 700
-#define Y_WIDTH 700
+#define X_WIDTH 500
+#define Y_WIDTH 500
 
 using namespace std;
 
 void buildScenery(Scenery * scn) {
 	// Add plane
 	float plane_height = 0.0;
-	TMatrix scale;
-	scale.scale(30.0, 0.01, 30.0);
-	TMatrix rotatey, rotatez;
+	TMatrix scale, rotatex ,rotatey, rotatez,translate;
+	/*scale.scale(30.0, 0.01, 30.0);
 	rotatez.rotateZ(0.0);
 	rotatey.rotateY(0.0);
 	TMatrix translate1;
 	translate1.translate(-0.5, -0.51, -0.5);
 	TMatrix translate2;
 	translate2.translate(0.0, plane_height, 0.0);
-	TMatrix transf2 = translate2*rotatez*rotatey*scale*translate1;
+	TMatrix transf2 = translate2*rotatez*rotatey*scale*translate1;*/
 
-	MCube* plane = new MCube();
-	plane->applyTransform(transf2);
+	/*MCube* plane = new MCube();
+	plane->applyTransform(transf2);*/
 
 	// Adding Snowmen
-	SnowMan* snowman1 = new SnowMan(-0.0, 3.0 + plane_height, 0.0);
-	SnowMan* snowman2 = new SnowMan(8.0, 3.0 + plane_height, 8.0);
+	//SnowMan* snowman1 = new SnowMan(-0.0, 3.0 + plane_height, 0.0);
+	//SnowMan* snowman2 = new SnowMan(8.0, 3.0 + plane_height, 8.0);
+	//scn->addObj(snowman1);
+	//scn->addObj(snowman2);
 
-
-	Material* mat = new Material(0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 1.0);
+	/*Material* mat = new Material(0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 1.0);
 	MCube* cube = new MCube(*mat);
 	scale.scale(4.0, 4.0, 4.0);
 	translate1.translate(0.0, 0.0, 0.0);
-	cube->applyTransform(translate1*scale);
+	cube->applyTransform(translate1*scale);*/
 
-	Vertex3f c; c.moveTo(0.0, 0.0, 0.0);
-	GSphere* sphere = new GSphere(c, 2, *mat);
+	/*Vertex3f c; c.moveTo(0.0, 0.0, 0.0);
+	GSphere* sphere = new GSphere(c, 2, *mat);*/
 
-	MTriangle* tr = new MTriangle(*mat);
+	/*MTriangle* tr = new MTriangle(*mat);
 	rotatez.rotateZ(90.0);
 	translate1.translate(0.0, 5.0, 0.0);
-	tr->applyTransform(translate1*rotatez*scale);
+	tr->applyTransform(translate1*rotatez*scale);*/
 
 	Pot* pot = new Pot();
-	scale.scale(10.0, 10.0, 10.0);
-	pot->applyTransform(scale);
+	translate.translate(3,1.2,-11.33);
+	scale.scale(1.3, 1.3, 1.3);
+	pot->applyTransform(translate*scale);
 
 
-	//scn->addObj(pot);
+	Pot* pot2 = new Pot();
+	translate.translate(-3,1.2,-11.33);
+	scale.scale(1.3, 1.3, 1.3);
+	pot2->applyTransform(translate*scale);
+
+	scn->addObj(pot);
+	scn->addObj(pot2);
+
 	//scn->addObj(cube);
 	//scn->addObj(sphere);
 	//scn->addObj(tr);
 	//scn->addObj(plane);
 
-	//scn->addObj(snowman1);
-	//scn->addObj(snowman2);
-
 	// Adding light
 	LPoint* light_src1 = new LPoint();
-	light_src1->setPosition(40.0,40.0,40.0);
+	light_src1->setPosition(0.0,40.0,-20.0);
 	light_src1->setSourceIntensity(0.7, 0.7, 0.7);
 	LPoint* light_src2 = new LPoint();
 	light_src2->setPosition(0.0, 25.5, 0.0);
@@ -98,35 +103,7 @@ void buildScenery(Scenery * scn) {
 	//scn->addLight(light_src2);
 }
 
-void buildScenerySpheres(Scenery * scn) {
-	Material * snow = new Material(1.0, 1.0, 1.0,
-						 									 	 0.7, 0.7, 0.7,
-															 	 0.5, 0.5, 0.5, 1.0);
-
-	Material * rock = new Material(0.0, 0.0, 0.0,
-														 		 0.5, 0.5, 0.5,
-																 0.3, 0.3, 0.3, 10.0);
-
-	GSphere * s1 = new GSphere();
-	s1->setRadius(1.0);
-	s1->setMaterial(*snow);
-
-	GSphere * s2 = new GSphere();
-	s2->setRadius(1.0);
-	Vertex3f center(-3.0, 0.0, 1.0);
-	s2->setCenter(center);
-	s2->setMaterial(*rock);
-
-	scn->addObj(s1);
-	scn->addObj(s2);
-
-	LPoint* light_src1 = new LPoint();
-	light_src1->setPosition(40.0,40.0,40.0);
-	light_src1->setSourceIntensity(0.7, 0.7, 0.7);
-	scn->addLight(light_src1);
-}
-
-void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, Scenery * scn) {
+void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, float fov, Scenery * scn) {
 	scn->setCamPos(pos);
 	scn->setCamLookAt(look_at);
 	scn->setCamAViewUp(avup);
@@ -141,32 +118,63 @@ int main(int argc, char **argv) {
 	// Build scenery
 	Scenery scn;
 	buildScenery(&scn);
-	//buildScenerySpheres(&scn);
 
-	Vertex3f cam_pos(40.0, 0.0, 0.0);
-	Vertex3f avup(0.0, 1.0, 0.0);
+/*
+	Vertex3f cam_pos(-2.0, 32.0, 25.0*sqrt(6)/6);
+	Vertex3f avup(0.0, 0.0, 1.0);
+	Vertex3f look_at(51.0/2.0, 12.0+25.0*sqrt(3)/6, 0);
+*/
+	Vertex3f cam_pos(0.0, 13.0, -30.0);
+	Vertex3f avup(0.0, 1.0, 1.0);
 	Vertex3f look_at(0, 0, 0);
 
-	buildCam(cam_pos, look_at, avup, &scn);
+	float fov = 90.0;
+	buildCam(cam_pos, look_at, avup, fov, &scn);
+	// Render Debug
+	/*
+	scn.worldToCamTransform();
+	float c = 254; float l = 275;
+
+	float dx = 1.0/X_WIDTH;
+	float dy = 1.0/Y_WIDTH;
+	float x = -(1.0/2) + dx/2 + c * dx;
+	float y = (1.0/2) - dy/2 - l * dy;
+	Vertex3f dir = Vertex3f(x, y, -1.0);
+	Ray ray(dir);
+	Material* mat;
+	Vertex3f n;
+	float t = hitObjectList(scn.objs, ray, mat, n);
+	std::cout << "&mat = " << mat << "\n";
+	mat->print();
+	std::cout << "t = " << t << "\n";
+	*/
+
 
 	//	Load object from file
 	MObj* obj = new MObj();
-	bool load = true;
-	load = obj->loadObj("YoungLink.obj");
-	//load = obj->loadObj("cube_textured.obj");
-	//load = obj->loadObj("simplev3.obj");
+	bool load;
+	//load = obj->loadObj("cenario.obj");
+	//bool load = obj->loadObj("cube_textured.obj");
+	load = obj->loadObj("simplev5.obj");
 	if(!load) {
 		return 0;
 	}
-	scn.addObj(obj);
-	TMatrix scale, rotatex, rotatey, rotatez, translate;
-	rotatez.rotateZ(90);
-	rotatex.rotateX(90);
-	rotatey.rotateY(90);
-	scale.scale(0.20, 0.20, 0.20);
-	translate.translate(0.0, -8.0, 0.0);
+	MObj* obj2 = new MObj();
+	load = obj2->loadObj("YoungLink.obj");
+	if(!load) {
+		return 0;
+	}
 
-	obj->applyTransform(translate*rotatey*scale);
+	scn.addObj(obj);
+	scn.addObj(obj2);
+	TMatrix scale, rotatex, rotatey, rotatez, translate;
+	rotatez.rotateZ(0);
+	rotatex.rotateX(0);
+	rotatey.rotateY(180);
+	scale.scale(0.03, 0.03, 0.03);
+	translate.translate(0.0, 2.2, -3.3);
+
+	obj2->applyTransform(translate*rotatey*scale);
 
 	RayCasting render(X_WIDTH, Y_WIDTH);
 
