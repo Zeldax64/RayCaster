@@ -185,13 +185,6 @@ void RayCasting::calcIllumination(Color * buffer, Ray & ray) {
           std::cout << "cos" << cos_theta << "\n";
 
         }
-
-        //std::cout << "I_amb: "; I_amb.print();
-        //std::cout << "I_dif: "; I_dif.print();
-        //std::cout << "I_spe: "; I_spe.print();
-        //std::cout << "kamb: "; kamb->print();
-        //std::cout << "kdif: "; kdif->print();
-        //std::cout << "kspe: "; kspe->print();
       }
     }
 
@@ -204,9 +197,10 @@ bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
       Vertex3f vector = dir.unit();
       intersection = intersection+vector*1e-6; // Trick to avoid self-intersection: Push ray origin a little in light's direction
       Ray ray = Ray(intersection, vector);
-      float t = scn->lookShadow(ray);
-
-      //if(t != FLT_MAX && (vector*t).length() < dir.length()) { // t > epsilon to avoid shadow acme
+      scn->lookShadow(ray);
+      float t;
+      t = ray.getLength();
+      // Todo check T!
       if(t > 0.0 && t < dir.length()) { // t > epsilon to avoid shadow acme
         if(mouse_debug) {
           std::cout << "--- calcShadow() SHADOW --- \n";
@@ -215,7 +209,6 @@ bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
           std::cout << "hitpoint to light: "; (vector*t+intersection).print();
           std::cout << "T: " << t << "\n";
           std::cout << "Light pos: "; src->getPosition().print();
-          std::cout << "Ray: "; ray.print();
         }
         shadow_debug = false;
         return true;
@@ -228,7 +221,6 @@ bool RayCasting::calcShadow(Light* src, Vertex3f intersection) {
           std::cout << "hitpoint: "; (vector*t+intersection).print();
           std::cout << "T: " << t << "\n";
           std::cout << "Light pos: "; src->getPosition().print();
-          std::cout << "Ray: "; ray.print();
           shadow_debug = false;
         }
         return false;

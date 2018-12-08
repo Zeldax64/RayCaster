@@ -111,8 +111,13 @@ Vertex3f& Ray::getNormal() {
 }
 
 void Ray::print() {
+  std::cout << "--- Ray.print() --- "<< std::endl;
   std::cout << "Origin = ";
   origin.print();
   std::cout << "Direction = ";
   direction.print();
+  std::cout << "Length = " << length << std::endl;
+  std::cout << "Normal = ";
+  n.print();
+  std::cout << "------------------- "<< std::endl;
 }

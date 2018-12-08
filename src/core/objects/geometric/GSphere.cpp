@@ -20,9 +20,11 @@ float GSphere::hitObject(Ray & ray) {
   Vertex3f ray_dir = ray.getDirection();
 
   float t = hitSphereRayLength(ray, this);
+
   if (ray.updateLength(t)) {
     Vertex3f n = ((ray_dir*t) - this->center);
     ray.setNormal(n);
+    ray.setHittedObject(this);
   }
   return t;
 }

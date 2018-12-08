@@ -11,7 +11,6 @@ extern bool shadow_debug;
 
 // Iterate through a list of objects to find the best hitted object
 float hitObjectList(std::list<Object*> & objs, Ray & ray) {
-  Object* best_obj = NULL;
   float best_t = FLT_MAX;
 
   std::list<Object*>::iterator it;
@@ -20,8 +19,7 @@ float hitObjectList(std::list<Object*> & objs, Ray & ray) {
 
     if(ray.updateLength(t)) {
       best_t = t;
-      best_obj = (*it);
-      ray.setHittedObject(best_obj);
+      //ray.setHittedObject(best_obj);
     }
   }
 
@@ -81,11 +79,13 @@ float hitSphereRayLength(Ray & ray, GSphere* sphere) {
   if (t_int1 >= 0.0) {
     return t_int1;
   }
-
+  // Back face culling for spheres. This is fixed a surface acne problem
+/*
   float t_int2 = (-beta + sqrt(delta))/(2 * alpha);
   if (t_int2 >= 0.0) {
     return t_int2;
   }
+*/
   return -1.0;
 }
 

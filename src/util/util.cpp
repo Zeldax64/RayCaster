@@ -120,7 +120,6 @@ void mouse(int button,int state,int x,int y) {
 		if(state==GLUT_DOWN) {
 			std::cout << "Mouse X: " << x << " Y: " << y << "\n";
       mouse_debug = true;
-      //x = 269; y = 187;
 
       l = (1.0/2) - (1.0/SCREEN_HEIGHT)/2 - y * (1.0/SCREEN_HEIGHT);
       c = -(1.0/2) + (1.0/SCREEN_WIDTH)/2 + x * (1.0/SCREEN_WIDTH);
@@ -138,9 +137,11 @@ void mouse(int button,int state,int x,int y) {
       Vertex3f ray_org = ray.getOrigin();
       Vertex3f hit_point = ray_dir * t + ray_org;
 
+      std::cout << ">>>Passou<<<" << std::endl;
+      ray.print();
+
       shadow = rdr->calcShadow(scn->getLight(0), hit_point);
       std::cout << "Shadow: " << shadow << "\n";
-      std::cout << "ray: "; ray.print();
       mouse_debug = false;
     }
 		break;

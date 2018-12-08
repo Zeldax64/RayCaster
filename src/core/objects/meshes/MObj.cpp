@@ -49,7 +49,7 @@ bool MObj::loadObj(const char * path) {
   std::vector <float> out_u;
   std::vector <float> out_v;
   Material out_mat;
-  Color* out_tex;
+  Color* out_tex = NULL;
 
   std::cout << "Load file init!\n";
   bool load = loadOBJ(path, &out_vertices, &out_faces, &out_u, &out_v, out_mat, out_tex);
@@ -79,7 +79,7 @@ bool MObj::loadObj(const char * path) {
 
     this->material = out_mat;
 
-    if(getImageWidth()) { // Check if there is a texture loaded. v_out.size() could be used instead
+    if(out_tex != NULL) { // Check if there is a texture loaded. v_out.size() could be used instead
       texture = new Texture(out_mat,
                             out_u,
                             out_v,

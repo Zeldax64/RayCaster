@@ -31,8 +31,8 @@
 #include "app/objects/SnowMan.h"
 #include "app/objects/Pot.h"
 
-#define X_WIDTH 1000
-#define Y_WIDTH 1000
+#define X_WIDTH 700
+#define Y_WIDTH 700
 
 using namespace std;
 
@@ -56,8 +56,7 @@ void buildScenery(Scenery * scn) {
 	// Adding Snowmen
 	SnowMan* snowman1 = new SnowMan(-0.0, 3.0 + plane_height, 0.0);
 	SnowMan* snowman2 = new SnowMan(8.0, 3.0 + plane_height, 8.0);
-	scn->addObj(snowman1);
-	//scn->addObj(snowman2);
+
 
 	Material* mat = new Material(0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 1.0);
 	MCube* cube = new MCube(*mat);
@@ -84,6 +83,9 @@ void buildScenery(Scenery * scn) {
 	//scn->addObj(tr);
 	//scn->addObj(plane);
 
+	//scn->addObj(snowman1);
+	//scn->addObj(snowman2);
+
 	// Adding light
 	LPoint* light_src1 = new LPoint();
 	light_src1->setPosition(40.0,40.0,40.0);
@@ -95,14 +97,33 @@ void buildScenery(Scenery * scn) {
 	scn->addLight(light_src1);
 	//scn->addLight(light_src2);
 }
+
 void buildScenerySpheres(Scenery * scn) {
 	Material * snow = new Material(1.0, 1.0, 1.0,
 						 									 	 0.7, 0.7, 0.7,
 															 	 0.5, 0.5, 0.5, 1.0);
+
+	Material * rock = new Material(0.0, 0.0, 0.0,
+														 		 0.5, 0.5, 0.5,
+																 0.3, 0.3, 0.3, 10.0);
+
 	GSphere * s1 = new GSphere();
-	s1->setRadius(3.0);
+	s1->setRadius(1.0);
 	s1->setMaterial(*snow);
 
+	GSphere * s2 = new GSphere();
+	s2->setRadius(1.0);
+	Vertex3f center(-3.0, 0.0, 1.0);
+	s2->setCenter(center);
+	s2->setMaterial(*rock);
+
+	scn->addObj(s1);
+	scn->addObj(s2);
+
+	LPoint* light_src1 = new LPoint();
+	light_src1->setPosition(40.0,40.0,40.0);
+	light_src1->setSourceIntensity(0.7, 0.7, 0.7);
+	scn->addLight(light_src1);
 }
 
 void buildCam(Vertex3f & pos, Vertex3f & look_at, Vertex3f & avup, Scenery * scn) {
@@ -120,8 +141,9 @@ int main(int argc, char **argv) {
 	// Build scenery
 	Scenery scn;
 	buildScenery(&scn);
+	//buildScenerySpheres(&scn);
 
-	Vertex3f cam_pos(15.0, 15.0, -15.0);
+	Vertex3f cam_pos(40.0, 0.0, 0.0);
 	Vertex3f avup(0.0, 1.0, 0.0);
 	Vertex3f look_at(0, 0, 0);
 
@@ -130,7 +152,7 @@ int main(int argc, char **argv) {
 	//	Load object from file
 	MObj* obj = new MObj();
 	bool load = true;
-	//load = obj->loadObj("YoungLink.obj");
+	load = obj->loadObj("YoungLink.obj");
 	//load = obj->loadObj("cube_textured.obj");
 	//load = obj->loadObj("simplev3.obj");
 	if(!load) {
@@ -142,9 +164,9 @@ int main(int argc, char **argv) {
 	rotatex.rotateX(90);
 	rotatey.rotateY(90);
 	scale.scale(0.20, 0.20, 0.20);
-	translate.translate(0.0, -4.0, 0.0);
+	translate.translate(0.0, -8.0, 0.0);
 
-	//obj->applyTransform(translate*rotatey*scale);
+	obj->applyTransform(translate*rotatey*scale);
 
 	RayCasting render(X_WIDTH, Y_WIDTH);
 
